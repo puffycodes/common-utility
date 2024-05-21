@@ -168,7 +168,7 @@ class DirectoryUtility:
     
     @staticmethod
     def copy_single_file(src_path, dst_path):
-        # error if source doest not exist
+        # error if source does not exist
         if not os.path.exists(src_path):
             raise FileNotFoundError(
                 f'source {src_path} does not exists.'
