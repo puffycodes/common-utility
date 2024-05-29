@@ -48,15 +48,9 @@ class DirectoryUtility:
         if dirname_normalized != '.':
             file_list = [file for file in file_list if file.startswith(dirname_normalized)]
         if get_relative_path and dirname_normalized != '.':
-            # The special case is for Windows path such as 'C:' or 'C:\',
-            # but not path such as 'C:\Users' or 'C:abc'.
-            if dirname_normalized.endswith(':') or dirname_normalized.endswith(':\\'):
-                path_prefix = dirname_normalized
-            else:
-                path_prefix = dirname_normalized + os.sep
-            if verbose:
-                print(f'replacing path prefix "{path_prefix}"', file=ferr)
-            file_list = [file.replace(path_prefix, '') for file in file_list]
+            file_list = DirectoryUtility.get_relative_path_list(
+                file_list, dirname_normalized, verbose=verbose, ferr=ferr
+            )
             
         return file_list
 
@@ -86,17 +80,24 @@ class DirectoryUtility:
             subdir_list = [subdir for subdir in subdir_list \
                            if subdir.startswith(dirname_normalized)]
         if get_relative_path and dirname_normalized != '.':
-            # The special case is for Windows path such as 'C:' or 'C:\',
-            # but not path such as 'C:\Users' or 'C:abc'.
-            if dirname_normalized.endswith(':') or dirname_normalized.endswith(':\\'):
-                path_prefix = dirname_normalized
-            else:
-                path_prefix = dirname_normalized + os.sep
-            if verbose:
-                print(f'replacing path prefix "{path_prefix}"', file=ferr)
-            subdir_list = [subdir.replace(path_prefix, '') for subdir in subdir_list]
+            subdir_list = DirectoryUtility.get_relative_path_list(
+                subdir_list, dirname_normalized, verbose=verbose, ferr=ferr
+            )
 
         return subdir_list
+    
+    @staticmethod
+    def get_relative_path_list(path_list, dirname, verbose=False, ferr=sys.stderr):
+        # The special case is for Windows path such as 'C:' or 'C:\',
+        # but not path such as 'C:\Users' or 'C:abc'.
+        if dirname.endswith(':') or dirname.endswith(':\\'):
+            path_prefix = dirname
+        else:
+            path_prefix = dirname + os.sep
+        if verbose:
+            print(f'replacing path prefix "{path_prefix}"', file=ferr)
+        path_list = [subdir.replace(path_prefix, '') for subdir in path_list]
+        return path_list
     
     @staticmethod
     def copy_files(src_dir, dst_dir, filelist, verbose=False, ferr=sys.stderr):
