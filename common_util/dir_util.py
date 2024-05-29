@@ -29,8 +29,8 @@ class DirectoryUtility:
                    verbose=False, ferr=sys.stderr):
         dirname_normalized = os.path.normpath(dirname)
         if verbose:
-            print(f'given directory path is {dirname}.', file=ferr)
-            print(f'normalized directory path is {dirname_normalized}.', file=ferr)
+            print(f'given directory path is "{dirname}".', file=ferr)
+            print(f'normalized directory path is "{dirname_normalized}".', file=ferr)
 
         file_list = []
         if recursive:
@@ -46,7 +46,15 @@ class DirectoryUtility:
         if dirname_normalized != '.':
             file_list = [file for file in file_list if file.startswith(dirname_normalized)]
         if get_relative_path and dirname_normalized != '.':
-            file_list = [file.replace(dirname_normalized + os.sep, '') for file in file_list]
+            # The special case is for Windows path such as 'C:' or 'C:\',
+            # but not path such as 'C:\Users' or 'C:abc'.
+            if dirname_normalized.endswith(':') or dirname_normalized.endswith(':\\'):
+                path_prefix = dirname_normalized
+            else:
+                path_prefix = dirname_normalized + os.sep
+            if verbose:
+                print(f'replacing path prefix "{path_prefix}"', file=ferr)
+            file_list = [file.replace(path_prefix, '') for file in file_list]
             
         return file_list
 
@@ -56,8 +64,8 @@ class DirectoryUtility:
                             verbose=False, ferr=sys.stderr):
         dirname_normalized = os.path.normpath(dirname)
         if verbose:
-            print(f'given directory path is {dirname}.', file=ferr)
-            print(f'normalized directory path is {dirname_normalized}.', file=ferr)
+            print(f'given directory path is "{dirname}".', file=ferr)
+            print(f'normalized directory path is "{dirname_normalized}".', file=ferr)
 
         subdir_list = []
         if recursive:
@@ -67,13 +75,22 @@ class DirectoryUtility:
             )
         else:
             subdir_list = glob(os.path.join(dirname_normalized, subdir_pattern))
+
         subdir_list = [os.path.normpath(subdir) for subdir in subdir_list]
         subdir_list = [subdir for subdir in subdir_list if os.path.isdir(subdir)]
         if dirname_normalized != '.':
             subdir_list = [subdir for subdir in subdir_list \
                            if subdir.startswith(dirname_normalized)]
         if get_relative_path and dirname_normalized != '.':
-            subdir_list = [subdir.replace(dirname_normalized + os.sep, '') for subdir in subdir_list]
+            # The special case is for Windows path such as 'C:' or 'C:\',
+            # but not path such as 'C:\Users' or 'C:abc'.
+            if dirname_normalized.endswith(':') or dirname_normalized.endswith(':\\'):
+                path_prefix = dirname_normalized
+            else:
+                path_prefix = dirname_normalized + os.sep
+            if verbose:
+                print(f'replacing path prefix "{path_prefix}"', file=ferr)
+            subdir_list = [subdir.replace(path_prefix, '') for subdir in subdir_list]
 
         return subdir_list
     
