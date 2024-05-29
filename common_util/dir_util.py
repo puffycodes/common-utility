@@ -152,6 +152,9 @@ class DirectoryUtility:
             except FileNotFoundError as e:
                 failed_files.append((file, e))
                 continue
+            except shutil.SameFileError as e:
+                failed_files.append((file, e))
+                continue
 
             # successful copy
             succeeded_files.append((file, file_normalized_path))
