@@ -42,8 +42,10 @@ class DirectoryUtility:
             file_list = glob(os.path.join(dirname_normalized, filename_pattern))
 
         file_list = [os.path.normpath(file) for file in file_list]
-        file_list = [file for file in file_list if file.startswith(dirname_normalized)]
-        if get_relative_path:
+        file_list = [file for file in file_list if os.path.isfile(file)]
+        if dirname_normalized != '.':
+            file_list = [file for file in file_list if file.startswith(dirname_normalized)]
+        if get_relative_path and dirname_normalized != '.':
             file_list = [file.replace(dirname_normalized + os.sep, '') for file in file_list]
             
         return file_list
@@ -66,9 +68,11 @@ class DirectoryUtility:
         else:
             subdir_list = glob(os.path.join(dirname_normalized, subdir_pattern))
         subdir_list = [os.path.normpath(subdir) for subdir in subdir_list]
-        subdir_list = [subdir for subdir in subdir_list if os.path.isdir(subdir) \
-                       and subdir.startswith(dirname_normalized)]
-        if get_relative_path:
+        subdir_list = [subdir for subdir in subdir_list if os.path.isdir(subdir)]
+        if dirname_normalized != '.':
+            subdir_list = [subdir for subdir in subdir_list \
+                           if subdir.startswith(dirname_normalized)]
+        if get_relative_path and dirname_normalized != '.':
             subdir_list = [subdir.replace(dirname_normalized + os.sep, '') for subdir in subdir_list]
 
         return subdir_list
