@@ -21,6 +21,24 @@ class BytesUtilityTest(unittest.TestCase):
         self.assertEqual(bytes_util.BytesUtility.bytes_rep_to_bytes(f'{a}'), a)
         self.assertEqual(bytes_util.BytesUtility.bytes_rep_to_bytes(f'{b}'), b)
         return
+    
+    def test_bytes_rep_to_bytes_02(self):
+        test_rep_01 = "b'a\\r\\x01c'"
+        test_rep_bytes_01 = b'a\r\x01c'
+        self.assertEqual(
+            bytes_util.BytesUtility.bytes_rep_to_bytes(test_rep_01), test_rep_bytes_01
+        )
+        test_rep_02 ="b'a\z'"
+        test_rep_bytes_02 = b'a***unknown(\\z)***'
+        self.assertEqual(
+            bytes_util.BytesUtility.bytes_rep_to_bytes(test_rep_02), test_rep_bytes_02
+        )
+        test_rep_03 = '%s' % (b'\n\t\r\b\f\"\'\0\1\01\013\xfe')
+        test_rep_bytes_03 = b'\n\t\r\x08\x0c"\'\x00\x01\x01\x0b\xfe'
+        self.assertEqual(
+            bytes_util.BytesUtility.bytes_rep_to_bytes(test_rep_03), test_rep_bytes_03
+        )
+        return
 
 if __name__ == '__main__':
     unittest.main()
