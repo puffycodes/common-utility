@@ -87,19 +87,6 @@ class DirectoryUtility:
         return subdir_list
     
     @staticmethod
-    def get_relative_path_list(path_list, dirname, verbose=False, ferr=sys.stderr):
-        # The special case is for Windows path such as 'C:' or 'C:\',
-        # but not path such as 'C:\Users' or 'C:abc'.
-        if dirname.endswith(':') or dirname.endswith(':\\'):
-            path_prefix = dirname
-        else:
-            path_prefix = dirname + os.sep
-        if verbose:
-            print(f'replacing path prefix "{path_prefix}"', file=ferr)
-        path_list = [subdir.replace(path_prefix, '') for subdir in path_list]
-        return path_list
-    
-    @staticmethod
     def copy_files(src_dir, dst_dir, filelist, verbose=False, ferr=sys.stderr):
         # check that the source and destination are not the same
         src_dir_normalized = os.path.normpath(src_dir)
@@ -188,7 +175,27 @@ class DirectoryUtility:
             print(f'no error while copying')
         return
     
-    # --- Supporting Functions
+    # --- Supporting Functions Group 1
+    #     - output info/error messages to stderr
+    
+    @staticmethod
+    def get_relative_path_list(path_list, dirname, verbose=False, ferr=sys.stderr):
+        # The special case is for Windows path such as 'C:' or 'C:\',
+        # but not path such as 'C:\Users' or 'C:abc'.
+        if dirname.endswith(':') or dirname.endswith(':\\'):
+            path_prefix = dirname
+        else:
+            path_prefix = dirname + os.sep
+        if verbose:
+            print(f'replacing path prefix "{path_prefix}"', file=ferr)
+        path_list = [subdir.replace(path_prefix, '') for subdir in path_list]
+        return path_list
+    
+    @staticmethod
+    def normalized_path(path):
+        return os.path.normpath(path)
+    
+    # --- Supporting Functions Group 2
     #     - raise Exception to indicate error
     #     - called by main API using try-except
     
@@ -225,9 +232,5 @@ class DirectoryUtility:
         else:
             os.makedirs(dir_path, exist_ok=True)
         return
-    
-    @staticmethod
-    def normalized_path(path):
-        return os.path.normpath(path)
 
 # --- end of file --- #
