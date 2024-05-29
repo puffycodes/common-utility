@@ -15,7 +15,7 @@ class BytesUtilityTest(unittest.TestCase):
         self.assertEqual(bytes_util.BytesUtility.xor(b, a, trancate=False), r2)
         return
     
-    def test_bytes_rep_to_bytes(self):
+    def test_bytes_rep_to_bytes_01(self):
         a = b'abcde'
         b = b'\x00\xab\r\n\tabcde\'\\'
         self.assertEqual(bytes_util.BytesUtility.bytes_rep_to_bytes(f'{a}'), a)
