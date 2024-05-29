@@ -128,6 +128,9 @@ class DirectoryUtility:
                 failed_files.append((file, e))
                 continue
 
+            # Special case where file is 'C:ABC'
+            # TODO: Let's think about how to handle this
+
             # get the full path of both the source and destination
             # (Should file_normalized_path be used instead of file?)
             src_path = os.path.join(src_dir, file)
