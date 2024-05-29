@@ -192,7 +192,7 @@ class DirectoryUtility:
             path_prefix = dirname
         else:
             if dirname.endswith(os.sep):
-                # This case is when the path is '/' on Unix
+                # This case is when the path is '/' on Unix/MacOS
                 path_prefix = dirname
             else:
                 path_prefix = dirname + os.sep
