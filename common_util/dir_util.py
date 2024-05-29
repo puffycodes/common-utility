@@ -186,15 +186,19 @@ class DirectoryUtility:
     
     @staticmethod
     def get_relative_path_list(path_list, dirname, verbose=False, ferr=sys.stderr):
-        # The special case is for Windows path such as 'C:' or 'C:\',
-        # but not path such as 'C:\Users' or 'C:abc'.
         if dirname.endswith(':') or dirname.endswith(':\\'):
+            # This special case is for Windows paths such as 'C:' or 'C:\',
+            # but not for paths such as 'C:\Users' or 'C:abc'.
             path_prefix = dirname
         else:
-            path_prefix = dirname + os.sep
+            if dirname.endswith(os.sep):
+                # This case is when the path is '/' on Unix
+                path_prefix = dirname
+            else:
+                path_prefix = dirname + os.sep
         if verbose:
             print(f'replacing path prefix "{path_prefix}"', file=ferr)
-        path_list = [subdir.replace(path_prefix, '') for subdir in path_list]
+        path_list = [path.replace(path_prefix, '') for path in path_list]
         return path_list
     
     @staticmethod
