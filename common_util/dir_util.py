@@ -43,6 +43,8 @@ class DirectoryUtility:
 
         file_list = [os.path.normpath(file) for file in file_list]
         file_list = [file for file in file_list if os.path.isfile(file)]
+        
+        # There is no path prefix if dirname is '.'
         if dirname_normalized != '.':
             file_list = [file for file in file_list if file.startswith(dirname_normalized)]
         if get_relative_path and dirname_normalized != '.':
@@ -78,6 +80,8 @@ class DirectoryUtility:
 
         subdir_list = [os.path.normpath(subdir) for subdir in subdir_list]
         subdir_list = [subdir for subdir in subdir_list if os.path.isdir(subdir)]
+
+        # There is no path prefix if dirname is '.'
         if dirname_normalized != '.':
             subdir_list = [subdir for subdir in subdir_list \
                            if subdir.startswith(dirname_normalized)]
