@@ -161,18 +161,18 @@ class DirectoryUtility:
         return succeeded_files, failed_files
     
     @staticmethod
-    def pretty_print_copy_files_result(succeeded_files, failed_files):
+    def pretty_print_copy_files_result(succeeded_files, failed_files, fout=sys.stdout):
         if len(succeeded_files) > 0:
             for (file, normalized_path) in succeeded_files:
-                print(f'{file} -> {normalized_path}')
+                print(f'{file} -> {normalized_path}', file=fout)
         else:
-            print(f'no file copied')
+            print(f'no file copied', file=fout)
         print()
         if len(failed_files) > 0:
             for (file, error) in failed_files:
-                print(f'{file}: {error}')
+                print(f'{file}: {error}', file=fout)
         else:
-            print(f'no error while copying')
+            print(f'no error while copying', file=fout)
         return
     
     # --- Supporting Functions Group 1
