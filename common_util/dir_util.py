@@ -46,8 +46,9 @@ class DirectoryUtility:
         
         # There is no path prefix if dirname is '.'
         if dirname_normalized != '.':
-            file_list = [file for file in file_list if file.startswith(dirname_normalized)]
-        if get_relative_path and dirname_normalized != '.':
+            file_list = [file for file in file_list \
+                         if file.startswith(dirname_normalized)]
+        if get_relative_path: # and dirname_normalized != '.':
             file_list = DirectoryUtility.get_relative_path_list(
                 file_list, dirname_normalized, verbose=verbose, ferr=ferr
             )
@@ -79,7 +80,7 @@ class DirectoryUtility:
         if dirname_normalized != '.':
             subdir_list = [subdir for subdir in subdir_list \
                            if subdir.startswith(dirname_normalized)]
-        if get_relative_path and dirname_normalized != '.':
+        if get_relative_path: # and dirname_normalized != '.':
             subdir_list = DirectoryUtility.get_relative_path_list(
                 subdir_list, dirname_normalized, verbose=verbose, ferr=ferr
             )
@@ -185,7 +186,7 @@ class DirectoryUtility:
     #     - output info/error messages to stderr
     
     @staticmethod
-    def get_relative_path_list(path_list, dirname, verbose=False, ferr=sys.stderr):
+    def get_relative_path_list_zzz(path_list, dirname, verbose=False, ferr=sys.stderr):
         if dirname.endswith(':') or dirname.endswith(':\\'):
             # This special case is for Windows paths such as 'C:' or 'C:\',
             # but not for paths such as 'C:\Users' or 'C:abc'.
@@ -199,6 +200,11 @@ class DirectoryUtility:
         if verbose:
             print(f'replacing path prefix "{path_prefix}"', file=ferr)
         path_list = [path.replace(path_prefix, '') for path in path_list]
+        return 
+    
+    @staticmethod
+    def get_relative_path_list(path_list, dirname, verbose=False, ferr=sys.stderr):
+        path_list = [os.path.relpath(path, dirname) for path in path_list]
         return path_list
     
     @staticmethod
