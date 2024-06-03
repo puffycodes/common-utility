@@ -24,7 +24,7 @@ class DirectoryUtility:
     # --- Main API for this modules
 
     @staticmethod
-    def list_files(dirname, filename_pattern,
+    def list_files(dirname: str, filename_pattern: str,
                    recursive=False, get_relative_path=False,
                    verbose=False, ferr=sys.stderr):
         dirname_normalized = os.path.normpath(dirname)
@@ -56,7 +56,7 @@ class DirectoryUtility:
         return file_list
 
     @staticmethod
-    def list_subdirectories(dirname, subdir_pattern,
+    def list_subdirectories(dirname: str, subdir_pattern: str,
                             recursive=False, get_relative_path=False,
                             verbose=False, ferr=sys.stderr):
         dirname_normalized = os.path.normpath(dirname)
@@ -88,7 +88,7 @@ class DirectoryUtility:
         return subdir_list
     
     @staticmethod
-    def copy_files(src_dir, dst_dir, filelist, verbose=False, ferr=sys.stderr):
+    def copy_files(src_dir: str, dst_dir: str, filelist, verbose=False, ferr=sys.stderr):
         # check that the source and destination are not the same
         src_dir_normalized = os.path.normpath(src_dir)
         dst_dir_normalized = os.path.normpath(dst_dir)
@@ -186,7 +186,8 @@ class DirectoryUtility:
     #     - output info/error messages to stderr
     
     @staticmethod
-    def get_relative_path_list_zzz(path_list, dirname, verbose=False, ferr=sys.stderr):
+    def get_relative_path_list_zzz(path_list: str, dirname: str,
+                                   verbose=False, ferr=sys.stderr):
         if dirname.endswith(':') or dirname.endswith(':\\'):
             # This special case is for Windows paths such as 'C:' or 'C:\',
             # but not for paths such as 'C:\Users' or 'C:abc'.
@@ -203,12 +204,13 @@ class DirectoryUtility:
         return 
     
     @staticmethod
-    def get_relative_path_list(path_list, dirname, verbose=False, ferr=sys.stderr):
+    def get_relative_path_list(path_list: str, dirname: str,
+                               verbose=False, ferr=sys.stderr):
         path_list = [os.path.relpath(path, dirname) for path in path_list]
         return path_list
     
     @staticmethod
-    def normalized_path(path):
+    def normalized_path(path: str):
         return os.path.normpath(path)
     
     # --- Supporting Functions Group 2
@@ -216,7 +218,7 @@ class DirectoryUtility:
     #     - called by main API using try-except
     
     @staticmethod
-    def copy_single_file(src_path, dst_path):
+    def copy_single_file(src_path: str, dst_path: str):
         # error if source does not exist
         if not os.path.exists(src_path):
             raise FileNotFoundError(
@@ -238,7 +240,7 @@ class DirectoryUtility:
         return
     
     @staticmethod
-    def create_directory(dir_path):
+    def create_directory(dir_path: str):
         # error if dir_path exists and is not a directory
         if os.path.exists(dir_path):
             if not os.path.isdir(dir_path):
