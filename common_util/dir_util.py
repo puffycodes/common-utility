@@ -25,7 +25,7 @@ class DirectoryUtility:
 
     @staticmethod
     def list_files(dirname: str, filename_pattern: str,
-                   recursive=False, get_relative_path=False,
+                   recursive=False, include_hidden=False, get_relative_path=False,
                    verbose=False, ferr=sys.stderr):
         dirname_normalized = os.path.normpath(dirname)
         if verbose:
@@ -36,10 +36,13 @@ class DirectoryUtility:
         if recursive:
             file_list = glob(
                 os.path.join(dirname_normalized, '**', filename_pattern),
-                recursive=True
+                recursive=True, include_hidden=include_hidden
             )
         else:
-            file_list = glob(os.path.join(dirname_normalized, filename_pattern))
+            file_list = glob(
+                os.path.join(dirname_normalized, filename_pattern),
+                include_hidden=include_hidden
+            )
 
         file_list = [os.path.normpath(file) for file in file_list]
         file_list = [file for file in file_list if os.path.isfile(file)]
@@ -57,7 +60,7 @@ class DirectoryUtility:
 
     @staticmethod
     def list_subdirectories(dirname: str, subdir_pattern: str,
-                            recursive=False, get_relative_path=False,
+                            recursive=False, include_hidden=False, get_relative_path=False,
                             verbose=False, ferr=sys.stderr):
         dirname_normalized = os.path.normpath(dirname)
         if verbose:
@@ -68,10 +71,13 @@ class DirectoryUtility:
         if recursive:
             subdir_list = glob(
                 os.path.join(dirname_normalized, '**', subdir_pattern),
-                recursive=True
+                recursive=True, include_hidden=include_hidden
             )
         else:
-            subdir_list = glob(os.path.join(dirname_normalized, subdir_pattern))
+            subdir_list = glob(
+                os.path.join(dirname_normalized, subdir_pattern),
+                include_hidden=include_hidden
+            )
 
         subdir_list = [os.path.normpath(subdir) for subdir in subdir_list]
         subdir_list = [subdir for subdir in subdir_list if os.path.isdir(subdir)]
