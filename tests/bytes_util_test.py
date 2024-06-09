@@ -28,7 +28,7 @@ class BytesUtilityTest(unittest.TestCase):
         self.assertEqual(
             bytes_util.BytesUtility.bytes_rep_to_bytes(test_rep_01), test_rep_bytes_01
         )
-        test_rep_02 ="b'a\z'"
+        test_rep_02 ="b'a\\z'"
         test_rep_bytes_02 = b'a***unknown(\\z)***'
         self.assertEqual(
             bytes_util.BytesUtility.bytes_rep_to_bytes(test_rep_02), test_rep_bytes_02
