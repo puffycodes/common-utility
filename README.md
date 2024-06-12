@@ -2,7 +2,10 @@
 
 ## Modules in this Collection
 
-[Indexes of Modules](docs/index.md)
+1. [Indexes of Modules](docs/index.md)
+
+1. [Known Issues](docs/known_issues.md)
 
 ***
+
 *Updated on 21 May 2024*
