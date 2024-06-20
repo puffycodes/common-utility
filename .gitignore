@@ -1,3 +1,5 @@
+# file: .gitignore
+
 # Juypter notebook
 .ipynb_checkpoints
 
@@ -6,3 +8,6 @@ __pycache__
 
 # MacOS
 .DS_Store
+__MACOSX
+
+# --- end of file --- #
