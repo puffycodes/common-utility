@@ -35,19 +35,19 @@ def main():
                         choices=[ 'unix', 'windows' ], default='windows')
     args = parser.parse_args()
 
-    outfile = sys.stdout
-    errfile = sys.stderr
+    fout = sys.stdout
+    ferr = sys.stderr
 
     path_list = []
     for path in args.pathname:
         full_path = os.path.abspath(os.path.join(path))
         path_list.append(full_path)
     if args.script_type == 'windows':
-        generate_windows_script(path_list, fout=outfile)
+        generate_windows_script(path_list, fout=fout)
     elif args.script_type ==  'unix':
-        generate_unix_script(path_list, fout=outfile)
+        generate_unix_script(path_list, fout=fout)
     else:
-        print(f'unknown script type: {args.script_type}', file=errfile)
+        print(f'Error: unknown script type: {args.script_type}', file=ferr)
 
     return
 
