@@ -28,11 +28,13 @@ export PYTHONPATH={path_value}
 def main():
     parser = argparse.ArgumentParser(
         prog='generate-set-pythonenv',
-        description='Generate a script that will set PYTHONENV'
+        description='Generate a script that will set PYTHONPATH to the given paths.'
     )
-    parser.add_argument('pathname', nargs='+')
+    parser.add_argument('pathname', nargs='+',
+                        help='path to add to the variable PYTHONPATH')
     parser.add_argument('--script_type',
-                        choices=[ 'unix', 'windows' ], default='windows')
+                        choices=[ 'unix', 'windows' ], default='windows',
+                        help='the os for which the script is used for')
     args = parser.parse_args()
 
     fout = sys.stdout
