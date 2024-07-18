@@ -37,20 +37,27 @@ def list_subdirectories_in_directory(dirname, pattern,
 def main():
     parser = argparse.ArgumentParser(
         prog='dir_util_ls',
-        description='List Files or Subdirectories'
+        description='List files or subdirectories in the given list of directories.'
     )
-    parser.add_argument('dirnames', nargs='+')
-    parser.add_argument('-p', '--pattern', default='*')
+    parser.add_argument('dirname', nargs='+',
+                        help='directory name to list')
+    parser.add_argument('-p', '--pattern', default='*',
+                        help='pattern of the files or directories to list')
     #parser.add_argument('-o', '--outfile')
-    parser.add_argument('-d', '--directory_only', action='store_true', default=False)
-    parser.add_argument('-r', '--recursive', action='store_true', default=False)
-    parser.add_argument('--include_hidden', action='store_true', default=False)
-    parser.add_argument('-R', '--get_relative_path', action='store_true', default=False)
-    parser.add_argument('-v', '--verbose', action='store_true', default=False)
+    parser.add_argument('-d', '--directory_only', action='store_true', default=False,
+                        help='list directories instead of files')
+    parser.add_argument('-r', '--recursive', action='store_true', default=False,
+                        help='list recursively into subdirectories')
+    parser.add_argument('--include_hidden', action='store_true', default=False,
+                        help='list hidden files')
+    parser.add_argument('-R', '--get_relative_path', action='store_true', default=False,
+                        help='output relative path instead of full path')
+    parser.add_argument('-v', '--verbose', action='store_true', default=False,
+                        help='display more information while listing')
     args = parser.parse_args()
 
     if args.directory_only:
-        for dirname in args.dirnames:
+        for dirname in args.dirname:
             list_subdirectories_in_directory(
                 dirname, args.pattern,
                 recursive=args.recursive, include_hidden=args.include_hidden,
@@ -58,7 +65,7 @@ def main():
                 verbose=args.verbose
             )
     else:
-        for dirname in args.dirnames:
+        for dirname in args.dirname:
             list_files_in_directory(
                 dirname, args.pattern,
                 recursive=args.recursive, include_hidden=args.include_hidden,
