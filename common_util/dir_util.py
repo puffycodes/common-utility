@@ -33,15 +33,16 @@ class DirectoryUtility:
             print(f'normalized directory path is "{dirname_normalized}".', file=ferr)
 
         file_list = []
+        glob_kwargs = DirectoryUtility.get_glob_kwargs(include_hidden=include_hidden)
         if recursive:
             file_list = glob(
                 os.path.join(dirname_normalized, '**', filename_pattern),
-                recursive=True, include_hidden=include_hidden
+                recursive=True, **glob_kwargs #include_hidden=include_hidden
             )
         else:
             file_list = glob(
                 os.path.join(dirname_normalized, filename_pattern),
-                include_hidden=include_hidden
+                **glob_kwargs #include_hidden=include_hidden
             )
 
         file_list = [os.path.normpath(file) for file in file_list]
@@ -68,15 +69,16 @@ class DirectoryUtility:
             print(f'normalized directory path is "{dirname_normalized}".', file=ferr)
 
         subdir_list = []
+        glob_kwargs = DirectoryUtility.get_glob_kwargs(include_hidden=include_hidden)
         if recursive:
             subdir_list = glob(
                 os.path.join(dirname_normalized, '**', subdir_pattern),
-                recursive=True, include_hidden=include_hidden
+                recursive=True, **glob_kwargs #include_hidden=include_hidden
             )
         else:
             subdir_list = glob(
                 os.path.join(dirname_normalized, subdir_pattern),
-                include_hidden=include_hidden
+                **glob_kwargs #include_hidden=include_hidden
             )
 
         subdir_list = [os.path.normpath(subdir) for subdir in subdir_list]
@@ -257,23 +259,38 @@ class DirectoryUtility:
             os.makedirs(dir_path, exist_ok=True)
         return
     
+    ## --- Support for glob in older version of Python
+    @staticmethod
+    def get_glob_kwargs(include_hidden=False):
+        result = {}
+        if DirectoryUtilityConfig.config['hidden'] == True:
+            result['include_hidden'] = include_hidden
+        return result
+    
 class DirectoryUtilityConfig:
 
-    config = {}
+    config = {
+        'hidden': False
+    }
 
     @staticmethod
     def configure():
         DirectoryUtilityConfig.config['hidden'] = DirectoryUtilityConfig.check_glob_include_hidden()
         if DirectoryUtilityConfig.config['hidden'] != True:
-            print(f'Warning: Hidden file/directory option not supported in glob in this version of python.')
+            print(
+                f'Warning: Hidden file/directory option not supported in glob in this version of python.',
+                file=sys.stderr
+            )
 
     @staticmethod
     def check_glob_include_hidden():
+        supported_major = 3
+        supported_minor = 11
         supported = False
         python_version = sys.version_info
-        if python_version.major == 3 and python_version.minor >= 11:
+        if python_version.major == supported_major and python_version.minor >= supported_minor:
             supported = True
-        elif python_version.major > 3:
+        elif python_version.major > supported_major:
             supported = True
         return supported
 
