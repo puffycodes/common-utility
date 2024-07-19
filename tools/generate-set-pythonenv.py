@@ -25,6 +25,10 @@ export PYTHONPATH={path_value}
     )
     return
 
+def mismatch_warning(script_type, os_name, ferr=sys.stderr):
+    print(f'Warning: script type ({script_type}) generated on this os ({os_name}) may not work', file=ferr)
+    return
+
 def main():
     parser = argparse.ArgumentParser(
         prog='generate-set-pythonenv',
@@ -45,12 +49,16 @@ def main():
         full_path = os.path.abspath(os.path.join(path))
         path_list.append(full_path)
 
+    os_name = os.name
     if args.script_type == 'windows':
+        if os_name != 'nt':
+            mismatch_warning(args.script_type, os_name)
         generate_windows_script(path_list, fout=fout)
     elif args.script_type ==  'posix':
+        if os_name != 'posix' and os_name != 'java':
+            mismatch_warning(args.script_type, os_name)
         generate_posix_script(path_list, fout=fout)
     elif args.script_type == None or args.script_type == '' or args.script_type == 'auto':
-        os_name = os.name
         if os_name == 'posix' or os_name == 'java':
             generate_posix_script(path_list, fout=fout)
         elif os_name == 'nt':
