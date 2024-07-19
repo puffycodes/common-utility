@@ -37,12 +37,12 @@ class DirectoryUtility:
         if recursive:
             file_list = glob(
                 os.path.join(dirname_normalized, '**', filename_pattern),
-                recursive=True, **glob_kwargs #include_hidden=include_hidden
+                recursive=True, **glob_kwargs
             )
         else:
             file_list = glob(
                 os.path.join(dirname_normalized, filename_pattern),
-                **glob_kwargs #include_hidden=include_hidden
+                **glob_kwargs
             )
 
         file_list = [os.path.normpath(file) for file in file_list]
@@ -73,12 +73,12 @@ class DirectoryUtility:
         if recursive:
             subdir_list = glob(
                 os.path.join(dirname_normalized, '**', subdir_pattern),
-                recursive=True, **glob_kwargs #include_hidden=include_hidden
+                recursive=True, **glob_kwargs
             )
         else:
             subdir_list = glob(
                 os.path.join(dirname_normalized, subdir_pattern),
-                **glob_kwargs #include_hidden=include_hidden
+                **glob_kwargs
             )
 
         subdir_list = [os.path.normpath(subdir) for subdir in subdir_list]
