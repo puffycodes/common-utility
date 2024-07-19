@@ -256,5 +256,27 @@ class DirectoryUtility:
         else:
             os.makedirs(dir_path, exist_ok=True)
         return
+    
+class DirectoryUtilityConfig:
+
+    config = {}
+
+    @staticmethod
+    def configure():
+        DirectoryUtilityConfig.config['hidden'] = DirectoryUtilityConfig.check_glob_include_hidden()
+        if DirectoryUtilityConfig.config['hidden'] != True:
+            print(f'Warning: Hidden file/directory option not supported in glob in this version of python.')
+
+    @staticmethod
+    def check_glob_include_hidden():
+        supported = False
+        python_version = sys.version_info
+        if python_version.major == 3 and python_version.minor >= 11:
+            supported = True
+        elif python_version.major > 3:
+            supported = True
+        return supported
+
+DirectoryUtilityConfig.configure()
 
 # --- end of file --- #
