@@ -57,12 +57,17 @@ class BytesUtilityTest(unittest.TestCase):
         test_dataset = [
             [ b'\x00\x01\x02\x03', 50462976, 66051 ],
             [ b'\x00\x01', 256, 1 ],
+            [ b'\x00\x00\x01', 65536, 1 ],
         ]
-        for data, e_little, e_big in test_dataset:
-            v_little = BytesUtility.extract_integer(data, 0, len(data))
-            v_big = BytesUtility.extract_integer(data, 0, len(data), endian='big')
-            self.assertEqual(v_little, e_little)
-            self.assertEqual(v_big, e_big)
+        for data, expected_little, expected_big in test_dataset:
+            value_little = BytesUtility.extract_integer(
+                data, 0, len(data), endian='little'
+            )
+            value_big = BytesUtility.extract_integer(
+                data, 0, len(data), endian='big'
+            )
+            self.assertEqual(value_little, expected_little)
+            self.assertEqual(value_big, expected_big)
         return
     
     def test_bytes_rep_to_bytes_01(self):
