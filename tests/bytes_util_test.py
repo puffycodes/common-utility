@@ -11,8 +11,10 @@ class BytesUtilityTest(unittest.TestCase):
         r1 = b'\x00\x00\x00\x00\x00'
         r2 = b'\x00\x00\x00\x00\x00fg'
         self.assertEqual(BytesUtility.xor(a, b), r1)
+        self.assertEqual(BytesUtility.xor(a, b, trancate=True), r1)
         self.assertEqual(BytesUtility.xor(a, b, trancate=False), r2)
         self.assertEqual(BytesUtility.xor(b, a), r1)
+        self.assertEqual(BytesUtility.xor(b, a, trancate=True), r1)
         self.assertEqual(BytesUtility.xor(b, a, trancate=False), r2)
         return
     
@@ -60,12 +62,16 @@ class BytesUtilityTest(unittest.TestCase):
             [ b'\x00\x00\x01', 65536, 1 ],
         ]
         for data, expected_little, expected_big in test_dataset:
+            value_default = BytesUtility.extract_integer(
+                data, 0, len(data)
+            )
             value_little = BytesUtility.extract_integer(
                 data, 0, len(data), endian='little'
             )
             value_big = BytesUtility.extract_integer(
                 data, 0, len(data), endian='big'
             )
+            self.assertEqual(value_default, expected_little)
             self.assertEqual(value_little, expected_little)
             self.assertEqual(value_big, expected_big)
         return
