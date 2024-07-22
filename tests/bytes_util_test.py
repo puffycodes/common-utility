@@ -1,6 +1,5 @@
 # file: bytes_util_test.py
 
-from threading import excepthook
 import unittest
 from common_util.bytes_util import BytesUtility
 
