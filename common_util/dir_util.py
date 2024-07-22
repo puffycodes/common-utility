@@ -194,24 +194,6 @@ class DirectoryUtility:
     #     - output info/error messages to stderr
     
     @staticmethod
-    def get_relative_path_list_zzz(path_list: str, dirname: str,
-                                   verbose=False, ferr=sys.stderr):
-        if dirname.endswith(':') or dirname.endswith(':\\'):
-            # This special case is for Windows paths such as 'C:' or 'C:\',
-            # but not for paths such as 'C:\Users' or 'C:abc'.
-            path_prefix = dirname
-        else:
-            if dirname.endswith(os.sep):
-                # This case is when the path is '/' on Unix/MacOS
-                path_prefix = dirname
-            else:
-                path_prefix = dirname + os.sep
-        if verbose:
-            print(f'replacing path prefix "{path_prefix}"', file=ferr)
-        path_list = [path.replace(path_prefix, '') for path in path_list]
-        return 
-    
-    @staticmethod
     def get_relative_path_list(path_list: str, dirname: str,
                                verbose=False, ferr=sys.stderr):
         path_list = [os.path.relpath(path, dirname) for path in path_list]
