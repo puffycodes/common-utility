@@ -17,6 +17,25 @@ class BytesUtilityTest(unittest.TestCase):
         self.assertEqual(BytesUtility.xor(b, a, trancate=False), r2)
         return
     
+    def test_has_sufficient_bytes(self):
+        test_bytes = b'\x00' * 5
+        # [ <offset>, <length>, <pos>, <expected_value> ]
+        test_cases = [
+            [ 0, 5, 0, True ],
+            [ 0, 2, 3, True ],
+            [ 0, 6, 0, False ],
+            [ 1, 5, 0, False ],
+            [ 0, 5, 1, False ],
+            [ 5, 0, 0, True ], # <length> of 0 or less is not a valid use case
+            [ 5, 0, 1, False ],
+        ]
+        for offset, length, pos, expected_value in test_cases:
+            self.assertEqual(
+                BytesUtility.has_sufficient_bytes(test_bytes, offset, length, pos=pos),
+                expected_value
+            )
+        return
+    
     def test_integer_to_bytes_01(self):
         test_values = [ 0, 5, 65535, 12345678901234567890 ]
         test_bytes_length = 20
