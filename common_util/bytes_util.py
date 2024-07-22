@@ -4,7 +4,7 @@ import binascii
 import sys
 
 class BytesUtility:
-    
+
     # --- Bytes Operations
 
     @staticmethod
@@ -25,6 +25,14 @@ class BytesUtility:
         return result
     
     # --- Bytes Extractions
+
+    @staticmethod
+    def has_sufficient_bytes(data, offset, length, pos=0):
+        data_length = len(data)
+        result = False
+        if data_length >= pos + offset + length:
+            result = True
+        return result
 
     @staticmethod
     def extract_bytes(data, offset, length, pos=0):

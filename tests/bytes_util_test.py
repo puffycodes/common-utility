@@ -15,6 +15,24 @@ class BytesUtilityTest(unittest.TestCase):
         self.assertEqual(bytes_util.BytesUtility.xor(b, a, trancate=False), r2)
         return
     
+    def test_integer_to_bytes(self):
+        test_values = [ 0, 5, 65535, 12345678901234567890 ]
+        test_bytes_length = 20
+        for value in test_values:
+            bytes_value = bytes_util.BytesUtility.integer_to_bytes(
+                value, test_bytes_length
+            )
+            self.assertEqual(
+                bytes_util.BytesUtility.has_sufficient_bytes(
+                    bytes_value, 0, test_bytes_length
+                ), True
+            )
+            new_value = bytes_util.BytesUtility.extract_integer(
+                bytes_value, 0, test_bytes_length
+            )
+            self.assertEqual(new_value, value)
+        return
+    
     def test_bytes_rep_to_bytes_01(self):
         a = b'abcde'
         b = b'\x00\xab\r\n\tabcde\'\\'
