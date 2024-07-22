@@ -263,6 +263,7 @@ class DirectoryUtilityConfig:
                 f'Warning: Hidden file/directory option not supported in glob in this version of python.',
                 file=sys.stderr
             )
+        return
 
     @staticmethod
     def check_glob_include_hidden():
