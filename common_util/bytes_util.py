@@ -5,6 +5,8 @@ import sys
 
 class BytesUtility:
     
+    # --- Bytes Operations
+
     @staticmethod
     def xor(b1: bytes, b2: bytes, trancate=True):
         result = bytes([v1 ^ v2 for v1, v2 in zip(b1, b2)])
@@ -22,6 +24,22 @@ class BytesUtility:
             
         return result
     
+    # --- Bytes Extractions
+
+    @staticmethod
+    def extract_bytes(data, offset, length, pos=0):
+        return data[pos+offset:pos+offset+length]
+
+    @staticmethod
+    def extract_integer(data, offset, length, pos=0, endian='little'):
+        return int.from_bytes(data[pos+offset:pos+offset+length], endian)
+
+    # --- Bytes Conversions
+    
+    @staticmethod
+    def integer_to_bytes(value, length, endian='little'):
+        return value.to_bytes(length, endian)
+
     @staticmethod
     def bytes_rep_to_bytes(rep: str, verbose=False, ferr=sys.stderr):
         result = b''
