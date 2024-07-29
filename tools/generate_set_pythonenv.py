@@ -1,4 +1,4 @@
-# file: generate-set-pythonenv.py
+# file: generate_set_pythonenv.py
 
 import argparse
 import os
@@ -61,7 +61,7 @@ def generate_script(path_list, script_type, fout=sys.stdout, ferr=sys.stderr):
 
 def main():
     parser = argparse.ArgumentParser(
-        prog='generate-set-pythonenv',
+        prog='generate_set_pythonenv',
         description='Generate a script that will set PYTHONPATH to the given paths.'
     )
     parser.add_argument('pathname', nargs='+',
