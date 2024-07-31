@@ -14,8 +14,7 @@ def generate_data(size, verbose=False, fout=sys.stdout, ferr=sys.stderr):
     remaining_byte = size % 1024
     for i in range(block_count):
         print(data, end='', file=fout)
-    for i in range(remaining_byte):
-        print('a', end='', file=fout)
+    print('a' * remaining_byte, end='', file=fout)
     return
 
 def main():
