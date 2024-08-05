@@ -101,9 +101,18 @@ class BytesUtilityTest(unittest.TestCase):
         bytes_value_01 = BytesUtility.hex_string_to_bytes(hex_str_01)
         self.assertEqual(bytes_value_01, all_bytes)
 
-        hex_str_02 = BytesUtility.bytes_to_hex_string(all_bytes, sep=' ')
-        bytes_value_02 = BytesUtility.hex_string_to_bytes(hex_str_02, sep=' ')
-        self.assertEqual(bytes_value_02, all_bytes)
+        sep_list = [ ' ', b' ', ';', '-', b':', '*' ]
+        for sep in sep_list:
+            hex_str_02 = BytesUtility.bytes_to_hex_string(all_bytes, sep=sep)
+            bytes_value_02 = BytesUtility.hex_string_to_bytes(hex_str_02, sep=sep)
+            self.assertEqual(bytes_value_02, all_bytes)
+
+        sep = ' '
+        for i in range(5):
+            hex_str_03 = BytesUtility.bytes_to_hex_string(all_bytes, sep=sep, bytes_per_sep=i)
+            bytes_value_03 = BytesUtility.hex_string_to_bytes(hex_str_03, sep=sep)
+            self.assertEqual(bytes_value_03, all_bytes)
+
         return
     
     def test_bytes_rep_to_bytes_01(self):

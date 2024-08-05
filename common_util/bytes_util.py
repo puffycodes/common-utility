@@ -54,23 +54,23 @@ class BytesUtility:
     
     @staticmethod
     def hex_string_to_bytes(hexstr, sep=''):
-        if sep == '' or sep == b'':
-            result = binascii.unhexlify(hexstr)
+        if len(sep) <= 0:
+            result = bytes.fromhex(hexstr)
         else:
             if type(hexstr) == bytes:
                 hexstr = hexstr.decode()
             if type(sep) == bytes:
                 sep = sep.decode()
             new_hexstr = ''.join(hexstr.split(sep))
-            result = binascii.unhexlify(new_hexstr)
+            result = bytes.fromhex(new_hexstr)
         return result
     
     @staticmethod
     def bytes_to_hex_string(data, sep='', bytes_per_sep=1):
-        if sep == '':
-            result = binascii.hexlify(data)
+        if len(sep) <= 0:
+            result = data.hex()
         else:
-            result = binascii.hexlify(data, sep=sep, bytes_per_sep=bytes_per_sep)
+            result = data.hex(sep, bytes_per_sep=bytes_per_sep)
         return result
 
     @staticmethod
