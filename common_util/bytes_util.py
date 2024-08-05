@@ -27,7 +27,7 @@ class BytesUtility:
     # --- Bytes Extractions
 
     @staticmethod
-    def has_sufficient_bytes(data, offset, length, pos=0):
+    def has_sufficient_bytes(data: bytes, offset: int, length: int, pos=0):
         data_length = len(data)
         result = False
         if data_length >= pos + offset + length:
@@ -35,21 +35,21 @@ class BytesUtility:
         return result
 
     @staticmethod
-    def extract_bytes(data, offset, length, pos=0):
+    def extract_bytes(data: bytes, offset: int, length: int, pos=0):
         return data[pos+offset:pos+offset+length]
 
     @staticmethod
-    def extract_integer(data, offset, length, pos=0, endian='little'):
+    def extract_integer(data: bytes, offset: int, length: int, pos=0, endian='little'):
         return int.from_bytes(data[pos+offset:pos+offset+length], endian)
 
     # --- Bytes Conversions
     
     @staticmethod
-    def integer_to_bytes(value, length, endian='little', signed=False):
+    def integer_to_bytes(value: int, length: int, endian='little', signed=False):
         return value.to_bytes(length, endian, signed=signed)
     
     @staticmethod
-    def bytes_to_integer(data, endian='little', signed=False):
+    def bytes_to_integer(data: bytes, endian='little', signed=False):
         return int.from_bytes(data, endian, signed=signed)
     
     @staticmethod
@@ -66,7 +66,7 @@ class BytesUtility:
         return result
     
     @staticmethod
-    def bytes_to_hex_string(data, sep='', bytes_per_sep=1):
+    def bytes_to_hex_string(data: bytes, sep='', bytes_per_sep=1):
         if len(sep) <= 0:
             result = data.hex()
         else:
@@ -121,7 +121,7 @@ class BytesUtility:
         return result
     
     @staticmethod
-    def bytes_to_bytes_rep(data):
+    def bytes_to_bytes_rep(data: bytes):
         return f'{data}'
     
 # --- end of file --- #
