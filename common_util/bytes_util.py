@@ -109,6 +109,6 @@ class BytesUtility:
     
     @staticmethod
     def bytes_to_bytes_rep(data):
-        return f'{data}'"
+        return f'{data}'
     
 # --- end of file --- #
