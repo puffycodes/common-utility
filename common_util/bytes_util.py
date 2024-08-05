@@ -45,8 +45,20 @@ class BytesUtility:
     # --- Bytes Conversions
     
     @staticmethod
-    def integer_to_bytes(value, length, endian='little'):
-        return value.to_bytes(length, endian)
+    def integer_to_bytes(value, length, endian='little', signed=False):
+        return value.to_bytes(length, endian, signed=signed)
+    
+    @staticmethod
+    def bytes_to_integer(data, endian='little', signed=False):
+        return int.from_bytes(data, endian, signed=signed)
+    
+    @staticmethod
+    def hex_string_to_bytes(hexstr):
+        return binascii.unhexlify(hexstr)
+    
+    @staticmethod
+    def bytes_to_hex_string(data, sep='', bytes_per_sep=1):
+        return binascii.hexlify(data, sep=sep, bytes_per_sep=bytes_per_sep)
 
     @staticmethod
     def bytes_rep_to_bytes(rep: str, verbose=False, ferr=sys.stderr):
