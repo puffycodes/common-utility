@@ -94,6 +94,18 @@ class BytesUtilityTest(unittest.TestCase):
             self.assertEqual(value_big, expected_big)
         return
     
+    def test_hex_string_to_bytes_01(self):
+        all_bytes = bytes([value for value in range(256)])
+
+        hex_str_01 = BytesUtility.bytes_to_hex_string(all_bytes)
+        bytes_value_01 = BytesUtility.hex_string_to_bytes(hex_str_01)
+        self.assertEqual(bytes_value_01, all_bytes)
+
+        hex_str_02 = BytesUtility.bytes_to_hex_string(all_bytes, sep=' ')
+        bytes_value_02 = BytesUtility.hex_string_to_bytes(hex_str_02, sep=' ')
+        self.assertEqual(bytes_value_02, all_bytes)
+        return
+    
     def test_bytes_rep_to_bytes_01(self):
         a = b'abcde'
         b = b'\x00\xab\r\n\tabcde\'\\'
@@ -117,6 +129,13 @@ class BytesUtilityTest(unittest.TestCase):
         self.assertEqual(
             BytesUtility.bytes_rep_to_bytes(test_rep_03), test_rep_bytes_03
         )
+        return
+    
+    def test_bytes_rep_to_bytes_03(self):
+        all_bytes = bytes([value for value in range(256)])
+        bytes_rep = BytesUtility.bytes_to_bytes_rep(all_bytes)
+        bytes_value = BytesUtility.bytes_rep_to_bytes(bytes_rep)
+        self.assertEqual(bytes_value, all_bytes)
         return
 
 if __name__ == '__main__':
