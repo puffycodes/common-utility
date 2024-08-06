@@ -45,7 +45,13 @@ class BytesUtility:
     # --- Bytes Conversions
     
     @staticmethod
-    def integer_to_bytes(value: int, length: int, endian='little', signed=False):
+    def integer_to_bytes(value: int, length=-1, endian='little', signed=False):
+        if length <= 0:
+            # compute length if not given
+            bit_length = value.bit_length()
+            length = bit_length // 8
+            if bit_length % 8 != 0:
+                length += 1
         return value.to_bytes(length, endian, signed=signed)
     
     @staticmethod
