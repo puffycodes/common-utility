@@ -1,19 +1,16 @@
 # file: list_duplicate_files.py
 
-import os
 import argparse
-import hashlib
-from common_util.dir_util import DirectoryUtility
-from common_util.container.multi_level_index import MultiLevelIndex
 from common_util.file_util.file_index import FileIndex
 
-def list_duplicate_files(dirname_list, verbose=False):
+def list_duplicate_files(dirname_list, pattern='*', verbose=False):
     if verbose:
-        print(dirname_list)
+        print(f'dirname_list: {dirname_list}')
+        print(f'pattern: {pattern}')
 
     indexes = FileIndex()
     for dirname in dirname_list:
-        indexes.add_from_directory(dirname, verbose=verbose)
+        indexes.add_from_directory(dirname, pattern=pattern, verbose=verbose)
 
     duplicate_file_list = indexes.get_duplicate_file_list(verbose=verbose)
 
@@ -31,12 +28,14 @@ def main():
         description='Show a list of duplicate files in directories'
     )
     parser.add_argument('dirname', nargs='+',
-                        help='name of directory to check')
+                        help='name of directory to check for files')
+    parser.add_argument('-p', '--pattern', default='*',
+                        help='pattern of files to include')
     parser.add_argument('-v', '--verbose', action='store_true', default=False,
                         help='show more information while running')
     args = parser.parse_args()
 
-    list_duplicate_files(args.dirname, verbose=args.verbose)
+    list_duplicate_files(args.dirname, pattern=args.pattern, verbose=args.verbose)
 
     return
 
