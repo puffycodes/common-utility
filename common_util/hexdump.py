@@ -46,11 +46,7 @@ class HexDump:
             curr_hex_array = hex_array[i:i+bytes_per_line]
             curr_text_str = text_str[i:i+bytes_per_line]
 
-            # curr_byte_count = len(curr_hex_array)
-            # if curr_byte_count < bytes_per_line:
-            #     back_padding_count = bytes_per_line - curr_byte_count
-            #     curr_hex_array.extend(['  '] * back_padding_count)
-            #     curr_text_str += ' ' * back_padding_count
+            # TODO: this works if sep is ' ' (space)
             curr_hex_str = sep.join(curr_hex_array)
 
             hexdump_array.append(f'{(i+pos_label):08x}: {curr_hex_str}  |{curr_text_str}|')
