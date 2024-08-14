@@ -64,39 +64,71 @@ class HexDumpTest(unittest.TestCase):
         print()
         return
     
-    def test_02(self):
+    def test_hexdump(self):
         print()
 
         all_bytes = bytes([v for v in range(256)])
         
         hexdump_array = HexDump.hexdump(all_bytes)
         HexDump.print_hexdump(hexdump_array)
+        self.assertEqual(
+            hexdump_array[0],
+            '00000000: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F  |................|'
+        )
 
         hexdump_array = HexDump.hexdump(all_bytes, bytes_per_line=32)
         HexDump.print_hexdump(hexdump_array)
+        self.assertEqual(
+            hexdump_array[0],
+            '00000000: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F  |................................|'
+        )
 
         hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, sep='-')
         HexDump.print_hexdump(hexdump_array)
+        self.assertEqual(
+            hexdump_array[0],
+            '00000030:       32-33-34-35-36-37-38-39-3A-3B-3C-3D-3E-3F  |  23456789:;<=>?|'
+        )
 
         hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, pos=40,
                                         sep='..')
         HexDump.print_hexdump(hexdump_array)
+        self.assertEqual(
+            hexdump_array[0],
+            '00000050:                                         5A..5B..5C..5D..5E..5F  |          Z[\]^_|'
+        )
 
         hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, pos=40,
                                         sep='')
         HexDump.print_hexdump(hexdump_array)
+        self.assertEqual(
+            hexdump_array[0],
+            '00000050:                     5A5B5C5D5E5F  |          Z[\]^_|'
+        )
 
         hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50,
                                         pos_label=0xff55)
         HexDump.print_hexdump(hexdump_array)
+        self.assertEqual(
+            hexdump_array[0],
+            '0000ff50:                32 33 34 35 36 37 38 39 3A 3B 3C  |     23456789:;<|'
+        )
 
         hexdump_array = HexDump.hexdump(
             all_bytes, offset=50, length=50, pos_label=0xbeef, bytes_per_line=11
         )
         HexDump.print_hexdump(hexdump_array)
+        self.assertEqual(
+            hexdump_array[0],
+            '0000bee9:                   32 33 34 35 36  |      23456|'
+        )
 
         hexdump_array = HexDump.hexdump(all_bytes[10:-10])
         HexDump.print_hexdump(hexdump_array)
+        self.assertEqual(
+            hexdump_array[0],
+            '00000000: 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19  |................|'
+        )
 
         return
     
