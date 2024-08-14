@@ -15,9 +15,13 @@ class HexDumpTest(unittest.TestCase):
         print(f'-- {HexDump.to_hex(all_bytes, length=50, offset=50)}')
         print(f'-- {HexDump.to_hex(all_bytes, length=50, offset=50, pos=50)}')
         print(f'-- {HexDump.to_hex(all_bytes, length=50, offset=240, pos=50)}')
+        print(f'-- {HexDump.to_hex(all_bytes, length=50, sep="/")}')
+        print(f'-- {HexDump.to_hex(all_bytes, length=50, sep="..")}')
+        print(f'-- {HexDump.to_hex(all_bytes, length=50, sep="")}')
         print()
         print(f'-- {HexDump.to_text(all_bytes)}')
         print(f'-- {HexDump.to_text(all_bytes, offset=32)}')
+        print(f'-- {HexDump.to_text(all_bytes, offset=32, length=20)}')
         return
     
     def test_02(self):
@@ -34,12 +38,26 @@ class HexDumpTest(unittest.TestCase):
             print(str)
         print()
 
-        hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, pos=40)
+        hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, pos=40,
+                                        sep='..')
+        for str in hexdump_array:
+            print(str)
+        print()
+
+        hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, pos=40,
+                                        sep='')
         for str in hexdump_array:
             print(str)
         print()
 
         hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, pos_label=0x55)
+        for str in hexdump_array:
+            print(str)
+        print()
+
+        hexdump_array = HexDump.hexdump(
+            all_bytes, offset=50, length=50, pos_label=0x55, bytes_per_line=11
+        )
         for str in hexdump_array:
             print(str)
         print()

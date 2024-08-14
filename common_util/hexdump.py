@@ -45,10 +45,7 @@ class HexDump:
         for i in range(0, byte_count, bytes_per_line):
             curr_hex_array = hex_array[i:i+bytes_per_line]
             curr_text_str = text_str[i:i+bytes_per_line]
-
-            # TODO: this works if sep is ' ' (space)
-            curr_hex_str = sep.join(curr_hex_array)
-
+            curr_hex_str = HexDump.hex_array_to_string(curr_hex_array, sep=sep)
             hexdump_array.append(f'{(i+pos_label):08x}: {curr_hex_str}  |{curr_text_str}|')
 
         return hexdump_array
@@ -56,6 +53,8 @@ class HexDump:
     @staticmethod
     def to_hex(data, offset=0, length=-1, pos=0, sep=' '):
         hex_array = HexDump.to_hex_array(data, offset=offset, length=length, pos=pos)
+        # - assume no blank hex value so do not need to call the function
+        #   HexDump.hex_array_to_string()
         return sep.join(hex_array)
 
     @staticmethod
@@ -74,6 +73,21 @@ class HexDump:
     def char_to_text(c, non_printable='.'):
         cc = chr(c)
         return cc if cc in HexDump.printable else non_printable
+    
+    @staticmethod
+    def hex_array_to_string(hex_array, sep=' '):
+        sep_length = len(sep)
+        if sep == ' ' or sep_length <= 0:
+            return sep.join(hex_array)
+        result = ''
+        for i in range(len(hex_array) - 1):
+            result += hex_array[i]
+            if hex_array[i] != '  ' and hex_array[i+1] != '  ':
+                result += sep
+            else:
+                result += ' ' * sep_length
+        result += hex_array[-1]
+        return result
     
     @staticmethod
     def compute_pos(data_length, offset=0, length=-1, pos=0):
