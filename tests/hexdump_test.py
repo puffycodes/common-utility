@@ -20,6 +20,7 @@ class HexDumpTest(unittest.TestCase):
             [ HexDump.to_hex(data, length=5, sep='/'), '00/01/02/03/04' ],
             [ HexDump.to_hex(data, length=5, sep='..'), '00..01..02..03..04' ],
             [ HexDump.to_hex(data, length=5, sep=''), '0001020304' ],
+            [ HexDump.to_hex(data[2:5]), '02 03 04' ],
         ]
         for result, expected_result in test_cases:
             self.assertEqual(result, expected_result)
@@ -92,6 +93,9 @@ class HexDumpTest(unittest.TestCase):
         hexdump_array = HexDump.hexdump(
             all_bytes, offset=50, length=50, pos_label=0xbeef, bytes_per_line=11
         )
+        HexDump.print_hexdump(hexdump_array)
+
+        hexdump_array = HexDump.hexdump(all_bytes[10:-10])
         HexDump.print_hexdump(hexdump_array)
 
         return
