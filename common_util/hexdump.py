@@ -44,7 +44,9 @@ class HexDump:
             curr_hex_array = hex_array[i:i+bytes_per_line]
             curr_text_str = text_str[i:i+bytes_per_line]
             curr_hex_str = HexDump.hex_array_to_string(curr_hex_array, sep=sep)
-            hexdump_array.append(f'{(i+pos_label):08x}: {curr_hex_str}  |{curr_text_str}|')
+            hexdump_array.append(
+                f'{(i+pos_label):08x}: {curr_hex_str}  |{curr_text_str}|'
+            )
 
         return hexdump_array
     
@@ -62,15 +64,17 @@ class HexDump:
 
     @staticmethod
     def to_hex_array(data, offset=0, length=-1, pos=0):
-        start_pos, end_pos = HexDump.compute_pos(len(data), offset=offset, length=length, pos=pos)
+        start_pos, end_pos = HexDump.pos_from_offset(len(data), offset=offset, length=length, pos=pos)
         hex_array = [f'{c:02X}' for c in data[start_pos:end_pos]]
         return hex_array
     
     @staticmethod
     def to_text(data, offset=0, length=-1, pos=0):
-        start_pos, end_pos = HexDump.compute_pos(len(data), offset=offset, length=length, pos=pos)
+        start_pos, end_pos = HexDump.pos_from_offset(len(data), offset=offset, length=length, pos=pos)
         text_array = [HexDump.char_to_text(c) for c in data[start_pos:end_pos]]
         return ''.join(text_array)
+    
+    # --- Internal Functions
     
     @staticmethod
     def char_to_text(c, non_printable='.'):
@@ -85,6 +89,8 @@ class HexDump:
         result = ''
         for i in range(len(hex_array) - 1):
             result += hex_array[i]
+            # - insert separator only between two hex strings that are
+            #   not empty (i.e. space)
             if hex_array[i] != '  ' and hex_array[i+1] != '  ':
                 result += sep
             else:
@@ -93,7 +99,7 @@ class HexDump:
         return result
     
     @staticmethod
-    def compute_pos(data_length, offset=0, length=-1, pos=0):
+    def pos_from_offset(data_length, offset=0, length=-1, pos=0):
         start_pos = pos + offset
         if length <= 0:
             end_pos = data_length
