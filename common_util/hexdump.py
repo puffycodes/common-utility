@@ -2,6 +2,7 @@
 
 import sys
 import string
+import argparse
 
 class HexDump:
 
@@ -109,5 +110,28 @@ class HexDump:
         if end_pos > data_length:
             end_pos = data_length
         return start_pos, end_pos
+    
+    # --- Main function
+
+    @staticmethod
+    def main():
+        parser = argparse.ArgumentParser(
+            prog='hexdump',
+            description='show a file in hex'
+        )
+        parser.add_argument('filename', nargs='+',
+                            help='file to show')
+        args = parser.parse_args()
+
+        for file in args.filename:
+            print(f'=== file: {file}')
+            with open(file, 'rb') as fd:
+                data = fd.read()
+            hexdump_array = HexDump.hexdump(data)
+            HexDump.print_hexdump(hexdump_array)
+        return
+    
+if __name__ == '__main__':
+    HexDump.main()
 
 # --- end of file --- #
