@@ -117,7 +117,8 @@ class HexDump:
     def main():
         parser = argparse.ArgumentParser(
             prog='hexdump',
-            description='show a file in hex'
+            description='Show a file in hex format.',
+            epilog='"Everyone likes to write their own hexdump."'
         )
         parser.add_argument('filename', nargs='+',
                             help='file to show')
