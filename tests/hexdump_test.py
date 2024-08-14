@@ -21,16 +21,29 @@ class HexDumpTest(unittest.TestCase):
         return
     
     def test_02(self):
+        print()
+
         all_bytes = bytes([v for v in range(256)])
         hexdump_array = HexDump.hexdump(all_bytes)
-        print()
         for str in hexdump_array:
             print(str)
         print()
-        hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50)
+
+        hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, sep='-')
         for str in hexdump_array:
             print(str)
         print()
+
+        hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, pos=40)
+        for str in hexdump_array:
+            print(str)
+        print()
+
+        hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, pos_label=0x55)
+        for str in hexdump_array:
+            print(str)
+        print()
+
         return
     
 if __name__ == '__main__':

@@ -1,30 +1,59 @@
 # file: hexdump.py
 
 import string
+from turtle import back
+
+from numpy import bytes_
 
 class HexDump:
 
     printable = string.ascii_letters + string.digits + string.punctuation + ' '
 
     @staticmethod
-    def hexdump(data, offset=0, length=-1, pos=0, sep=' ', bytes_per_line=16):
-        hex_array = HexDump.to_hex_array(data, offset=offset, length=length, pos=pos)
-        text_str = HexDump.to_text(data, offset=offset, length=length, pos=pos)
+    def hexdump(data, offset=0, length=-1, pos=0,
+                sep=' ', bytes_per_line=16, pos_label=-1):
+        if pos_label < 0:
+            pos_label = pos + offset
+
+        # Pad at the front to align to bytes_per_line boundary
+        front_padding_count = pos_label % bytes_per_line
+        if front_padding_count != 0:
+            hex_array = ['  '] * front_padding_count
+            text_str = ' ' * front_padding_count
+            pos_label = pos_label - (pos_label % bytes_per_line)
+        else:
+            hex_array = []
+            text_str = ''
         
+        # Add the hexdump
+        hex_array.extend(
+            HexDump.to_hex_array(data, offset=offset, length=length, pos=pos)
+        )
+        text_str += HexDump.to_text(data, offset=offset, length=length, pos=pos)
+
+        # Pad at the back to align to bytes_per_line boundary
         byte_count = len(hex_array)
+        last_line_byte_count = byte_count % bytes_per_line
+        if last_line_byte_count != 0:
+            back_padding_count = bytes_per_line - last_line_byte_count
+            hex_array.extend(['  '] * back_padding_count)
+            text_str += ' ' * back_padding_count
+            byte_count += back_padding_count
+
+        # Output the hexdump as array of text
         hexdump_array = []
         for i in range(0, byte_count, bytes_per_line):
             curr_hex_array = hex_array[i:i+bytes_per_line]
             curr_text_str = text_str[i:i+bytes_per_line]
 
-            curr_byte_count = len(curr_hex_array)
-            if curr_byte_count < bytes_per_line:
-                padding_count = bytes_per_line - curr_byte_count
-                curr_hex_array.extend(['  '] * padding_count)
-                curr_text_str += ' ' * padding_count
+            # curr_byte_count = len(curr_hex_array)
+            # if curr_byte_count < bytes_per_line:
+            #     back_padding_count = bytes_per_line - curr_byte_count
+            #     curr_hex_array.extend(['  '] * back_padding_count)
+            #     curr_text_str += ' ' * back_padding_count
             curr_hex_str = sep.join(curr_hex_array)
 
-            hexdump_array.append(f'{i:08x}: {curr_hex_str}  |{curr_text_str}|')
+            hexdump_array.append(f'{(i+pos_label):08x}: {curr_hex_str}  |{curr_text_str}|')
 
         return hexdump_array
 
