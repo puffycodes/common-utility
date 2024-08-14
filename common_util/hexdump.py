@@ -1,9 +1,7 @@
 # file: hexdump.py
 
+import sys
 import string
-from turtle import back
-
-from numpy import bytes_
 
 class HexDump:
 
@@ -49,6 +47,13 @@ class HexDump:
             hexdump_array.append(f'{(i+pos_label):08x}: {curr_hex_str}  |{curr_text_str}|')
 
         return hexdump_array
+    
+    @staticmethod
+    def print_hexdump(hexdump_array, fout=sys.stdout):
+        for str in hexdump_array:
+            print(str, file=fout)
+        print(file=fout)
+        return
 
     @staticmethod
     def to_hex(data, offset=0, length=-1, pos=0, sep=' '):

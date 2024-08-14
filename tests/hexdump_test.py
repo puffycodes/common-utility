@@ -28,39 +28,32 @@ class HexDumpTest(unittest.TestCase):
         print()
 
         all_bytes = bytes([v for v in range(256)])
+        
         hexdump_array = HexDump.hexdump(all_bytes)
-        for str in hexdump_array:
-            print(str)
-        print()
+        HexDump.print_hexdump(hexdump_array)
+
+        hexdump_array = HexDump.hexdump(all_bytes, bytes_per_line=32)
+        HexDump.print_hexdump(hexdump_array)
 
         hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, sep='-')
-        for str in hexdump_array:
-            print(str)
-        print()
+        HexDump.print_hexdump(hexdump_array)
 
         hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, pos=40,
                                         sep='..')
-        for str in hexdump_array:
-            print(str)
-        print()
+        HexDump.print_hexdump(hexdump_array)
 
         hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, pos=40,
                                         sep='')
-        for str in hexdump_array:
-            print(str)
-        print()
+        HexDump.print_hexdump(hexdump_array)
 
-        hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, pos_label=0x55)
-        for str in hexdump_array:
-            print(str)
-        print()
+        hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50,
+                                        pos_label=0xff55)
+        HexDump.print_hexdump(hexdump_array)
 
         hexdump_array = HexDump.hexdump(
             all_bytes, offset=50, length=50, pos_label=0x55, bytes_per_line=11
         )
-        for str in hexdump_array:
-            print(str)
-        print()
+        HexDump.print_hexdump(hexdump_array)
 
         return
     
