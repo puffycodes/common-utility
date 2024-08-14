@@ -53,9 +53,7 @@ class HexDump:
     @staticmethod
     def to_hex(data, offset=0, length=-1, pos=0, sep=' '):
         hex_array = HexDump.to_hex_array(data, offset=offset, length=length, pos=pos)
-        # - assume no blank hex value so do not need to call the function
-        #   HexDump.hex_array_to_string()
-        return sep.join(hex_array)
+        return HexDump.hex_array_to_string(hex_array, sep=sep)
 
     @staticmethod
     def to_hex_array(data, offset=0, length=-1, pos=0):
