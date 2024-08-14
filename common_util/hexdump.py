@@ -85,6 +85,7 @@ class HexDump:
     def hex_array_to_string(hex_array, sep=' '):
         sep_length = len(sep)
         if sep == ' ' or sep_length <= 0:
+            # - special cases when separator is a space (' ') or empty ('')
             return sep.join(hex_array)
         result = ''
         for i in range(len(hex_array) - 1):
