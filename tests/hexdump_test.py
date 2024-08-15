@@ -123,6 +123,15 @@ class HexDumpTest(unittest.TestCase):
             '0000bee9:                   32 33 34 35 36  |      23456|'
         )
 
+        hexdump_array = HexDump.hexdump(
+            all_bytes, offset=50, length=50, pos_label=0xbeef, bytes_per_line=11, align_front=False
+        )
+        HexDump.print_hexdump(hexdump_array)
+        self.assertEqual(
+            hexdump_array[0],
+            '0000beef: 32 33 34 35 36 37 38 39 3A 3B 3C  |23456789:;<|'
+        )
+
         hexdump_array = HexDump.hexdump(all_bytes[10:-10])
         HexDump.print_hexdump(hexdump_array)
         self.assertEqual(
