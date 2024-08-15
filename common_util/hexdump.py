@@ -55,6 +55,51 @@ class HexDump:
         return hexdump_array
     
     @staticmethod
+    def hexdump_start_and_end(data, byte_count_start=48, byte_count_end=48,
+                              sep=' ', bytes_per_line=16, pos_label=-1,
+                              align_front=True, filler_line=''):
+        if byte_count_start < 0:
+            byte_count_start = 0
+        if byte_count_end < 0:
+            byte_count_end = 0
+
+        data_length = len(data)
+
+        hexdump_array = []
+        if data_length > byte_count_start + byte_count_end:
+            if byte_count_start > 0:
+                hexdump_array.extend(
+                    HexDump.hexdump(
+                        data, offset=0, length=byte_count_start,
+                        sep=sep, bytes_per_line=bytes_per_line, pos_label=pos_label,
+                        align_front=align_front
+                    )
+                )
+                if filler_line == '':
+                    hexdump_array.append(HexDump.default_filler_line)
+                else:
+                    hexdump_array.append(filler_line)
+                end_offset = data_length - byte_count_end
+                if pos_label < 0:
+                    end_pos_label = -1
+                else:
+                    end_pos_label = pos_label + end_offset
+                hexdump_array.extend(
+                    HexDump.hexdump(
+                        data, offset=end_offset, length = byte_count_end,
+                        sep=sep, bytes_per_line=bytes_per_line, pos_label=end_pos_label,
+                        align_front=align_front
+                    )
+                )
+        else:
+            hexdump_array = HexDump.hexdump(
+                data, sep=sep, bytes_per_line=bytes_per_line,
+                pos_label=pos_label, align_front=align_front
+            )
+
+        return hexdump_array
+    
+    @staticmethod
     def brief_hexdump(hexdump_array, start_line=0, end_line=0, filler_line=''):
         result = hexdump_array
         if start_line < 0:
