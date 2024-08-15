@@ -95,7 +95,7 @@ class HexDumpTest(unittest.TestCase):
         HexDump.print_hexdump(hexdump_array)
         self.assertEqual(
             hexdump_array[0],
-            '00000050:                                         5A..5B..5C..5D..5E..5F  |          Z[\]^_|'
+            '00000050:                                         5A..5B..5C..5D..5E..5F  |          Z[\\]^_|'
         )
 
         hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, pos=40,
@@ -103,7 +103,7 @@ class HexDumpTest(unittest.TestCase):
         HexDump.print_hexdump(hexdump_array)
         self.assertEqual(
             hexdump_array[0],
-            '00000050:                     5A5B5C5D5E5F  |          Z[\]^_|'
+            '00000050:                     5A5B5C5D5E5F  |          Z[\\]^_|'
         )
 
         hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50,
@@ -142,7 +142,10 @@ class HexDumpTest(unittest.TestCase):
         return
     
     def test_brief_hexdump(self):
-        print()
+        verbose = False
+
+        if verbose:
+            print()
 
         all_bytes = bytes([v for v in range(256)])
 
@@ -159,14 +162,15 @@ class HexDumpTest(unittest.TestCase):
             [ 1, 1, 3 ], [ 2, 1, 4 ], [ 5, 0, 6 ], [ 0, 6, 7 ],
             [ 3, 3, 7 ], [ 5, 3, 9 ], [ 5, 5, 11 ], [ 8, 7, 16 ],
             [ 8, 8, 16 ], [ 9, 9, 16 ], [ 16, 0, 16 ], [ 0, 16, 16 ],
-            [ 17, 0, 16 ],
+            [ 17, 0, 16 ], [ 255, 0, 16 ], [ 0, 255, 16 ], [ 256, 256, 16 ],
         ]
         for start_line, end_line, expected_count in test_cases:
             brief_hexdump_array = HexDump.brief_hexdump(
                 hexdump_array, start_line=start_line, end_line=end_line
             )
-            print(f'start_line: {start_line}; end_line: {end_line}; expected_count: {expected_count}')
-            HexDump.print_hexdump(brief_hexdump_array, prefix='  ')
+            if verbose:
+                print(f'start_line: {start_line}; end_line: {end_line}; expected_count: {expected_count}')
+                HexDump.print_hexdump(brief_hexdump_array, prefix='  ')
             self.assertEqual(len(brief_hexdump_array), expected_count)
 
         return

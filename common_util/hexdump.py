@@ -7,6 +7,8 @@ import argparse
 class HexDump:
 
     printable = string.ascii_letters + string.digits + string.punctuation + ' '
+    default_filler_line = f'--------: .....'
+    # default_filler_line = f'          <snipped>'
 
     @staticmethod
     def hexdump(data, offset=0, length=-1, pos=0,
@@ -53,7 +55,7 @@ class HexDump:
         return hexdump_array
     
     @staticmethod
-    def brief_hexdump(hexdump_array, start_line=0, end_line=0):
+    def brief_hexdump(hexdump_array, start_line=0, end_line=0, filler_line=''):
         result = hexdump_array
         if start_line < 0:
             start_line = 0
@@ -65,7 +67,10 @@ class HexDump:
             result = []
             if start_line > 0:
                 result.extend(hexdump_array[:start_line])
-            result.append(f'--------: .....')
+            if filler_line == '':
+                result.append(HexDump.default_filler_line)
+            else:
+                result.append(filler_line)
             if end_line > 0:
                 result.extend(hexdump_array[-end_line:])
         return result
