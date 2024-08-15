@@ -53,9 +53,27 @@ class HexDump:
         return hexdump_array
     
     @staticmethod
-    def print_hexdump(hexdump_array, fout=sys.stdout):
+    def brief_hexdump(hexdump_array, start_line=0, end_line=0):
+        result = hexdump_array
+        if start_line < 0:
+            start_line = 0
+        if end_line < 0:
+            end_line = 0
+        if start_line + end_line <= 0:
+            return result
+        if start_line + end_line < len(hexdump_array):
+            result = []
+            if start_line > 0:
+                result.extend(hexdump_array[:start_line])
+            result.append(f'--------: .....')
+            if end_line > 0:
+                result.extend(hexdump_array[-end_line:])
+        return result
+    
+    @staticmethod
+    def print_hexdump(hexdump_array, prefix='', fout=sys.stdout):
         for str in hexdump_array:
-            print(str, file=fout)
+            print(f'{prefix}{str}', file=fout)
         print(file=fout)
         return
 

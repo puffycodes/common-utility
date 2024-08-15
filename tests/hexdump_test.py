@@ -141,6 +141,36 @@ class HexDumpTest(unittest.TestCase):
 
         return
     
+    def test_brief_hexdump(self):
+        print()
+
+        all_bytes = bytes([v for v in range(256)])
+
+        hexdump_array = HexDump.hexdump(all_bytes)
+        self.assertEqual(len(hexdump_array), 16)
+
+        brief_hexdump_array = HexDump.brief_hexdump(hexdump_array)
+        self.assertEqual(len(brief_hexdump_array), 16)
+
+        # [ <start_line>, <end_line>, <expected_count> ]
+        test_cases = [
+            [ -1, -1, 16 ], [ -1, 0, 16 ], [ 0, -1, 16 ], [ 0, 0, 16 ],
+            [ -1, 1, 2 ], [ 1, -1, 2 ], [ -1, 5, 6 ], [ 6, -1, 7 ],
+            [ 1, 1, 3 ], [ 2, 1, 4 ], [ 5, 0, 6 ], [ 0, 6, 7 ],
+            [ 3, 3, 7 ], [ 5, 3, 9 ], [ 5, 5, 11 ], [ 8, 7, 16 ],
+            [ 8, 8, 16 ], [ 9, 9, 16 ], [ 16, 0, 16 ], [ 0, 16, 16 ],
+            [ 17, 0, 16 ],
+        ]
+        for start_line, end_line, expected_count in test_cases:
+            brief_hexdump_array = HexDump.brief_hexdump(
+                hexdump_array, start_line=start_line, end_line=end_line
+            )
+            print(f'start_line: {start_line}; end_line: {end_line}; expected_count: {expected_count}')
+            HexDump.print_hexdump(brief_hexdump_array, prefix='  ')
+            self.assertEqual(len(brief_hexdump_array), expected_count)
+
+        return
+    
 if __name__ == '__main__':
     unittest.main()
 
