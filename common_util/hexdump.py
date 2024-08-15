@@ -14,17 +14,17 @@ class HexDump:
         if pos_label < 0:
             pos_label = pos + offset
 
+        hex_array = []
+        text_str = ''
+
         # Pad at the front to align to bytes_per_line boundary
         front_padding_count = pos_label % bytes_per_line
         if front_padding_count != 0:
             hex_array = ['  '] * front_padding_count
             text_str = ' ' * front_padding_count
             pos_label = pos_label - (pos_label % bytes_per_line)
-        else:
-            hex_array = []
-            text_str = ''
         
-        # Add the hexdump
+        # Add the hexdump and text representation
         hex_array.extend(
             HexDump.to_hex_array(data, offset=offset, length=length, pos=pos)
         )
