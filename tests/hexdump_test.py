@@ -141,6 +141,31 @@ class HexDumpTest(unittest.TestCase):
 
         return
     
+    def test_hexdump_start_and_end(self):
+        verbose = True
+        if verbose:
+            print()
+        data = bytes([v for v in range(65)])
+
+        hexdump_array = HexDump.hexdump_start_and_end(data)
+        if verbose:
+            HexDump.print_hexdump(hexdump_array)
+        self.assertEqual(len(hexdump_array), 5)
+
+        # [ <byte_count_start>, <byte_count_end>, <expected_line_count> ]
+        test_cases = [
+            [ 16, 16, 4 ], [ 32, 32, 6 ], [ 33, 32, 5 ], [ 33, 31, 7 ],
+        ]
+        for start, end, expected_count in test_cases:
+            hexdump_array = HexDump.hexdump_start_and_end(
+                data, byte_count_start=start, byte_count_end=end
+            )
+            if verbose:
+                HexDump.print_hexdump(hexdump_array)
+            self.assertEqual(len(hexdump_array), expected_count)
+
+        return
+    
     def test_brief_hexdump(self):
         verbose = False
 
