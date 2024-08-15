@@ -152,22 +152,23 @@ class HexDumpTest(unittest.TestCase):
             HexDump.print_hexdump(hexdump_array)
         self.assertEqual(len(hexdump_array), 5)
 
-        # [ <byte_count_start>, <byte_count_end>, <expected_line_count> ]
+        # [ <byte_count_start>, <byte_count_end>, <expected_line_count_1>, <expected_line_count_2> ]
         test_cases = [
-            [ 16, 16, 4 ], [ 32, 32, 6 ], [ 33, 32, 5 ], [ 33, 31, 7 ],
+            [ 16, 16, 4, 4 ], [ 32, 32, 6, 6 ], [ 33, 32, 5, 5 ], [ 33, 31, 7, 6 ],
+            [ 0, 64, 6, 5 ], [ 64, 0, 5, 6 ], [ 0, 63, 6, 5 ], [ 63, 0, 5, 6 ],
         ]
-        for start, end, expected_count in test_cases:
+        for start, end, expected_count_1, _ in test_cases:
             hexdump_array = HexDump.hexdump_start_and_end(
                 data, byte_count_start=start, byte_count_end=end
             )
             if verbose:
                 data_length = len(data)
                 print(f'data length: {data_length} = 0x{data_length:x}')
-                print(f'start: {start}; end: {end}; expected line: {expected_count}')
+                print(f'start: {start}; end: {end}; expected line: {expected_count_1}')
                 HexDump.print_hexdump(hexdump_array)
-            self.assertEqual(len(hexdump_array), expected_count)
+            self.assertEqual(len(hexdump_array), expected_count_1)
 
-        for start, end, expected_count in test_cases:
+        for start, end, _, expected_count_2 in test_cases:
             hexdump_array = HexDump.hexdump_start_and_end(
                 data, byte_count_start=start, byte_count_end=end,
                 pos_label=0xbeef
@@ -175,10 +176,9 @@ class HexDumpTest(unittest.TestCase):
             if verbose:
                 data_length = len(data)
                 print(f'data length: {data_length} = 0x{data_length:x}')
-                print(f'start: {start}; end: {end}; expected line: {expected_count}')
+                print(f'start: {start}; end: {end}; expected line: {expected_count_2}')
                 HexDump.print_hexdump(hexdump_array)
-            # TODO: add checks
-            # self.assertEqual(len(hexdump_array), expected_count_2)
+            self.assertEqual(len(hexdump_array), expected_count_2)
 
         return
     

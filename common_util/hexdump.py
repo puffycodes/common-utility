@@ -76,11 +76,12 @@ class HexDump:
                         align_front=align_front
                     )
                 )
-                # add in the filler line
-                if filler_line == '':
-                    hexdump_array.append(HexDump.default_filler_line)
-                else:
-                    hexdump_array.append(filler_line)
+            # add in the filler line
+            if filler_line == '':
+                hexdump_array.append(HexDump.default_filler_line)
+            else:
+                hexdump_array.append(filler_line)
+            if byte_count_end > 0:
                 # hexdump the ending bytes
                 end_offset = data_length - byte_count_end
                 if pos_label < 0:
