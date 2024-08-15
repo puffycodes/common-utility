@@ -161,8 +161,24 @@ class HexDumpTest(unittest.TestCase):
                 data, byte_count_start=start, byte_count_end=end
             )
             if verbose:
+                data_length = len(data)
+                print(f'data length: {data_length} = 0x{data_length:x}')
+                print(f'start: {start}; end: {end}; expected line: {expected_count}')
                 HexDump.print_hexdump(hexdump_array)
             self.assertEqual(len(hexdump_array), expected_count)
+
+        for start, end, expected_count in test_cases:
+            hexdump_array = HexDump.hexdump_start_and_end(
+                data, byte_count_start=start, byte_count_end=end,
+                pos_label=0xbeef
+            )
+            if verbose:
+                data_length = len(data)
+                print(f'data length: {data_length} = 0x{data_length:x}')
+                print(f'start: {start}; end: {end}; expected line: {expected_count}')
+                HexDump.print_hexdump(hexdump_array)
+            # TODO: add checks
+            # self.assertEqual(len(hexdump_array), expected_count_2)
 
         return
     
