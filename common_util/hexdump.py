@@ -129,7 +129,6 @@ class HexDump:
     def print_hexdump(hexdump_array, prefix='', fout=sys.stdout):
         for str in hexdump_array:
             print(f'{prefix}{str}', file=fout)
-        print(file=fout)
         return
 
     @staticmethod
@@ -204,6 +203,7 @@ class HexDump:
                 data = fd.read()
             hexdump_array = HexDump.hexdump(data)
             HexDump.print_hexdump(hexdump_array)
+            print()
         return
     
 if __name__ == '__main__':
