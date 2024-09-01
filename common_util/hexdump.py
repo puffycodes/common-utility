@@ -134,16 +134,25 @@ class HexDump:
     @staticmethod
     def hexdump_and_print(data_list, label_list=[],
                           sep=' ', bytes_per_line=16, max_bytes_show=-1, filler_line='',
-                          prefix='', fout=sys.stdout):
+                          prefix='', sep_line='', fout=sys.stdout):
         count = 0
         label_list_length = len(label_list)
         for curr_data in data_list:
             curr_label = label_list[count] if count < label_list_length else ''
-            hexdump_array = HexDump.hexdump(curr_data, sep=sep, bytes_per_line=bytes_per_line)
+            if max_bytes_show <= 0 or len(curr_data) < max_bytes_show:
+                hexdump_array = HexDump.hexdump(curr_data, sep=sep, bytes_per_line=bytes_per_line)
+            else:
+                bytes_count_start = max_bytes_show // 2
+                bytes_count_end = max_bytes_show - bytes_count_start
+                hexdump_array = HexDump.hexdump_start_and_end(
+                    curr_data, byte_count_start=bytes_count_start, byte_count_end=bytes_count_end,
+                    sep=sep, bytes_per_line=bytes_per_line, filler_line=filler_line
+                )
             if curr_label != '':
                 print(f'{curr_label}', file=fout)
             HexDump.print_hexdump(hexdump_array, prefix=prefix, fout=fout)
-            print(file=fout)
+            print(f'{sep_line}', file=fout)
+            count += 1
         return
 
     @staticmethod
