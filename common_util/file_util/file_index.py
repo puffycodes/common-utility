@@ -7,6 +7,8 @@ from common_util.container.multi_level_index import MultiLevelIndex
 
 class FileIndex:
 
+    # - Subkey Generators for FileIndex Class
+
     class SubkeyGeneratorUsingFilename(MultiLevelIndex.SubkeyGenerator):
         # Use a file name to generate the subkey.
 
@@ -52,11 +54,24 @@ class FileIndex:
                 name, extension = filename_parts[0], filename_parts[-1]
             return name, extension
         
-    def __init__(self):
+    # - FileIndex Class
+
+    INDEX_DIGEST = 0
+    INDEX_FILENAME = 1
+        
+    def __init__(self, index_type=INDEX_DIGEST):
         self.max_level = 5
-        self.key_generator = MultiLevelIndex.SubkeyGeneratorUsingHash(
-            empty_subkey = 'none'
-        )
+        self.index_type = index_type
+        if self.index_type == FileIndex.INDEX_FILENAME:
+            self.key_generator = FileIndex.SubkeyGeneratorUsingFilename(
+                empty_subkey='none', use_file_extension=True
+            )
+        else:
+            # default to using digest
+            self.index_type = FileIndex.INDEX_DIGEST
+            self.key_generator = MultiLevelIndex.SubkeyGeneratorUsingHash(
+                empty_subkey = 'none'
+            )
         self.indexes = MultiLevelIndex(
             max_level=self.max_level, key_generator=self.key_generator
         )
@@ -70,7 +85,11 @@ class FileIndex:
             full_path = os.path.join(dirname, file)
             digest = self.get_file_md5_hash(full_path)
             file_size = self.get_file_size(full_path)
-            self.indexes.add(digest, (dirname, file, file_size))
+            if self.index_type == FileIndex.INDEX_FILENAME:
+                add_index = os.path.basename(full_path)
+            else:
+                add_index = digest
+            self.indexes.add(add_index, (dirname, file, file_size))
             if verbose:
                 print(f' - {file}: {file_size} {digest}')
         if verbose:
