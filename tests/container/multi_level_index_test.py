@@ -1,8 +1,31 @@
 # file: multi_level_index_test.py
 
 import unittest
-from common_util.container.multi_level_index import MultiLevelIndex
 import sys
+from common_util.container.multi_level_index import MultiLevelIndex
+
+class SubkeyGeneratorTest(unittest.TestCase):
+
+    def test_subkey_using_hash(self):
+        key_gen_list = [
+            MultiLevelIndex.SubkeyGeneratorUsingHash(),
+            MultiLevelIndex.SubkeyGeneratorUsingHash(empty_subkey='empty')
+        ]
+        test_keys = [
+            'abcdef', 'abcdefghijklmnopqrstuvwxyz',
+        ]
+        for key_gen in key_gen_list:
+            for key in test_keys:
+                for i in range(10):
+                    subkey = key_gen.get_subkey(key, i)
+                    if i < len(key):
+                        self.assertEqual(subkey, key[i])
+                    else:
+                        self.assertEqual(subkey, key_gen.get_empty_subkey())
+                for i in range(-10, 0):
+                    with self.assertRaises(ValueError):
+                        subkey = key_gen.get_subkey(key, i)
+        return
 
 class MultiLevelIndexTest(unittest.TestCase):
 

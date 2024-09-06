@@ -4,21 +4,60 @@ import sys
 
 class MultiLevelIndex:
 
-    def __init__(self, max_level=2, empty_subkey='none'):
+    class SubkeyGenerator:
+        # An abstract class
+
+        def __init__(self, empty_subkey='none'):
+            self.empty_subkey = empty_subkey
+            return
+        
+        def check_level(self, key, level):
+            if level < 0:
+                raise ValueError(f'level cannot be negative: {level}')
+            return level
+
+        def get_empty_subkey(self):
+            return self.empty_subkey
+        
+        def get_subkey(self, key, level):
+            self.check_level(key, level)
+            return self.empty_subkey
+        
+    class SubkeyGeneratorUsingHash(SubkeyGenerator):
+        # Returns the nth charactor as the subkey.
+        # Suitable for key that is a digest of hashes.
+
+        def __init__(self, empty_subkey='none'):
+            super().__init__(empty_subkey=empty_subkey)
+            return
+        
+        def get_subkey(self, key, level):
+            self.check_level(key, level)
+            subkey = self.empty_subkey
+            if len(key) > level:
+                subkey = key[level]
+            return subkey
+
+    def __init__(self, max_level=2, key_generator=None):
         if max_level <= 0:
             raise ValueError(f'max_level cannot be zero or less ({max_level})')
         self.data = {}
         self.max_level = max_level
-        self.empty_subkey = empty_subkey
+        if key_generator == None:
+            self.key_generator = MultiLevelIndex.SubkeyGeneratorUsingHash(
+                empty_subkey='none'
+            )
+        #self.empty_subkey = empty_subkey
         return
     
     # --- Subkey Function
     
     def subkey(self, key, level):
-        subkey = self.empty_subkey
-        if len(key) > level:
-            subkey = key[level]
-        return subkey
+        return self.key_generator.get_subkey(key, level)
+        # subkey = self.empty_subkey
+        # if len(key) > level:
+        #     subkey = key[level]
+        # return subkey
     
     # --- External Interface
     
