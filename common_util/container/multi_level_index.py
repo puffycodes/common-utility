@@ -4,6 +4,8 @@ import sys
 
 class MultiLevelIndex:
 
+    # - Subkey Generator Classes
+
     class SubkeyGenerator:
         # An abstract class
 
@@ -37,6 +39,8 @@ class MultiLevelIndex:
             if len(key) > level:
                 subkey = key[level]
             return subkey
+        
+    # - Multi-Level Index Class
 
     def __init__(self, max_level=2, key_generator=None):
         if max_level <= 0:
@@ -47,6 +51,8 @@ class MultiLevelIndex:
             self.key_generator = MultiLevelIndex.SubkeyGeneratorUsingHash(
                 empty_subkey='none'
             )
+        else:
+            self.key_generator = key_generator
         #self.empty_subkey = empty_subkey
         return
     

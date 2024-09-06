@@ -9,7 +9,12 @@ class FileIndex:
 
     def __init__(self):
         self.max_level = 5
-        self.indexes = MultiLevelIndex(max_level=self.max_level)
+        self.key_generator = MultiLevelIndex.SubkeyGeneratorUsingHash(
+            empty_subkey = 'none'
+        )
+        self.indexes = MultiLevelIndex(
+            max_level=self.max_level, key_generator=self.key_generator
+        )
         return
     
     def add_from_directory(self, dirname, pattern='*', verbose=False):
