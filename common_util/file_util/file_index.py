@@ -7,6 +7,51 @@ from common_util.container.multi_level_index import MultiLevelIndex
 
 class FileIndex:
 
+    class SubkeyGeneratorUsingFilename(MultiLevelIndex.SubkeyGenerator):
+        # Use a file name to generate the subkey.
+
+        def __init__(self, empty_subkey='none', use_file_extension=True):
+            super().__init__(empty_subkey=empty_subkey)
+            self.use_file_extension = use_file_extension
+            return
+        
+        def get_subkey(self, key, level):
+            self.check_level(key, level)
+            subkey = self.empty_subkey
+            basename = os.path.basename(key)
+            name, extension = self.get_name_and_extension(basename)
+            # print(f'basename is {basename}')
+            if self.use_file_extension == True:
+                if level == 0:
+                    if extension != '':
+                        subkey = extension
+                    else:
+                        subkey = self.empty_subkey
+                else:
+                    subkey = self.get_subkey_from_name(name, level-1)
+            else:
+                subkey = self.get_subkey_from_name(name, level)
+            return subkey
+        
+        def get_subkey_from_name(self, name, level):
+            subkey = self.empty_subkey
+            if len(name) > level:
+                subkey = name[level]
+            return subkey
+        
+        def get_name_and_extension(self, filename):
+            filename_parts = filename.split('.')
+            component_count = len(filename_parts)
+            if component_count <= 0:
+                # empty string
+                name, extension = '', ''
+            elif component_count == 1:
+                # no extension
+                name, extension = filename_parts[0], ''
+            else:
+                name, extension = filename_parts[0], filename_parts[-1]
+            return name, extension
+        
     def __init__(self):
         self.max_level = 5
         self.key_generator = MultiLevelIndex.SubkeyGeneratorUsingHash(
