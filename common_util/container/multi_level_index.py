@@ -53,17 +53,12 @@ class MultiLevelIndex:
             )
         else:
             self.key_generator = key_generator
-        #self.empty_subkey = empty_subkey
         return
     
     # --- Subkey Function
     
     def subkey(self, key, level):
         return self.key_generator.get_subkey(key, level)
-        # subkey = self.empty_subkey
-        # if len(key) > level:
-        #     subkey = key[level]
-        # return subkey
     
     # --- External Interface
     
