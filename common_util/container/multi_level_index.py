@@ -7,7 +7,7 @@ class MultiLevelIndex:
     # - Subkey Generator Classes
 
     class SubkeyGenerator:
-        # An abstract class
+        # An abstract class for subkey generation.
 
         def __init__(self, empty_subkey='none'):
             self.empty_subkey = empty_subkey
