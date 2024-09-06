@@ -15,7 +15,7 @@ class MultiLevelIndex:
         
         def check_level(self, key, level):
             if level < 0:
-                raise ValueError(f'level cannot be negative: {level}')
+                raise ValueError(f'level cannot be negative ({level})')
             return level
 
         def get_empty_subkey(self):
@@ -53,6 +53,7 @@ class MultiLevelIndex:
             )
         else:
             self.key_generator = key_generator
+        self.data_container_tag = 'data'
         return
     
     # --- Subkey Function
@@ -77,8 +78,8 @@ class MultiLevelIndex:
             curr_data = self.check_container(curr_data, curr_subkey)
             if curr_data == None:
                 return
-            if 'data' in curr_data:
-                data_list = curr_data['data']
+            if self.data_container_tag in curr_data:
+                data_list = curr_data[self.data_container_tag]
                 if key in data_list:
                     if item in data_list[key]:
                         data_list[key].remove(item)
@@ -97,8 +98,8 @@ class MultiLevelIndex:
             curr_data = self.check_container(curr_data, curr_subkey)
             if curr_data == None:
                 return []
-        if 'data' in curr_data:
-            data_list = curr_data['data']
+        if self.data_container_tag in curr_data:
+            data_list = curr_data[self.data_container_tag]
             if key in data_list:
                 result = data_list[key]
         return result
@@ -114,7 +115,7 @@ class MultiLevelIndex:
     
     def iterate_entry_2(self, key, value, level):
         if level >= self.max_level:
-            if key == 'data':
+            if key == self.data_container_tag:
                 for key_n, value_n in value.items():
                     yield (key_n, value_n)
         else:
@@ -154,11 +155,11 @@ class MultiLevelIndex:
         return data[subkey]
     
     def add_item(self, data, key, item):
-        if 'data' not in data:
-            data['data'] = {}
-        if key not in data['data']:
-            data['data'][key] = []
-        data['data'][key].append(item)
+        if self.data_container_tag not in data:
+            data[self.data_container_tag] = {}
+        if key not in data[self.data_container_tag]:
+            data[self.data_container_tag][key] = []
+        data[self.data_container_tag][key].append(item)
         return
 
 # --- end of file --- #
