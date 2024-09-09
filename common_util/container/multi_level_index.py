@@ -13,6 +13,9 @@ class MultiLevelIndex:
             self.empty_subkey = empty_subkey
             return
         
+        def get_subkey(self, key, level):
+            raise Exception('get_subkey() must be implemented in sub-class.')
+        
         def check_level(self, key, level):
             if level < 0:
                 raise ValueError(f'level cannot be negative ({level})')
@@ -21,9 +24,12 @@ class MultiLevelIndex:
         def get_empty_subkey(self):
             return self.empty_subkey
         
-        def get_subkey(self, key, level):
-            self.check_level(key, level)
-            return self.empty_subkey
+        # use the level'th charactor of the string as subkey
+        def get_subkey_from_string(self, string, level):
+            subkey = self.empty_subkey
+            if len(string) > level:
+                subkey = string[level]
+            return subkey
         
     class SubkeyGeneratorUsingHash(SubkeyGenerator):
         # Returns the nth charactor as the subkey.
@@ -35,10 +41,11 @@ class MultiLevelIndex:
         
         def get_subkey(self, key, level):
             self.check_level(key, level)
-            subkey = self.empty_subkey
-            if len(key) > level:
-                subkey = key[level]
-            return subkey
+            # subkey = self.empty_subkey
+            # if len(key) > level:
+            #     subkey = key[level]
+            # return subkey
+            return self.get_subkey_from_string(key, level)
         
     # - Multi-Level Index Class
 

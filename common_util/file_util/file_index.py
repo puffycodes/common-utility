@@ -29,16 +29,18 @@ class FileIndex:
                     else:
                         subkey = self.empty_subkey
                 else:
-                    subkey = self.get_subkey_from_name(name, level-1)
+                    # subkey = self.get_subkey_from_name(name, level-1)
+                    subkey = self.get_subkey_from_string(name, level-1)
             else:
-                subkey = self.get_subkey_from_name(name, level)
+                # subkey = self.get_subkey_from_name(name, level)
+                subkey = self.get_subkey_from_string(name, level)
             return subkey
         
-        def get_subkey_from_name(self, name, level):
-            subkey = self.empty_subkey
-            if len(name) > level:
-                subkey = name[level]
-            return subkey
+        # def get_subkey_from_name(self, name, level):
+        #     subkey = self.empty_subkey
+        #     if len(name) > level:
+        #         subkey = name[level]
+        #     return subkey
         
         def get_name_and_extension(self, filename):
             filename_parts = filename.split('.')
@@ -76,6 +78,19 @@ class FileIndex:
         )
         return
     
+    def add_file(self, dirname, file, verbose=False):
+        full_path = os.path.join(dirname, file)
+        digest = self.get_file_md5_hash(full_path)
+        file_size = self.get_file_size(full_path)
+        if self.index_type == FileIndex.INDEX_FILENAME:
+            add_key = os.path.basename(full_path)
+        else:
+            add_key = digest
+        self.indexes.add(add_key, (dirname, file, file_size))
+        if verbose:
+            print(f' - {file}: {file_size} {digest}')
+        return
+    
     def add_from_directory(self, dirname, pattern='*', include_hidden=False,
                            verbose=False):
         file_list = DirectoryUtility.list_files(
@@ -83,16 +98,7 @@ class FileIndex:
             include_hidden=include_hidden
         )
         for file in file_list:
-            full_path = os.path.join(dirname, file)
-            digest = self.get_file_md5_hash(full_path)
-            file_size = self.get_file_size(full_path)
-            if self.index_type == FileIndex.INDEX_FILENAME:
-                add_key = os.path.basename(full_path)
-            else:
-                add_key = digest
-            self.indexes.add(add_key, (dirname, file, file_size))
-            if verbose:
-                print(f' - {file}: {file_size} {digest}')
+            self.add_file(dirname, file, verbose=verbose)
         if verbose:
             print('=======')
         return
@@ -106,6 +112,8 @@ class FileIndex:
             if verbose:
                 print(f'({count}) {digest}: {value}')
         return duplicate_file_list
+    
+    # --- Internal Functions
 
     def get_file_md5_hash(self, file_name):
         with open(file_name, 'rb') as fd:
