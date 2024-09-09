@@ -22,7 +22,6 @@ class FileIndex:
             subkey = self.empty_subkey
             basename = os.path.basename(key)
             name, extension = self.get_name_and_extension(basename)
-            # print(f'basename is {basename}')
             if self.use_file_extension == True:
                 if level == 0:
                     if extension != '':
