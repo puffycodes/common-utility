@@ -76,9 +76,11 @@ class FileIndex:
         )
         return
     
-    def add_from_directory(self, dirname, pattern='*', verbose=False):
+    def add_from_directory(self, dirname, pattern='*', include_hidden=False,
+                           verbose=False):
         file_list = DirectoryUtility.list_files(
-            dirname, pattern, recursive=True, get_relative_path=True
+            dirname, pattern, recursive=True, get_relative_path=True,
+            include_hidden=include_hidden
         )
         for file in file_list:
             full_path = os.path.join(dirname, file)
