@@ -83,10 +83,11 @@ class FileIndex:
         digest = self.get_file_md5_hash(full_path)
         file_size = self.get_file_size(full_path)
         if self.index_type == FileIndex.INDEX_FILENAME:
-            add_key = os.path.basename(full_path)
+            data_item_key = os.path.basename(full_path)
         else:
-            add_key = digest
-        self.indexes.add(add_key, (dirname, file, file_size))
+            data_item_key = digest
+        data_item = self.create_data_item(dirname, file, file_size, digest)
+        self.indexes.add(data_item_key, data_item)
         if verbose:
             print(f' - {file}: {file_size} {digest}')
         return
@@ -125,5 +126,8 @@ class FileIndex:
     def get_file_size(self, file_name):
         file_size = os.path.getsize(file_name)
         return file_size
+    
+    def create_data_item(self, dirname, file, file_size, digest):
+        return (dirname, file, file_size, digest)
 
 # --- end of file --- #
