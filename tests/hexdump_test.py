@@ -1,6 +1,7 @@
 # file: hexdump_test.py
 
 import unittest
+import random
 from common_util.hexdump import HexDump
 
 class HexDumpTest(unittest.TestCase):
@@ -214,6 +215,20 @@ class HexDumpTest(unittest.TestCase):
                 HexDump.print_hexdump(brief_hexdump_array, prefix='  ')
             self.assertEqual(len(brief_hexdump_array), expected_count)
 
+        return
+    
+    def test_hexdump_and_print(self):
+        data = [_ % 256 for _ in range(10000)]
+        pos_label_list = [ 0, 33, 679, 500, 9998 ]
+        data_list = [ data[pos:pos+random.randint(31,68)] for pos in pos_label_list ]
+        label_list = [ f'data at position {pos} (0x{pos:x}):' for pos in pos_label_list ]
+        print()
+        print(f'=== test hexdump_and_print() ===')
+        HexDump.hexdump_and_print(
+            data_list, label_list=label_list, pos_label_list=pos_label_list,
+            max_bytes_show=48
+        )
+        print(f'=== test end hexdump_and_print() ===')
         return
     
 if __name__ == '__main__':
