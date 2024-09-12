@@ -1,5 +1,11 @@
 # file: hexdump.py
 
+'''
+Output Bytes in Pretty Format
+
+The class HexDump implements a few methods to output bytes in pretty format.
+'''
+
 import sys
 import string
 import argparse
@@ -13,6 +19,25 @@ class HexDump:
     @staticmethod
     def hexdump(data, offset=0, length=-1, pos=0,
                 sep=' ', bytes_per_line=16, pos_label=-1, align_front=True):
+        '''
+        Output byte stream in pretty format, formatting as hexadecimal and text with
+        position as tag.
+
+        Input:
+        - data: contains the byte stream to output
+        - pos: the starting position of byte stream to output
+        - offset: the offset of the first byte to output, starting from pos
+        - length: the number of bytes to output
+            - zero or negative value means output till the end of bytes stream
+        - sep: the separator to used between the hexadecimal formatting
+        - bytes_per_line: the maximum number of bytes to show per line of output
+        - pos_label: the value of the tag to label the first output byte
+            - negative value means the tag will be computed from (pos + offset)
+        - align_front: align the front bytes to the proper boundary based on bytes_per_line
+
+        Return:
+        - An array containing the byte stream in pretty format
+        '''
         if pos_label < 0:
             pos_label = pos + offset
 
