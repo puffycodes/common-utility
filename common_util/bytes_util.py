@@ -41,6 +41,28 @@ class BytesUtility:
     @staticmethod
     def extract_integer(data: bytes, offset: int, length: int, pos=0, endian='little'):
         return int.from_bytes(data[pos+offset:pos+offset+length], endian)
+    
+    @staticmethod
+    def extract_bytes_until(data: bytes, offset: int, marker: bytes,
+                            pos=0, include_marker=False):
+        marker_length = len(marker)
+        if marker_length <= 0:
+            raise ValueError('marker length cannot be zero')
+        
+        start_pos = pos + offset
+        end_pos = len(data)
+        curr_pos = start_pos
+        
+        curr_length = 0
+        while curr_pos < end_pos:
+            if data[curr_pos:curr_pos+marker_length] == marker:
+                break
+            curr_length += 1
+
+        if include_marker:
+            curr_length += marker_length
+
+        return data[start_pos:start_pos+curr_length]
 
     # --- Bytes Conversions
     

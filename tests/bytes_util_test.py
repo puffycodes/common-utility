@@ -146,6 +146,10 @@ class BytesUtilityTest(unittest.TestCase):
         bytes_value = BytesUtility.bytes_rep_to_bytes(bytes_rep)
         self.assertEqual(bytes_value, all_bytes)
         return
+    
+    def test_extract_bytes_until(self):
+        # TODO: add tests for extract_bytes_until()
+        return
 
 if __name__ == '__main__':
     unittest.main()
