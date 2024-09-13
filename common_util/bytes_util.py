@@ -43,7 +43,7 @@ class BytesUtility:
         return int.from_bytes(data[pos+offset:pos+offset+length], endian)
     
     @staticmethod
-    def extract_bytes_until(data: bytes, offset: int, marker: bytes,
+    def extract_bytes_until(data: bytes, offset: int, marker: bytes, step=1,
                             pos=0, max_search_length=-1,
                             include_marker=False, empty_if_not_found=False):
         marker_length = len(marker)
@@ -63,7 +63,7 @@ class BytesUtility:
             if data[curr_pos:curr_pos+marker_length] == marker:
                 found = True
                 break
-            curr_pos += 1
+            curr_pos += step
 
         curr_length = curr_pos - start_pos
         if include_marker:
