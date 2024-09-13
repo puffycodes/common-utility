@@ -33,10 +33,11 @@ class HexDump:
         - bytes_per_line: the maximum number of bytes to show per line of output
         - pos_label: the value of the tag to label the first output byte
             - negative value means the tag will be computed from (pos + offset)
-        - align_front: align the front bytes to the proper boundary based on bytes_per_line
+        - align_front: align the front bytes to the proper position base on the
+                       boundary indicated by bytes_per_line
 
         Return:
-        - An array containing the byte stream in pretty format
+        - An array contains the byte stream in pretty format
         '''
         if pos_label < 0:
             pos_label = pos + offset
@@ -83,6 +84,30 @@ class HexDump:
     def hexdump_start_and_end(data, byte_count_start=48, byte_count_end=48,
                               sep=' ', bytes_per_line=16, pos_label=-1,
                               align_front=True, filler_line=''):
+        '''
+        Output the start and end bytes of a byte stream in pretty format, formatting
+        as hexadecimal and text with position as tag.
+
+        Input:
+        - data: the byte stream to output
+        - byte_count_start: the maximum number of bytes to output at the start
+        - byte_count_end: the maximum number of bytes to output at the end
+            - when the sum of byte_count_start and byte_count_end exceeds the
+              entire length of the byte stream, the whole byte strem is output
+        - sep: the separator to used between the hexadecimal forrmatting
+        - bytes_per_line: the maximum number of bytes to show per line of out
+        - pos_label: the value of the tag to label the first output byte
+            - negative value means the tag will be the position of the byte in
+              data
+        - align_front: align the front bytes to the proper position base on the
+                       boundary indicated by bytes_per_line
+        - filler_line: the line to use to indicate the gap between the start
+                       bytes and end bytes, if any
+
+        Return:
+        - An array contains the indicated portion of the byte stream in pretty
+          format
+        '''
         if byte_count_start < 0:
             byte_count_start = 0
         if byte_count_end < 0:
@@ -131,6 +156,22 @@ class HexDump:
     
     @staticmethod
     def brief_hexdump(hexdump_array, start_line=0, end_line=0, filler_line=''):
+        '''
+        Extract the start and end portion of the hexdump output from functions
+        such as hexdump() and hexdump_start_and_end().
+
+        Input:
+        - hexdump_array: the output from the hexdump functions
+        - start_line: the number of lines to extract at the start of the hexdump
+        - end_line: the number of lines to extract at the end of the hexdump
+            - when the sum of start_line and end_line exceeds the total number
+              of lines in hexdump_array, the eitire hexdump is returned
+        - filler_line: the line to use to indicate the gap between the start
+                       lines and end lines, if any
+
+        Output:
+        - the abridge copy of the given hexdump
+        '''
         result = hexdump_array
         if start_line < 0:
             start_line = 0
@@ -207,11 +248,36 @@ class HexDump:
     
     @staticmethod
     def char_to_text(c, non_printable='.'):
+        '''
+        (Internal) Return the text representation of the given character
+
+        Input:
+        - c: the character to convert to text representation
+        - non_printable: the text representation to be used if the character c
+                         is not printable
+
+        Output:
+        - the text representation of the given character c
+        '''
         cc = chr(c)
         return cc if cc in HexDump.printable else non_printable
     
     @staticmethod
     def hex_array_to_string(hex_array, sep=' '):
+        '''
+        (Internal) Convert a list hexadecimal representation to a single string
+
+        Input:
+        - hex_array: the list of hexadecimal
+        - sep: the character(s) to insert between the individual hexadeciaml
+               representation
+            - sep can be an empty string (i.e. '')
+            - sep will not be inserted between two elements of the list if any
+              of them is empty (i.e. contain only space)
+
+        Output:
+        - the list of dexadeciaml representation as a single string
+        '''
         sep_length = len(sep)
         if sep == ' ' or sep_length <= 0:
             # - special cases when separator is a space (' ') or empty ('')
@@ -230,6 +296,22 @@ class HexDump:
     
     @staticmethod
     def pos_from_offset(data_length, offset=0, length=-1, pos=0):
+        '''
+        (Internal) Calculate the start and end position
+
+        Input:
+        - data_length: the length of the entire byte stream
+        - pos: the starting position of byte stream to output
+        - offset: the offset of the first byte to output, starting from pos
+        - length: the number of bytes to output
+            - zero or negative value means output till the end of bytes stream
+
+        Output:
+        - start_pos: the position of the starting byte
+        - end_pos: the position of the ending bytes plus 1
+
+        This function is used by hexdump() to compute the start and end positions.
+        '''
         start_pos = pos + offset
         if length <= 0:
             end_pos = data_length
