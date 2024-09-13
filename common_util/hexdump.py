@@ -398,7 +398,9 @@ class HexDump:
     @staticmethod
     def main():
         '''
-        The function to call when this module is run as main.
+        Take a list of filename and print their hexdump on sys.stdout.
+
+        This function is called when this module is run as main.
 
         usage: python common_util/hexdump.py <filename> ...
         '''
