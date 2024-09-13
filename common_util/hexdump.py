@@ -360,6 +360,7 @@ class HexDump:
             result += hex_array[i]
             # - insert separator only between two hex strings that are
             #   not empty (i.e. space)
+            # - otherwise insert the equivalent amount of space instead
             if hex_array[i] != '  ' and hex_array[i+1] != '  ':
                 result += sep
             else:
