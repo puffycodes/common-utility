@@ -12,7 +12,11 @@ import argparse
 
 class HexDump:
 
+    # The list of printable characters for the purpose of this class.
+    # This list is different from string.printable.
     printable = string.ascii_letters + string.digits + string.punctuation + ' '
+
+    # The default line to fill for the gap in hexdump_start_and_end()
     default_filler_line = f'--------: .....'
     # default_filler_line = f'          <snipped>'
 
@@ -193,6 +197,17 @@ class HexDump:
     
     @staticmethod
     def print_hexdump(hexdump_array, prefix='', fout=sys.stdout):
+        '''
+        Print the hexdump output from the hexdump functions
+
+        Input:
+        - hexdump_array: the output from the hexdump functions
+        - prefix: the string to print before every line of hexdump_array
+        - fout: the id of the output (default is sys.stdout)
+
+        Return:
+        - no value is returned by this function
+        '''
         for str in hexdump_array:
             print(f'{prefix}{str}', file=fout)
         return
@@ -201,6 +216,28 @@ class HexDump:
     def hexdump_and_print(data_list, label_list=[], pos_label_list=[],
                           sep=' ', bytes_per_line=16, max_bytes_show=-1, filler_line='',
                           prefix='', sep_line='', fout=sys.stdout):
+        '''
+        Print the hexdump of a list of byte stream
+
+        Input:
+        - data_list: the list of byte stream
+        - label_list: the list of label to print before the hexdump of the corresponding
+                      byte stream
+        - pos_label_list: the list of pos_label (to be used when calling hexdump() functions)
+                          of the corresponding byte stream
+        - sep: the sep for calling hexdump() functions
+        - bytes_per_line: the bytes_per_line for calling hexdump() functions
+        - max_bytes_show: the maximum number of bytes show in the hexdump
+            - about half of max_bytes_show number of bytes will be show at the beginning of
+              the hexdump, and the rest at the end 
+        - filler_line: the filler_line for calling hexdump_start_and_end()
+        - prefix: the prefix for calling print_hexdump()
+        - sep_line: the line to print between each hexdump
+        - fout: the id of the output (default is sys.stdout)
+
+        Output:
+        - no value is returned by this function
+        '''
         count = 0
         label_list_length = len(label_list)
         pos_label_list_length = len(pos_label_list)
@@ -229,17 +266,52 @@ class HexDump:
 
     @staticmethod
     def to_hex(data, offset=0, length=-1, pos=0, sep=' '):
+        '''
+        Convert a byte stream to a sting of hexadecimal representation
+
+        Input:
+        - data: the byte stream
+        - pos, offset, length: the range of bytes to output
+            - see hexdump() function
+        - sep: separator to insert between each byte
+
+        Return:
+        - the string of hexadecimal representation
+        '''
         hex_array = HexDump.to_hex_array(data, offset=offset, length=length, pos=pos)
         return HexDump.hex_array_to_string(hex_array, sep=sep)
 
     @staticmethod
     def to_hex_array(data, offset=0, length=-1, pos=0):
+        '''
+        Convert a byte stream to a list of hexadecimal representation for each of
+        the byte
+
+        Input:
+        - data: the byte stream
+        - pos, offset, length: the range of bytes to output
+            - see hexdump() function
+
+        Return:
+        - a list of the hexadecimal representation of the byte stream
+        '''
         start_pos, end_pos = HexDump.pos_from_offset(len(data), offset=offset, length=length, pos=pos)
         hex_array = [f'{c:02X}' for c in data[start_pos:end_pos]]
         return hex_array
     
     @staticmethod
     def to_text(data, offset=0, length=-1, pos=0):
+        '''
+        Convert a byte stream to a string of text
+
+        Input:
+        - data: the byte stream
+        - pos, offset, length: the range of bytes to output
+            - see hexdump() function
+
+        Return:
+        - the string of text representation
+        '''
         start_pos, end_pos = HexDump.pos_from_offset(len(data), offset=offset, length=length, pos=pos)
         text_array = [HexDump.char_to_text(c) for c in data[start_pos:end_pos]]
         return ''.join(text_array)
@@ -325,6 +397,11 @@ class HexDump:
 
     @staticmethod
     def main():
+        '''
+        The function to call when this module is run as main.
+
+        usage: python common_util/hexdump.py <filename> ...
+        '''
         parser = argparse.ArgumentParser(
             prog='hexdump',
             description='Show a file in hex format.',
