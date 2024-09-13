@@ -148,7 +148,41 @@ class BytesUtilityTest(unittest.TestCase):
         return
     
     def test_extract_bytes_until(self):
-        # TODO: add tests for extract_bytes_until()
+        #       '0         1          2         3         4                  5         6                  '
+        #       '0123456789012345678 9012345678901234567890123   4   5   678901234567890123456   7   8   9'
+        data = b'The quick brown fox\njumps over the lazy dog.\x00\x00\x00The lazy dog sleeps.\x00\x00\x00'
+
+        # [ <offset>, <pos>, <marker>, <expected result 1> <expected result 2> ]
+        # expected result 1: include_marker = False
+        # expected result 2: include_marker = True
+        test_cases = [
+            [ 0, 0, b'brown', b'The quick ', b'The quick brown' ],
+            [ 0, 8, b'brown', b'k ', b'k brown' ],
+            [ 8, 0, b'brown', b'k ', b'k brown' ],
+            [ 4, 4, b'brown', b'k ', b'k brown' ],
+            [ 8, 8, b'brown', data[16:], data[16:] ],
+            [ 0, 0, b'lazy', data[0:35], data[0:39] ],
+            [ 20, 0, b'lazy', b'jumps over the ', b'jumps over the lazy' ],
+            [ 37, 0, b'lazy', data[37:51], data[37:51] + b'lazy' ],
+            [ 0, 0, b'\n', data[0:19], data[0:20] ],
+            [ 0, 0, b'\x00', data[0:44], data[0:45] ],
+            [ 0, 0, b'\x00\x00', data[0:44], data[0:46] ],
+            [ 0, 0, b'\x00\x00\x00', data[0:44], data[0:47] ],
+            [ 45, 0, b'\x00', b'', data[45:46] ],
+            [ 45, 0, b'\x00\x00', b'', data[45:47] ],
+            [ 45, 0, b'\x00\x00\x00', data[45:67], data[45:70] ],
+        ]
+
+        for offset, pos, marker, expected_result_1, expected_result_2 in test_cases:
+            result_1 = BytesUtility.extract_bytes_until(
+                data, offset, marker, pos=pos, include_marker=False
+            )
+            result_2 = BytesUtility.extract_bytes_until(
+                data, offset, marker, pos=pos, include_marker=True
+            )
+            self.assertEqual(expected_result_1, result_1)
+            self.assertEqual(expected_result_2, result_2)
+            
         return
 
 if __name__ == '__main__':

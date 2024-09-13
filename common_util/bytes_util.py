@@ -44,25 +44,37 @@ class BytesUtility:
     
     @staticmethod
     def extract_bytes_until(data: bytes, offset: int, marker: bytes,
-                            pos=0, include_marker=False):
+                            pos=0, max_search_length=-1,
+                            include_marker=False, empty_if_not_found=False):
         marker_length = len(marker)
         if marker_length <= 0:
             raise ValueError('marker length cannot be zero')
         
         start_pos = pos + offset
-        end_pos = len(data)
+        if max_search_length > 0:
+            # search until max_search_length bytes, or the end of data
+            end_pos = min(len(data), start_pos + max_search_length)
+        else:
+            end_pos = len(data)
+
         curr_pos = start_pos
-        
-        curr_length = 0
+        found = False
         while curr_pos < end_pos:
             if data[curr_pos:curr_pos+marker_length] == marker:
+                found = True
                 break
-            curr_length += 1
+            curr_pos += 1
 
+        curr_length = curr_pos - start_pos
         if include_marker:
             curr_length += marker_length
 
-        return data[start_pos:start_pos+curr_length]
+        extracted_bytes = data[start_pos:start_pos+curr_length]
+
+        if not found and empty_if_not_found:
+            extracted_bytes = b''
+
+        return extracted_bytes
 
     # --- Bytes Conversions
     
