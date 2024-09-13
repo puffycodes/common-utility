@@ -346,6 +346,7 @@ class HexDump:
             - sep can be an empty string (i.e. '')
             - sep will not be inserted between two elements of the list if any
               of them is empty (i.e. contain only space)
+                - an equivalent number of spaces will be inserted instead
 
         Output:
         - the list of dexadeciaml representation as a single string
