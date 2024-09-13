@@ -171,6 +171,8 @@ class BytesUtilityTest(unittest.TestCase):
             [ 45, 0, b'\x00', b'', data[45:46] ],
             [ 45, 0, b'\x00\x00', b'', data[45:47] ],
             [ 45, 0, b'\x00\x00\x00', data[45:67], data[45:70] ],
+            [ 0, 0, b'zzz', data, data ],
+            [ 75, 0, b'a', b'', b'' ],
         ]
 
         for offset, pos, marker, expected_result_1, expected_result_2 in test_cases:
@@ -182,7 +184,7 @@ class BytesUtilityTest(unittest.TestCase):
             )
             self.assertEqual(expected_result_1, result_1)
             self.assertEqual(expected_result_2, result_2)
-            
+
         return
 
 if __name__ == '__main__':
