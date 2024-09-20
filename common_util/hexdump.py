@@ -183,14 +183,18 @@ class HexDump:
         such as hexdump() and hexdump_start_and_end().
 
         :param hexdump_array: the output from the hexdump functions
+        :type hexdump_array: list of str
 
         :param start_line: the number of lines to extract at the start of the hexdump
+        :type start_line: int, optional
         :param end_line: the number of lines to extract at the end of the hexdump;
             (a) when the sum of start_line and end_line exceeds the total number
             of lines in hexdump_array, the entire hexdump is returned
+        :type end_line: int, optional
 
         :param filler_line: the line to use to indicate the gap between the start
             lines and end lines, if any
+        :type filler_line: str, optional
 
         :return: the abridge copy of the given hexdump
         :rtype: list of str
@@ -246,7 +250,7 @@ class HexDump:
         :type label_list: list of str, optional
         :param pos_label_list: the list of pos_label (to be used when calling hexdump() functions)
             of the corresponding byte stream
-        :param pos_label_list: list of int, optional
+        :type pos_label_list: list of int, optional
 
         :param sep: the sep for calling hexdump() functions
         :type sep: bytes, optional
@@ -381,7 +385,7 @@ class HexDump:
         (Internal) Return the text representation of the given character.
 
         :param c: the character to convert to text representation
-        :type c: str
+        :type c: int
         :param non_printable: the text representation to be used if the character c
             is not printable
         :type non_printable: str, optional
