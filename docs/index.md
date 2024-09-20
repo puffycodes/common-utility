@@ -42,4 +42,4 @@ Implemented in module common_util.hexdump:
 
 ***
 
-*Updated on 15 August 2024*
+*Updated on 20 September 2024*
