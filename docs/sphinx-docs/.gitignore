@@ -1,4 +1,7 @@
-# Sphinx
+# file: .gitignore
 
+# Sphinx
 build
 generated
+
+# --- end of file --- #
