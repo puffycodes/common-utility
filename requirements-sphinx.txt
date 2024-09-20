@@ -1,0 +1,7 @@
+# file: requirements-sphinx.txt
+
+# PyPI requirement for documentation using Sphinx
+sphinx
+sphinx_rtd_theme
+
+# --- end of file --- #

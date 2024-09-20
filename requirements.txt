@@ -1,0 +1,6 @@
+# file: requirements.txt
+
+# PyPI requirement for this project
+# none at the moment
+
+# --- end of file --- #
