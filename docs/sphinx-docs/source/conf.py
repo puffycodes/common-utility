@@ -17,7 +17,7 @@ release = '0.1'
 # Resolve the path to the source code
 import pathlib
 import sys
-sys.path.insert(0, pathlib.Path(__file__).parents[2].resolve().as_posix())
+sys.path.insert(0, pathlib.Path(__file__).parents[3].resolve().as_posix())
 
 # Sphinx extensions that we are using
 extensions = [
