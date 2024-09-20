@@ -27,21 +27,30 @@ class HexDump:
         Output byte stream in pretty format, formatting as hexadecimal and text with
         position as tag.
 
-        Input:
-        - data: contains the byte stream to output
-        - pos: the starting position of byte stream to output
-        - offset: the offset of the first byte to output, starting from pos
-        - length: the number of bytes to output
-            - zero or negative value means output till the end of bytes stream
-        - sep: the separator to used between the hexadecimal formatting
-        - bytes_per_line: the maximum number of bytes to show per line of output
-        - pos_label: the value of the tag to label the first output byte
-            - negative value means the tag will be computed from (pos + offset)
-        - align_front: align the front bytes to the proper position base on the
-                       boundary indicated by bytes_per_line
+        :param data: contains the byte stream to output
+        :type data: bytes
 
-        Return:
-        - An array contains the byte stream in pretty format
+        :param offset: the offset of the first byte to output, counting from pos
+        :type offset: int, optional
+        :param length: the number of bytes to output
+            - zero or negative value means output till the end of bytes stream
+        :type length: int, optional
+        :param pos: the starting position of byte stream to output
+        :type pos: int, optional
+
+        :param sep: the separator to used between the hexadecimal formatting
+        :type sep: bytes, optional
+        :param bytes_per_line: the maximum number of bytes to show per line of output
+        :type bytes_per_line: int, optional
+        :param pos_label: the value of the tag to label the first output byte
+            - negative value means the tag will be computed from (pos + offset)
+        :type pos_label: int, optional
+        :param align_front: align the front bytes to the proper position base on the
+            boundary indicated by bytes_per_line
+        :type align_front: bool, optional
+
+        :return: An array contains the byte stream in pretty format
+        :rtype: list of str
         '''
         if pos_label < 0:
             pos_label = pos + offset
@@ -92,25 +101,34 @@ class HexDump:
         Output the start and end bytes of a byte stream in pretty format, formatting
         as hexadecimal and text with position as tag.
 
-        Input:
-        - data: the byte stream to output
-        - byte_count_start: the maximum number of bytes to output at the start
-        - byte_count_end: the maximum number of bytes to output at the end
-            - when the sum of byte_count_start and byte_count_end exceeds the
-              entire length of the byte stream, the whole byte strem is output
-        - sep: the separator to used between the hexadecimal forrmatting
-        - bytes_per_line: the maximum number of bytes to show per line of out
-        - pos_label: the value of the tag to label the first output byte
-            - negative value means the tag will be the position of the byte in
-              data
-        - align_front: align the front bytes to the proper position base on the
-                       boundary indicated by bytes_per_line
-        - filler_line: the line to use to indicate the gap between the start
-                       bytes and end bytes, if any
+        :param data: the byte stream to output
+        :type data: bytes
 
-        Return:
-        - An array contains the indicated portion of the byte stream in pretty
-          format
+        :param byte_count_start: the maximum number of bytes to output at the start
+        :type byte_count_start: int, optional
+        :param byte_count_end: the maximum number of bytes to output at the end
+            - when the sum of byte_count_start and byte_count_end exceeds the
+            entire length of the byte stream, the whole byte strem is output
+        :type byte_count_end: int, optional
+
+        :param sep: the separator to used between the hexadecimal forrmatting
+        :type sep: bytes, optional
+        :param bytes_per_line: the maximum number of bytes to show per line of out
+        :type bytes_per_line: int, optional
+        :param pos_label: the value of the tag to label the first output byte
+            - negative value means the tag will be the position of the byte in data
+        :type pos_label: int, optional
+        :param align_front: align the front bytes to the proper position base on the
+            boundary indicated by bytes_per_line
+        :type align_front: bool, optional
+
+        :param filler_line: the line to use to indicate the gap between the start
+            bytes and end bytes, if any
+        :type filler_line: str, optional
+
+        :return: An array contains the indicated portion of the byte stream in pretty
+            format
+        :rtype: list of str
         '''
         if byte_count_start < 0:
             byte_count_start = 0
@@ -198,15 +216,16 @@ class HexDump:
     @staticmethod
     def print_hexdump(hexdump_array, prefix='', fout=sys.stdout):
         '''
-        Print the hexdump output from the hexdump functions
+        Print the hexdump output from the hexdump functions.
 
-        Input:
-        - hexdump_array: the output from the hexdump functions
-        - prefix: the string to print before every line of hexdump_array
-        - fout: the id of the output (default is sys.stdout)
+        :param hexdump_array: the output from the hexdump functions
+        :type hexdump_array: list of str
+        :param prefix: the string to print before every line of hexdump_array
+        :type prefix: str, optional
+        :param fout: the id of the output (default is sys.stdout)
+        :type fout: file id
 
-        Return:
-        - no value is returned by this function
+        :return: no value is returned by this function
         '''
         for str in hexdump_array:
             print(f'{prefix}{str}', file=fout)
@@ -217,7 +236,7 @@ class HexDump:
                           sep=' ', bytes_per_line=16, max_bytes_show=-1, filler_line='',
                           prefix='', sep_line='', fout=sys.stdout):
         '''
-        Print the hexdump of a list of byte stream
+        Print the hexdump of a list of byte stream.
 
         Input:
         - data_list: the list of byte stream
@@ -267,16 +286,26 @@ class HexDump:
     @staticmethod
     def to_hex(data, offset=0, length=-1, pos=0, sep=' '):
         '''
-        Convert a byte stream to a sting of hexadecimal representation
+        Convert a byte stream to a sting of hexadecimal representation.
 
-        Input:
-        - data: the byte stream
-        - pos, offset, length: the range of bytes to output
+        :param data: the byte stream
+        :type data: bytes
+
+        :param offset: the range of bytes to output
             - see hexdump() function
-        - sep: separator to insert between each byte
+        :type offset: int, optional
+        :param length: the range of bytes to output
+            - see hexdump() function
+        :type length: int, optional
+        :param pos: the range of bytes to output
+            - see hexdump() function
+        :type pos: int, optional
 
-        Return:
-        - the string of hexadecimal representation
+        :param sep: separator to insert between each byte
+        :type sep: str, optional
+
+        :return: the string of hexadecimal representation
+        :rtype: str
         '''
         hex_array = HexDump.to_hex_array(data, offset=offset, length=length, pos=pos)
         return HexDump.hex_array_to_string(hex_array, sep=sep)
@@ -285,7 +314,7 @@ class HexDump:
     def to_hex_array(data, offset=0, length=-1, pos=0):
         '''
         Convert a byte stream to a list of hexadecimal representation for each of
-        the byte
+        the byte.
 
         Input:
         - data: the byte stream
@@ -302,7 +331,7 @@ class HexDump:
     @staticmethod
     def to_text(data, offset=0, length=-1, pos=0):
         '''
-        Convert a byte stream to a string of text
+        Convert a byte stream to a string of text.
 
         Input:
         - data: the byte stream
@@ -321,7 +350,7 @@ class HexDump:
     @staticmethod
     def char_to_text(c, non_printable='.'):
         '''
-        (Internal) Return the text representation of the given character
+        (Internal) Return the text representation of the given character.
 
         Input:
         - c: the character to convert to text representation
@@ -337,7 +366,7 @@ class HexDump:
     @staticmethod
     def hex_array_to_string(hex_array, sep=' '):
         '''
-        (Internal) Convert a list hexadecimal representation to a single string
+        (Internal) Convert a list hexadecimal representation to a single string.
 
         Input:
         - hex_array: the list of hexadecimal
@@ -371,7 +400,7 @@ class HexDump:
     @staticmethod
     def pos_from_offset(data_length, offset=0, length=-1, pos=0):
         '''
-        (Internal) Calculate the start and end position
+        (Internal) Calculate the start and end position.
 
         Input:
         - data_length: the length of the entire byte stream
