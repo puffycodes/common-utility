@@ -182,17 +182,18 @@ class HexDump:
         Extract the start and end portion of the hexdump output from functions
         such as hexdump() and hexdump_start_and_end().
 
-        Input:
-        - hexdump_array: the output from the hexdump functions
-        - start_line: the number of lines to extract at the start of the hexdump
-        - end_line: the number of lines to extract at the end of the hexdump
-            - when the sum of start_line and end_line exceeds the total number
-              of lines in hexdump_array, the eitire hexdump is returned
-        - filler_line: the line to use to indicate the gap between the start
-                       lines and end lines, if any
+        :param hexdump_array: the output from the hexdump functions
 
-        Output:
-        - the abridge copy of the given hexdump
+        :param start_line: the number of lines to extract at the start of the hexdump
+        :param end_line: the number of lines to extract at the end of the hexdump
+            - when the sum of start_line and end_line exceeds the total number
+            of lines in hexdump_array, the eitire hexdump is returned
+
+        :param filler_line: the line to use to indicate the gap between the start
+            lines and end lines, if any
+
+        :return: the abridge copy of the given hexdump
+        :rtype: list of str
         '''
         result = hexdump_array
         if start_line < 0:
@@ -222,7 +223,7 @@ class HexDump:
         :type hexdump_array: list of str
         :param prefix: the string to print before every line of hexdump_array
         :type prefix: str, optional
-        :param fout: the id of the output (default is sys.stdout)
+        :param fout: the file id of the output (default is sys.stdout)
         :type fout: file id
 
         :return: no value is returned by this function
@@ -238,24 +239,23 @@ class HexDump:
         '''
         Print the hexdump of a list of byte stream.
 
-        Input:
-        - data_list: the list of byte stream
-        - label_list: the list of label to print before the hexdump of the corresponding
-                      byte stream
-        - pos_label_list: the list of pos_label (to be used when calling hexdump() functions)
-                          of the corresponding byte stream
-        - sep: the sep for calling hexdump() functions
-        - bytes_per_line: the bytes_per_line for calling hexdump() functions
-        - max_bytes_show: the maximum number of bytes show in the hexdump
+        :param data_list: the list of byte stream
+        :param label_list: the list of label to print before the hexdump of the corresponding
+            byte stream
+        :param pos_label_list: the list of pos_label (to be used when calling hexdump() functions)
+            of the corresponding byte stream
+        :param sep: the sep for calling hexdump() functions
+        :param bytes_per_line: the bytes_per_line for calling hexdump() functions
+        :param max_bytes_show: the maximum number of bytes show in the hexdump
             - about half of max_bytes_show number of bytes will be show at the beginning of
-              the hexdump, and the rest at the end 
-        - filler_line: the filler_line for calling hexdump_start_and_end()
-        - prefix: the prefix for calling print_hexdump()
-        - sep_line: the line to print between each hexdump
-        - fout: the id of the output (default is sys.stdout)
+            the hexdump, and the rest at the end of the hexdump
+        :param filler_line: the filler_line for calling hexdump_start_and_end()
+        :param prefix: the prefix for calling print_hexdump()
+        :param sep_line: the line to print between each hexdump
+        :param fout: the file id of the output (default is sys.stdout)
+        :type fout: file id
 
-        Output:
-        - no value is returned by this function
+        :return: no value is returned by this function
         '''
         count = 0
         label_list_length = len(label_list)
