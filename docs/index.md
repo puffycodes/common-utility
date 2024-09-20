@@ -4,6 +4,12 @@
 
 [Documentation for Common Utility](sphinx-docs/build/html/index.html)
 
+To generate the above document:
+```
+$ cd docs/sphinx-docs
+$ make html
+```
+
 ## Bytes Utility (common_util/bytes_util.py)
 
 Implemented in module common_util.bytes_util:
