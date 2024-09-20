@@ -1,5 +1,9 @@
 # Documentation for Common Utility
 
+## Generated with Sphinx
+
+[Documentation for Common Utility](sphinx-docs/build/html/index.html)
+
 ## Bytes Utility (common_util/bytes_util.py)
 
 Implemented in module common_util.bytes_util:
