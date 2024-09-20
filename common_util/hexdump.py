@@ -32,8 +32,8 @@ class HexDump:
 
         :param offset: the offset of the first byte to output, counting from pos
         :type offset: int, optional
-        :param length: the number of bytes to output
-            - zero or negative value means output till the end of bytes stream
+        :param length: the number of bytes to output;
+            (a) zero or negative value means output till the end of bytes stream
         :type length: int, optional
         :param pos: the starting position of byte stream to output
         :type pos: int, optional
@@ -42,8 +42,8 @@ class HexDump:
         :type sep: bytes, optional
         :param bytes_per_line: the maximum number of bytes to show per line of output
         :type bytes_per_line: int, optional
-        :param pos_label: the value of the tag to label the first output byte
-            - negative value means the tag will be computed from (pos + offset)
+        :param pos_label: the value of the tag to label the first output byte;
+            (a) negative value means the tag will be computed from (pos + offset)
         :type pos_label: int, optional
         :param align_front: align the front bytes to the proper position base on the
             boundary indicated by bytes_per_line
@@ -106,8 +106,8 @@ class HexDump:
 
         :param byte_count_start: the maximum number of bytes to output at the start
         :type byte_count_start: int, optional
-        :param byte_count_end: the maximum number of bytes to output at the end
-            - when the sum of byte_count_start and byte_count_end exceeds the
+        :param byte_count_end: the maximum number of bytes to output at the end;
+            (a) when the sum of byte_count_start and byte_count_end exceeds the
             entire length of the byte stream, the whole byte strem is output
         :type byte_count_end: int, optional
 
@@ -115,8 +115,8 @@ class HexDump:
         :type sep: bytes, optional
         :param bytes_per_line: the maximum number of bytes to show per line of out
         :type bytes_per_line: int, optional
-        :param pos_label: the value of the tag to label the first output byte
-            - negative value means the tag will be the position of the byte in data
+        :param pos_label: the value of the tag to label the first output byte;
+            (a) negative value means the tag will be the position of the byte in data
         :type pos_label: int, optional
         :param align_front: align the front bytes to the proper position base on the
             boundary indicated by bytes_per_line
@@ -185,9 +185,9 @@ class HexDump:
         :param hexdump_array: the output from the hexdump functions
 
         :param start_line: the number of lines to extract at the start of the hexdump
-        :param end_line: the number of lines to extract at the end of the hexdump
-            - when the sum of start_line and end_line exceeds the total number
-            of lines in hexdump_array, the eitire hexdump is returned
+        :param end_line: the number of lines to extract at the end of the hexdump;
+            (a) when the sum of start_line and end_line exceeds the total number
+            of lines in hexdump_array, the entire hexdump is returned
 
         :param filler_line: the line to use to indicate the gap between the start
             lines and end lines, if any
@@ -240,18 +240,30 @@ class HexDump:
         Print the hexdump of a list of byte stream.
 
         :param data_list: the list of byte stream
+        :type data_list: list of bytes
         :param label_list: the list of label to print before the hexdump of the corresponding
             byte stream
+        :type label_list: list of str, optional
         :param pos_label_list: the list of pos_label (to be used when calling hexdump() functions)
             of the corresponding byte stream
+        :param pos_label_list: list of int, optional
+
         :param sep: the sep for calling hexdump() functions
+        :type sep: bytes, optional
         :param bytes_per_line: the bytes_per_line for calling hexdump() functions
-        :param max_bytes_show: the maximum number of bytes show in the hexdump
-            - about half of max_bytes_show number of bytes will be show at the beginning of
+        :type bytes_per_line: int, optional
+        :param max_bytes_show: the maximum number of bytes show in the hexdump;
+            (a) about half of max_bytes_show number of bytes will be show at the beginning of
             the hexdump, and the rest at the end of the hexdump
+        :type max_bytes_show: int, optional
+
         :param filler_line: the filler_line for calling hexdump_start_and_end()
+        :type filler_line: str, optional
+
         :param prefix: the prefix for calling print_hexdump()
+        :type prefix: str, optional
         :param sep_line: the line to print between each hexdump
+        :type sep_line: str, option
         :param fout: the file id of the output (default is sys.stdout)
         :type fout: file id
 
@@ -316,13 +328,21 @@ class HexDump:
         Convert a byte stream to a list of hexadecimal representation for each of
         the byte.
 
-        Input:
-        - data: the byte stream
-        - pos, offset, length: the range of bytes to output
-            - see hexdump() function
+        :param data: the byte stream
+        :type data: bytes
 
-        Return:
-        - a list of the hexadecimal representation of the byte stream
+        :param offset: the range of bytes to output
+            - see hexdump() function
+        :type offset: int, optional
+        :param length: the range of bytes to output
+            - see hexdump() function
+        :type length: int, optional
+        :param pos: the range of bytes to output
+            - see hexdump() function
+        :type pos: int, optional
+
+        :return: a list of the hexadecimal representation of the byte stream
+        :rtype: list of str
         '''
         start_pos, end_pos = HexDump.pos_from_offset(len(data), offset=offset, length=length, pos=pos)
         hex_array = [f'{c:02X}' for c in data[start_pos:end_pos]]
@@ -333,13 +353,21 @@ class HexDump:
         '''
         Convert a byte stream to a string of text.
 
-        Input:
-        - data: the byte stream
-        - pos, offset, length: the range of bytes to output
-            - see hexdump() function
+        :param data: the byte stream
+        :type data: bytes
 
-        Return:
-        - the string of text representation
+        :param offset: the range of bytes to output
+            - see hexdump() function
+        :type offset: int, optional
+        :param length: the range of bytes to output
+            - see hexdump() function
+        :type length: int, optional
+        :param pos: the range of bytes to output
+            - see hexdump() function
+        :type pos: int, optional
+
+        :return: the string of text representation
+        :rtype: str
         '''
         start_pos, end_pos = HexDump.pos_from_offset(len(data), offset=offset, length=length, pos=pos)
         text_array = [HexDump.char_to_text(c) for c in data[start_pos:end_pos]]
@@ -352,13 +380,14 @@ class HexDump:
         '''
         (Internal) Return the text representation of the given character.
 
-        Input:
-        - c: the character to convert to text representation
-        - non_printable: the text representation to be used if the character c
-                         is not printable
+        :param c: the character to convert to text representation
+        :type c: str
+        :param non_printable: the text representation to be used if the character c
+            is not printable
+        :type non_printable: str, optional
 
-        Output:
-        - the text representation of the given character c
+        :return: the text representation of the given character c
+        :rtype: str
         '''
         cc = chr(c)
         return cc if cc in HexDump.printable else non_printable
@@ -368,17 +397,18 @@ class HexDump:
         '''
         (Internal) Convert a list hexadecimal representation to a single string.
 
-        Input:
-        - hex_array: the list of hexadecimal
-        - sep: the character(s) to insert between the individual hexadeciaml
-               representation
-            - sep can be an empty string (i.e. '')
-            - sep will not be inserted between two elements of the list if any
-              of them is empty (i.e. contain only space)
-                - an equivalent number of spaces will be inserted instead
+        :param hex_array: the list of hexadecimal
+        :type hex_array: list of str
+        :param sep: the character(s) to insert between the individual hexadeciaml
+            representation;
+            (a) sep can be an empty string (i.e. '');
+            (b) sep will not be inserted between two elements of the list if any
+            of them is empty (i.e. contain only space);
+            an equivalent number of spaces will be inserted instead
+        :type sep: str, optional
 
-        Output:
-        - the list of dexadeciaml representation as a single string
+        :return: the list of dexadeciaml representation as a single string
+        :rtype: str
         '''
         sep_length = len(sep)
         if sep == ' ' or sep_length <= 0:
@@ -402,18 +432,21 @@ class HexDump:
         '''
         (Internal) Calculate the start and end position.
 
-        Input:
-        - data_length: the length of the entire byte stream
-        - pos: the starting position of byte stream to output
-        - offset: the offset of the first byte to output, starting from pos
-        - length: the number of bytes to output
-            - zero or negative value means output till the end of bytes stream
-
-        Output:
-        - start_pos: the position of the starting byte
-        - end_pos: the position of the ending bytes plus 1
-
         This function is used by hexdump() to compute the start and end positions.
+
+        :param data_length: the length of the entire byte stream
+        :type data_length: int
+        :param offset: the offset of the first byte to output, counting from pos
+        :type offset: int, optional
+        :param length: the number of bytes to output;
+            (a) zero or negative value means output till the end of bytes stream
+        :type length: int, optional
+        :param pos: the starting position of byte stream to output
+        :type pos: int, optional
+
+        :return: (start_pos, end_post), where start_pos is the position of the starting byte,
+            and end_pos is the position of the ending bytes plus 1
+        :rtype: tuple
         '''
         start_pos = pos + offset
         if length <= 0:
