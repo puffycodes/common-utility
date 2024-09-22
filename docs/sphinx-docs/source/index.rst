@@ -10,5 +10,6 @@ Contents
 .. toctree::
    :maxdepth: 3
 
-   class-hexdump
+   classes/bytes_util
+   classes/hexdump
    api

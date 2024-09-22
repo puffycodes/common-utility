@@ -9,6 +9,22 @@ class BytesUtility:
 
     @staticmethod
     def xor(b1: bytes, b2: bytes, trancate=True):
+        '''
+        Return the XOR of two byte stream
+
+        :param b1: byte stream 1
+        :param b2: byte stream 2
+        :type b1: bytes
+        :type b2: bytes
+
+        :param trancate: if True, XOR of the stream will only be computed until the end
+            of the shorter byte stream; if False, the remaining of the longer stream will
+            be returned (equivalent to XOR with a byte stream of 0x00)
+        :type trancate: bool, optional
+
+        :return: the XOR of the two byte stream
+        :rtype: bytes
+        '''
         result = bytes([v1 ^ v2 for v1, v2 in zip(b1, b2)])
         
         if not trancate:
@@ -28,6 +44,22 @@ class BytesUtility:
 
     @staticmethod
     def has_sufficient_bytes(data: bytes, offset: int, length: int, pos=0):
+        '''
+        Check if the byte stream has enough bytes
+
+        :param data: the byte stream
+        :type data: bytes
+
+        :param offset: the offset of the first required byte, counting from pos
+        :param length: the number of bytes required
+        :param pos: the starting position in the byte stream to check
+        :type offset: int
+        :type length: int
+        :type pos: int, optional
+
+        :return: True if the byte stream has enough bytes, otherwise False
+        :rtype: bool
+        '''
         data_length = len(data)
         result = False
         if data_length >= pos + offset + length:
@@ -36,6 +68,22 @@ class BytesUtility:
 
     @staticmethod
     def extract_bytes(data: bytes, offset: int, length: int, pos=0):
+        '''
+        Extract the required bytes from the byte stream
+
+        :param data: the byte stream with the bytes to be extracted
+        :type data: bytes
+
+        :param offset: the offset of the first byte to extract, counting from pos
+        :param length: the number of bytes to extract
+        :param pos: the starting position in the byte stream
+        :type offset: int
+        :type length: int
+        :type pos: int, optional
+
+        :return: the extracted bytes
+        :rtype: bytes
+        '''
         return data[pos+offset:pos+offset+length]
 
     @staticmethod
