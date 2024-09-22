@@ -10,19 +10,20 @@ class BytesUtility:
     @staticmethod
     def xor(b1: bytes, b2: bytes, trancate=True):
         '''
-        Return the XOR of two byte streams.
+        Return the XOR of two arrays of bytes.
 
-        :param b1: byte stream 1
-        :param b2: byte stream 2
+        :param b1: array of bytes 1
+        :param b2: array of bytes 2
         :type b1: bytes
         :type b2: bytes
 
         :param trancate: if True, XOR of the stream will only be computed until the end
-            of the shorter byte stream; if False, the remaining of the longer stream will
-            be returned (equivalent to XOR with a byte stream of 0x00)
+            of the shorter array of bytes; if False, the remaining of the longer array will
+            be returned (equivalent to XOR the remaining of the longer array with an array
+            of bytes containing all 0x00)
         :type trancate: bool, optional
 
-        :return: the XOR of the two byte streams
+        :return: the XOR of the two arrays of bytes
         :rtype: bytes
         '''
         result = bytes([v1 ^ v2 for v1, v2 in zip(b1, b2)])
@@ -45,19 +46,19 @@ class BytesUtility:
     @staticmethod
     def has_sufficient_bytes(data: bytes, offset: int, length: int, pos=0):
         '''
-        Check if the byte stream has enough bytes.
+        Check if an array of bytes has enough number of bytes in it.
 
-        :param data: the byte stream
+        :param data: the array of bytes to check
         :type data: bytes
 
         :param offset: the offset of the first required byte, counting from pos
         :param length: the number of bytes required
-        :param pos: the starting position in the byte stream to check
+        :param pos: the starting position in the array of bytes to check
         :type offset: int
         :type length: int
         :type pos: int, optional
 
-        :return: True if the byte stream has enough bytes, otherwise False
+        :return: True if the array of bytes has enough bytes, otherwise False
         :rtype: bool
         '''
         data_length = len(data)
@@ -68,6 +69,7 @@ class BytesUtility:
 
     @staticmethod
     def extract_bytes(data: bytes, offset: int, length: int, pos=0):
+        # TODO: change the description 'byte stream' to 'an array of bytes'
         '''
         Extract the required bytes from the byte stream.
 
