@@ -22,7 +22,7 @@ class BytesUtility:
             be returned (equivalent to XOR with a byte stream of 0x00)
         :type trancate: bool, optional
 
-        :return: the XOR of the two byte stream
+        :return: the XOR of the two byte streams
         :rtype: bytes
         '''
         result = bytes([v1 ^ v2 for v1, v2 in zip(b1, b2)])
@@ -88,12 +88,61 @@ class BytesUtility:
 
     @staticmethod
     def extract_integer(data: bytes, offset: int, length: int, pos=0, endian='little'):
+        '''
+        Extract the required bytes from the byte stream and convert to integer
+
+        :param data: the byte stream with the bytes to be extracted
+        :type data: bytes
+
+        :param offset: the offset of the first byte to extract, counting from pos
+        :param length: the number of bytes to extract
+        :param pos: the starting position in the byte stream
+        :type offset: int
+        :type length: int
+        :type pos: int, optional
+
+        :param endian: the endian to used for converting the bytes to integer;
+            (a) acceptable values are 'little' and 'big'
+        :type endian: str
+
+        :return: the integer value of the extracted bytes
+        :rtype: int
+        '''
         return int.from_bytes(data[pos+offset:pos+offset+length], endian)
     
     @staticmethod
     def extract_bytes_until(data: bytes, offset: int, marker: bytes, step=1,
                             pos=0, max_search_length=-1,
                             include_marker=False, empty_if_not_found=False):
+        '''
+        Extract the bytes from the byte stream until some specified bytes appear
+
+        :param data: the byte stream with the bytes to be extracted
+        :type data: bytes
+
+        :param offset: the offset of the first byte to extract, counting from pos
+        :param marker: the specified bytes to search for
+        :param step: the number of bytes to advance when searching for marker;
+            default is 1
+        :param pos: the starting position in the byte stream; default is 0
+        :param max_search_length:
+        :type offset: int
+        :type marker: bytes
+        :type step: int, optional
+        :type pos: int, optional
+        :type max_search_length: int, optional
+
+        :param include_marker: when True, the return result contains the marker;
+            when False, the return result does not contain the marker
+        :param empty_if_not_found: when True, return an empty bytes if marker is not found;
+            when False, return everything from the specified starting position until
+            the end of the bytes stream (data)
+        :type include_marker: bool, optional
+        :type empty_if_not_found: bool, optional
+
+        :return: the extracted bytes
+        :rtype: bytes
+        '''
         marker_length = len(marker)
         if marker_length <= 0:
             raise ValueError('marker length cannot be zero')
@@ -114,7 +163,8 @@ class BytesUtility:
             curr_pos += step
 
         curr_length = curr_pos - start_pos
-        if include_marker:
+        if found and include_marker:
+            # add the marker if found
             curr_length += marker_length
 
         extracted_bytes = data[start_pos:start_pos+curr_length]

@@ -14,3 +14,5 @@ Functions
 .. autofunction:: common_util.bytes_util.BytesUtility.xor
 .. autofunction:: common_util.bytes_util.BytesUtility.has_sufficient_bytes
 .. autofunction:: common_util.bytes_util.BytesUtility.extract_bytes
+.. autofunction:: common_util.bytes_util.BytesUtility.extract_integer
+.. autofunction:: common_util.bytes_util.BytesUtility.extract_bytes_until
