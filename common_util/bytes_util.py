@@ -10,7 +10,7 @@ class BytesUtility:
     @staticmethod
     def xor(b1: bytes, b2: bytes, trancate=True):
         '''
-        Return the XOR of two byte stream
+        Return the XOR of two byte streams.
 
         :param b1: byte stream 1
         :param b2: byte stream 2
@@ -45,7 +45,7 @@ class BytesUtility:
     @staticmethod
     def has_sufficient_bytes(data: bytes, offset: int, length: int, pos=0):
         '''
-        Check if the byte stream has enough bytes
+        Check if the byte stream has enough bytes.
 
         :param data: the byte stream
         :type data: bytes
@@ -69,7 +69,7 @@ class BytesUtility:
     @staticmethod
     def extract_bytes(data: bytes, offset: int, length: int, pos=0):
         '''
-        Extract the required bytes from the byte stream
+        Extract the required bytes from the byte stream.
 
         :param data: the byte stream with the bytes to be extracted
         :type data: bytes
@@ -89,7 +89,7 @@ class BytesUtility:
     @staticmethod
     def extract_integer(data: bytes, offset: int, length: int, pos=0, endian='little'):
         '''
-        Extract the required bytes from the byte stream and convert to integer
+        Extract the required bytes from the byte stream and convert to integer.
 
         :param data: the byte stream with the bytes to be extracted
         :type data: bytes
@@ -115,7 +115,7 @@ class BytesUtility:
                             pos=0, max_search_length=-1,
                             include_marker=False, empty_if_not_found=False):
         '''
-        Extract the bytes from the byte stream until some specified bytes appear
+        Extract the bytes from the byte stream until some specified bytes appear.
 
         :param data: the byte stream with the bytes to be extracted
         :type data: bytes
@@ -179,7 +179,7 @@ class BytesUtility:
     @staticmethod
     def integer_to_bytes(value: int, length=-1, endian='little', signed=False):
         '''
-        Convert an integer to bytes
+        Convert an integer to bytes.
 
         :param value: the integer to convert
         :type value: int
@@ -210,7 +210,7 @@ class BytesUtility:
     @staticmethod
     def bytes_to_integer(data: bytes, endian='little', signed=False):
         '''
-        Convert bytes to an integer
+        Convert bytes to an integer.
 
         :param bytes: the bytes to convert
         :param endian: the endian of the bytes;
@@ -229,7 +229,7 @@ class BytesUtility:
     @staticmethod
     def hex_string_to_bytes(hexstr, sep=''):
         '''
-        Convert a hex string to bytes
+        Convert a hex string to bytes.
 
         :param hexstr: the hex string; for example, 'BEEF0012'
         :param sep: the separator between the bytes in the hex string;
@@ -254,7 +254,7 @@ class BytesUtility:
     @staticmethod
     def bytes_to_hex_string(data: bytes, sep='', bytes_per_sep=1):
         '''
-        Convert bytes to a hex string
+        Convert bytes to a hex string.
 
         :param bytes: the bytes to convert
         :param sep: the separator to be inserted between the bytes in the
@@ -277,7 +277,7 @@ class BytesUtility:
     @staticmethod
     def bytes_rep_to_bytes(rep: str, verbose=False, ferr=sys.stderr):
         '''
-        Convert a bytes rep to bytes
+        Convert a bytes rep to bytes.
 
         :param rep: the hex string; for example, 'abc\\\\x00\\\\x01'
         :type rep: str
@@ -339,7 +339,7 @@ class BytesUtility:
     def bytes_to_bytes_rep(data: bytes):
         '''
         Convert bytes to a bytes represenation, which is how the bytes
-        will be printed
+        will be printed.
 
         :param bytes: the bytes to convert
         :type bytes: bytes

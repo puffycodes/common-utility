@@ -399,7 +399,7 @@ class HexDump:
     @staticmethod
     def hex_array_to_string(hex_array, sep=' '):
         '''
-        (Internal) Convert a list hexadecimal representation to a single string.
+        (Internal) Convert a list of hexadecimal representation to a single string.
 
         :param hex_array: the list of hexadecimal
         :type hex_array: list of str
