@@ -10,20 +10,20 @@ class BytesUtility:
     @staticmethod
     def xor(b1: bytes, b2: bytes, trancate=True):
         '''
-        Return the XOR of two arrays of bytes.
+        Compute the XOR of two arrays of bytes.
 
-        :param b1: array of bytes 1
-        :param b2: array of bytes 2
+        :param b1: Array of bytes 1
+        :param b2: Array of bytes 2
         :type b1: bytes
         :type b2: bytes
 
-        :param trancate: if True, XOR of the stream will only be computed until the end
-            of the shorter array of bytes; if False, the remaining of the longer array will
-            be returned (equivalent to XOR the remaining of the longer array with an array
-            of bytes containing all 0x00)
+        :param trancate: If True, XOR of the stream will only be computed until the end
+            of the shorter array of bytes. If False, the remaining of the longer array will
+            be appended to the result. This is equivalent to XOR the remaining of the longer
+            array with an array of bytes containing all zeroes.
         :type trancate: bool, optional
 
-        :return: the XOR of the two arrays of bytes
+        :return: The XOR of the two arrays of bytes
         :rtype: bytes
         '''
         result = bytes([v1 ^ v2 for v1, v2 in zip(b1, b2)])
