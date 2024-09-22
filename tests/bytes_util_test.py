@@ -148,6 +148,7 @@ class BytesUtilityTest(unittest.TestCase):
         return
     
     def test_extract_bytes_until(self):
+        # character count:
         #       '0         1          2         3         4                  5         6                  '
         #       '0123456789012345678 9012345678901234567890123   4   5   678901234567890123456   7   8   9'
         data = b'The quick brown fox\njumps over the lazy dog.\x00\x00\x00The lazy dog sleeps.\x00\x00\x00'
@@ -181,6 +182,37 @@ class BytesUtilityTest(unittest.TestCase):
             )
             result_2 = BytesUtility.extract_bytes_until(
                 data, offset, marker, pos=pos, include_marker=True
+            )
+            self.assertEqual(expected_result_1, result_1)
+            self.assertEqual(expected_result_2, result_2)
+
+        return
+    
+    def test_extract_bytes_until_02(self):
+        # character count:
+        #        0         1         2
+        #        01234567890123456789012345
+        data = b'The marker is hello world!'
+
+        # [ <offset>, <pos>, <marker>, <include_marker>, <expected result 1> <expected result 2> ]
+        # expected result 1: empty_if_not_found = False
+        # expected result 2: empty_if_not_found = True
+        test_cases = [
+            # marker is found
+            [ 0, 0, b'er', False, data[:8], data[:8] ],
+            [ 0, 0, b'er', True, data[:10], data[:10] ],
+            [ 0, 0, b'd!', False, data[:24], data[:24] ],
+            [ 0, 0, b'd!', True, data, data ],
+            # marker is not found
+            [ 0, 0, b'zz', False, data, b'' ],
+            [ 0, 0, b'zz', True, data, b'' ],
+        ]
+        for offset, pos, marker, include_marker, expected_result_1, expected_result_2 in test_cases:
+            result_1 = BytesUtility.extract_bytes_until(
+                data, offset, marker, pos=pos, include_marker=include_marker, empty_if_not_found=False
+            )
+            result_2 = BytesUtility.extract_bytes_until(
+                data, offset, marker, pos=pos, include_marker=include_marker, empty_if_not_found=True
             )
             self.assertEqual(expected_result_1, result_1)
             self.assertEqual(expected_result_2, result_2)
