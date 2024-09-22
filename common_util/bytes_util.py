@@ -178,6 +178,27 @@ class BytesUtility:
     
     @staticmethod
     def integer_to_bytes(value: int, length=-1, endian='little', signed=False):
+        '''
+        Convert an integer to bytes
+
+        :param value: the integer to convert
+        :type value: int
+
+        :param length: the number of bytes to convert to;
+            if length is zero or negative, this function compute the required length
+        :param endian: the endian of the bytes to output;
+            (a) acceptable values are 'little' and 'big'
+        :param signed: when True, convert to a signed representation;
+            (a) used in Python built-in function int.to_bytes()
+        :type length: int, optional
+        :type endian: str, optional
+        :type signed: bool, optional
+        
+        :raise: OverflowError (raise by int.to_bytes())
+
+        :return: the bytes representation of the integer
+        :rtype: bytes
+        '''
         if length <= 0:
             # compute length if not given
             bit_length = value.bit_length()
@@ -188,10 +209,37 @@ class BytesUtility:
     
     @staticmethod
     def bytes_to_integer(data: bytes, endian='little', signed=False):
+        '''
+        Convert bytes to an integer
+
+        :param bytes: the bytes to convert
+        :param endian: the endian of the bytes;
+            (a) acceptable values are 'little' and 'big'
+        :param signed: when True, the bytes is taken to be a signed integer;
+            when False, the bytes is taken to be an unsigned integer
+        :type bytes: bytes
+        :type endian: str, optional
+        :type signed: bool, optional
+
+        :return: the integer value from the byte representation
+        :rtype: int
+        '''
         return int.from_bytes(data, endian, signed=signed)
     
     @staticmethod
     def hex_string_to_bytes(hexstr, sep=''):
+        '''
+        Convert a hex string to bytes
+
+        :param hexstr: the hex string; for example, 'BEEF0012'
+        :param sep: the separator between the bytes in the hex string;
+            for example '-' in the hex string 'BEEF-0012'
+        :type hexstr: str
+        :type sep: str, optional
+
+        :return: the bytes as represented by the hex string
+        :rtype: bytes
+        '''
         if len(sep) <= 0:
             result = bytes.fromhex(hexstr)
         else:
@@ -205,6 +253,21 @@ class BytesUtility:
     
     @staticmethod
     def bytes_to_hex_string(data: bytes, sep='', bytes_per_sep=1):
+        '''
+        Convert bytes to a hex string
+
+        :param bytes: the bytes to convert
+        :param sep: the separator to be inserted between the bytes in the
+            hex string; for example '-' in the hex string 'BEEF-0012'
+        :param bytes_per_sep: the number of bytes between each separator;
+            for example, bytes_per_sep means output will be 'BEEF00-12'
+        :type bytes: bytes
+        :type sep: str, optional
+        :type bytes_per_step: int, optional
+
+        :return: the hex string representation of the given bytes
+        :rtype: str
+        '''
         if len(sep) <= 0:
             result = data.hex()
         else:
@@ -213,6 +276,20 @@ class BytesUtility:
 
     @staticmethod
     def bytes_rep_to_bytes(rep: str, verbose=False, ferr=sys.stderr):
+        '''
+        Convert a bytes rep to bytes
+
+        :param rep: the hex string; for example, 'abc\\\\x00\\\\x01'
+        :type rep: str
+
+        :param verbose: when True, will output some debugging information
+        :type verbose: bool, optional
+        :param ferr: the file id to output the debugging information to
+        :type ferr: file id
+
+        :return: the bytes as represented by the bytes rep
+        :rtype: bytes
+        '''
         result = b''
 
         rep = rep[2:-1]
@@ -260,6 +337,16 @@ class BytesUtility:
     
     @staticmethod
     def bytes_to_bytes_rep(data: bytes):
+        '''
+        Convert bytes to a bytes represenation, which is how the bytes
+        will be printed
+
+        :param bytes: the bytes to convert
+        :type bytes: bytes
+
+        :return: the bytes representation of the given bytes
+        :rtype: str
+        '''
         return f'{data}'
     
 # --- end of file --- #
