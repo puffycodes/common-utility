@@ -1,9 +1,17 @@
 # file: bytes_util.py
 
+'''
+Utilities for Handling Array of Bytes
+'''
+
 import binascii
 import sys
 
 class BytesUtility:
+    '''
+    Implements opearations on array of bytes, extractions from array of bytes,
+    and conversion of array of bytes to and from other representations.
+    '''
 
     # --- Bytes Operations
 

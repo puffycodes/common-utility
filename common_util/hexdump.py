@@ -2,8 +2,6 @@
 
 '''
 Output Bytes in Pretty Formats
-
-The class HexDump implements a few methods to output bytes in pretty formats.
 '''
 
 import sys

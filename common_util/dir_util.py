@@ -1,5 +1,9 @@
 # file: dir_util.py
 
+'''
+Utilities for Directory
+'''
+
 import os
 import sys
 import shutil
