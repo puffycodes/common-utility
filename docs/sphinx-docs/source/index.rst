@@ -11,5 +11,8 @@ Contents
    :maxdepth: 3
 
    classes/bytes_util
+   classes/dir_util
    classes/hexdump
+   classes/container/multi_level_index
+   classes/file_util/file_index
    api

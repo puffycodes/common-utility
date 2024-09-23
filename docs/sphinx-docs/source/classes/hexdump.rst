@@ -8,6 +8,14 @@ Usage
 
     from common_util.hexdump import HexDump
 
+Class Methods
+-------------
+
+.. autoclass:: common_util.hexdump.HexDump
+    :members:
+    :private-members:
+    :undoc-members:
+
 Functions for Producing Hexdump
 -------------------------------
 

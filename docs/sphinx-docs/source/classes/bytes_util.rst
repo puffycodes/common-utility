@@ -8,6 +8,14 @@ Usage
 
     from common_util.bytes_util import BytesUtility
 
+Class Methods
+-------------
+
+.. autoclass:: common_util.bytes_util.BytesUtility
+    :members:
+    :private-members:
+    :undoc-members:
+
 Byte Stream Operations
 ----------------------
 
