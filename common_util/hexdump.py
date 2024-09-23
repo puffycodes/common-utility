@@ -384,6 +384,7 @@ class HexDump:
         '''
         (Internal) Return the text representation of the given character.
 
+        :meta private:
         :param c: the character to convert to text representation
         :type c: int
         :param non_printable: the text representation to be used if the character c
@@ -401,6 +402,7 @@ class HexDump:
         '''
         (Internal) Convert a list of hexadecimal representation to a single string.
 
+        :meta private:
         :param hex_array: the list of hexadecimal
         :type hex_array: list of str
         :param sep: the character(s) to insert between the individual hexadeciaml
@@ -438,6 +440,7 @@ class HexDump:
 
         This function is used by hexdump() to compute the start and end positions.
 
+        :meta private:
         :param data_length: the length of the entire byte stream
         :type data_length: int
         :param offset: the offset of the first byte to output, counting from pos
