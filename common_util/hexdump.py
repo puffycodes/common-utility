@@ -1,9 +1,9 @@
 # file: hexdump.py
 
 '''
-Output Bytes in Pretty Format
+Output Bytes in Pretty Formats
 
-The class HexDump implements a few methods to output bytes in pretty format.
+The class HexDump implements a few methods to output bytes in pretty formats.
 '''
 
 import sys
@@ -11,6 +11,9 @@ import string
 import argparse
 
 class HexDump:
+    '''
+    Implements a few methods to output bytes in pretty formats.
+    '''
 
     # The list of printable characters for the purpose of this class.
     # This list is different from string.printable.
