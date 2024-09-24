@@ -13,13 +13,19 @@ class HexDump:
     Implements a few methods to output bytes in pretty formats.
     '''
 
-    # The list of printable characters for the purpose of this class.
-    # This list is different from string.printable.
     printable = string.ascii_letters + string.digits + string.punctuation + ' '
+    '''
+    The list of printable characters for the purpose of this class.
+    This list is different from string.printable as some whitespace
+    characters like TAB are not included.
+    '''
 
-    # The default line to fill for the gap in hexdump_start_and_end()
     default_filler_line = f'--------: .....'
     # default_filler_line = f'          <snipped>'
+    '''
+    The default line to fill in the gap in hexdump_start_and_end() and
+    brief_hexdump().
+    '''
 
     @staticmethod
     def hexdump(data, offset=0, length=-1, pos=0,
@@ -470,11 +476,12 @@ class HexDump:
     @staticmethod
     def main():
         '''
-        Take a list of filename and print their hexdump on sys.stdout.
+        Take a list of filenames (as command line arguments) and print their
+        hexdump on sys.stdout.
 
         This function is called when this module is run as main.
 
-        usage: python common_util/hexdump.py <filename> ...
+        usage: python common_util/hexdump.py <filename> [...]
         '''
         parser = argparse.ArgumentParser(
             prog='hexdump',
