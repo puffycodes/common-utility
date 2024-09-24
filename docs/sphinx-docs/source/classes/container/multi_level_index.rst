@@ -8,6 +8,12 @@ Usage
 
     from common_util.container.multi_level_index import MultiLevelIndex
 
+Classes
+-------
+
+.. autoclass:: common_util.container.multi_level_index.MultiLevelIndex.SubkeyGenerator
+.. autoclass:: common_util.container.multi_level_index.MultiLevelIndex.SubkeyGeneratorUsingHash
+
 Functions
 ---------
 
