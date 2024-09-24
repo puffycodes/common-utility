@@ -28,3 +28,8 @@ All Class Methods
     :members:
     :private-members:
     :undoc-members:
+
+.. autoclass:: common_util.dir_util.DirectoryUtilityConfig
+    :members:
+    :private-members:
+    :undoc-members:
