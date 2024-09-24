@@ -1,16 +1,26 @@
 # file: file_index.py
 
+'''
+Containers that stores file information
+'''
+
 import os
 import hashlib
 from common_util.dir_util import DirectoryUtility
 from common_util.container.multi_level_index import MultiLevelIndex
 
 class FileIndex:
+    '''
+    A container that stores file information indexes by either file hashes
+    or file names.
+    '''
 
     # - Subkey Generators for FileIndex Class
 
     class SubkeyGeneratorUsingFilename(MultiLevelIndex.SubkeyGenerator):
-        # Use a file name to generate the subkey.
+        '''
+        A subkey generator that uses a file name to generate the subkey.
+        '''
 
         def __init__(self, empty_subkey='none', use_file_extension=True):
             super().__init__(empty_subkey=empty_subkey)

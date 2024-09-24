@@ -1,13 +1,23 @@
 # file: multi_level_index.py
 
+'''
+Containers of items
+'''
+
 import sys
 
 class MultiLevelIndex:
+    '''
+    A containers that stored items by buckets indexed by subkey.
+    The subkeys are derived from a main key.
+    '''
 
     # - Subkey Generator Classes
 
     class SubkeyGenerator:
-        # An abstract class for subkey generation.
+        '''
+        An abstract class for subkey generation.
+        '''
 
         def __init__(self, empty_subkey='none'):
             self.empty_subkey = empty_subkey
@@ -32,8 +42,10 @@ class MultiLevelIndex:
             return subkey
         
     class SubkeyGeneratorUsingHash(SubkeyGenerator):
-        # Returns the nth charactor as the subkey.
-        # Suitable for key that is a digest of hashes.
+        '''
+        A subkey generator that returns the nth charactor of the as the subkey.
+        Suitable for key such as a hash digest.
+        '''
 
         def __init__(self, empty_subkey='none'):
             super().__init__(empty_subkey=empty_subkey)

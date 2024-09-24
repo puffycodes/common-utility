@@ -10,6 +10,9 @@ import shutil
 from glob import glob
 
 class DirectoryUtility:
+    '''
+    A collection of utilities for handling directories
+    '''
 
     # --- Exceptions defined in this module
 
@@ -254,6 +257,10 @@ class DirectoryUtility:
         return result
     
 class DirectoryUtilityConfig:
+    '''
+    A place to store the configuration of the system and to provide some
+    backward compatibility for the directory utilities.
+    '''
 
     config = {
         'hidden': False
