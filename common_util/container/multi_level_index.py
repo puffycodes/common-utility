@@ -24,18 +24,60 @@ class MultiLevelIndex:
             return
         
         def get_subkey(self, key, level):
+            '''
+            Get the subkey from key at the desired level
+
+            This function needs to be implemented in sub-classes.
+
+            :param key: the key
+            :param level: the level of the subkey
+            :type key: str
+            :type level: int
+
+            :return: subkey
+            :rtype: str
+            '''
             raise Exception('get_subkey() must be implemented in sub-class.')
         
         def check_level(self, key, level):
+            '''
+            Check that the level is valid for the key
+
+            :param key: the key
+            :param level: the level of the subkey
+            :type key: str
+            :type level: int
+
+            :return: level
+            :rtype: int
+            '''
             if level < 0:
                 raise ValueError(f'level cannot be negative ({level})')
             return level
 
         def get_empty_subkey(self):
+            '''
+            Return the str that is the empty subkey
+
+            :return: empty subkey
+            :rtype: str
+            '''
             return self.empty_subkey
         
-        # use the level'th charactor of the string as subkey
         def get_subkey_from_string(self, string, level):
+            '''
+            Returns the level'th charactor of the string as subkey
+
+            This function can be used by the sub-classes
+
+            :param string: the string from which the subkey is derived
+            :param level: the level of the subkey
+            :type string: str
+            :type level: int
+
+            :return: subkey
+            :rtype: str
+            '''
             subkey = self.empty_subkey
             if len(string) > level:
                 subkey = string[level]
@@ -52,6 +94,17 @@ class MultiLevelIndex:
             return
         
         def get_subkey(self, key, level):
+            '''
+            Get the subkey from key at the desired level
+
+            :param key: the key
+            :param level: the level of the subkey
+            :type key: str
+            :type level: int
+
+            :return: subkey
+            :rtype: str
+            '''
             self.check_level(key, level)
             # subkey = self.empty_subkey
             # if len(key) > level:
