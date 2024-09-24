@@ -176,6 +176,34 @@ class DirectoryUtility:
     
     @staticmethod
     def copy_files(src_dir: str, dst_dir: str, filelist, verbose=False, ferr=sys.stderr):
+        '''
+        Copy a list of files from the source to the destination directory
+
+        :param src_dir: source directory
+        :param dst_dir: destination directory
+        :param filelist: the list of files to copy;
+            the file path should be relative to the source directory and within
+            the source directory, otherwise it will not be copied
+        :type src_dir: str
+        :type dst_dir: str
+        :type filelist: list of str
+
+        :param verbose: when True, print some debugging information
+        :param ferr: the file id to output the debugging information
+        :type verbose: bool, optional
+        :type ferr: file id, optional
+
+        :return: (succeeded_file, failed_files) where the first is a list of
+            successfully copied file, and the second is a list of files that
+            failed to be copied;
+            succeeded_file is a list of tuple (file, dst_file) where file is the
+            given file name, and dst_file is the normalized destination file name
+            relative to dst_dir;
+            failed_files is a list of tuple (file, error) where file is the
+            given file name, and error is the Exception for which the file failed
+            to be copied
+        :rtype: tuple
+        '''
         # check that the source and destination are not the same
         src_dir_normalized = os.path.normpath(src_dir)
         dst_dir_normalized = os.path.normpath(dst_dir)
@@ -256,6 +284,19 @@ class DirectoryUtility:
     
     @staticmethod
     def pretty_print_copy_files_result(succeeded_files, failed_files, fout=sys.stdout):
+        '''
+        Print the result of copy_files() function in a pretty format
+
+        :param succeeded_file: the first list returned by copy_files() function
+        :param failed_files: the second list returned by copy_files() function
+        :type succeeded_file: list of tuple
+        :type failed_files: list of tuple
+
+        :param fout: the file id to print the output to
+        :type fout: file id, optional
+
+        :return: nothing is returned by this function
+        '''
         if len(succeeded_files) > 0:
             for (file, normalized_path) in succeeded_files:
                 print(f'{file} -> {normalized_path}', file=fout)
@@ -337,9 +378,20 @@ class DirectoryUtilityConfig:
     config = {
         'hidden': False
     }
+    '''
+    (Internal) A singleton that stores the currect configuration used by
+    the DirectoryUtility class.
+
+    :meta private:
+    '''
 
     @staticmethod
     def configure():
+        '''
+        Check and set the configuration
+
+        :return: nothing is returned by this function
+        '''
         DirectoryUtilityConfig.config['hidden'] = DirectoryUtilityConfig.check_glob_include_hidden()
         if DirectoryUtilityConfig.config['hidden'] != True:
             print(
@@ -350,6 +402,15 @@ class DirectoryUtilityConfig:
 
     @staticmethod
     def check_glob_include_hidden():
+        '''
+        (Internal) Check whether the hidden file option is supported in this version of Python.
+
+        Hidden file option is supported by Python 3.11 and later.
+
+        :meta private:
+        :return: True if hidden file is supported, False otherwise
+        :rtype: bool
+        '''
         supported_major = 3
         supported_minor = 11
         supported = False
