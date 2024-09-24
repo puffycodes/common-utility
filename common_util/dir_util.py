@@ -371,7 +371,7 @@ class DirectoryUtility:
     
 class DirectoryUtilityConfig:
     '''
-    A place to store the configuration of the system and to provide some
+    Store the current configuration of the system and to provide some
     backward compatibility for the directory utilities.
     '''
 
@@ -379,8 +379,8 @@ class DirectoryUtilityConfig:
         'hidden': False
     }
     '''
-    (Internal) A singleton that stores the currect configuration used by
-    the DirectoryUtility class.
+    (Internal) A singleton that stores the currect configuration of the
+    system and is used by the DirectoryUtility class.
 
     :meta private:
     '''
@@ -403,7 +403,8 @@ class DirectoryUtilityConfig:
     @staticmethod
     def check_glob_include_hidden():
         '''
-        (Internal) Check whether the hidden file option is supported in this version of Python.
+        (Internal) Check whether the hidden file option is supported in this version of
+        Python.
 
         Hidden file option is supported by Python 3.11 and later.
 
