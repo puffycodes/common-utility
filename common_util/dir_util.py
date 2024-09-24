@@ -17,15 +17,31 @@ class DirectoryUtility:
     # --- Exceptions defined in this module
 
     class SourceAndDestintionSame(Exception):
+        '''
+        Exception that is raised when the source and destination of a copy action
+        are actually the same file/directory.
+        '''
         pass
 
     class NotAFileError(Exception):
+        '''
+        Exception that is raised when the target is not a file (e.g. a directory)
+        when it is expected to be one.
+        '''
         pass
 
     class FileIsAbsolutePathError(Exception):
+        '''
+        Exception that is raised when a path is an absolute path when it is
+        expected to be a relative path.
+        '''
         pass
 
     class NotInBaseDirectory(Exception):
+        '''
+        Exception that is raised when a path is not within a certain base directory
+        when it is expected to be.
+        '''
         pass
 
     # --- Main API for this modules
@@ -34,6 +50,34 @@ class DirectoryUtility:
     def list_files(dirname: str, filename_pattern: str,
                    recursive=False, include_hidden=False, get_relative_path=False,
                    verbose=False, ferr=sys.stderr):
+        '''
+        Obtain a list of files from a directory.
+
+        :param dirname: the name of the directory
+        :param filename_pattern: the pattern of the file names to include in the
+            result
+        :type dirname: str
+        :type filename_pattern: str
+
+        :param recursive: when True, do the listing recursively into subdirectories
+        :param include_hidden: when True, include files that are normally considered
+            hidden;
+            this option works only for Python 3.11 and later
+        :param get_relative_path: when True, return the file names as a path relative
+            to dirname; when False, the file names will include dirname as a prefix
+        :type recursive: bool, optional
+        :type include_hidden: bool, optional
+        :type get_relative_path: bool, optional
+
+        :param verbose: when True, print some debugging information
+        :param ferr: the file id to print the debugging information to; default is
+            sys.stderr
+        :type verbose: bool, optional
+        :type ferr: file id, optional
+
+        :return: a list of file names
+        :rtype: list of str
+        '''
         dirname_normalized = os.path.normpath(dirname)
         if verbose:
             print(f'given directory path is "{dirname}".', file=ferr)
@@ -70,6 +114,34 @@ class DirectoryUtility:
     def list_subdirectories(dirname: str, subdir_pattern: str,
                             recursive=False, include_hidden=False, get_relative_path=False,
                             verbose=False, ferr=sys.stderr):
+        '''
+        Obtain a list of subdirectories from a directory.
+
+        :param dirname: the name of the directory
+        :param subdir_pattern: the pattern of the subdirectory names to include in the
+            result
+        :type dirname: str
+        :type subdir_pattern: str
+
+        :param recursive: when True, do the listing recursively into subdirectories
+        :param include_hidden: when True, include subdirectories that are normally
+            considered hidden;
+            this option works only for Python 3.11 and later
+        :param get_relative_path: when True, return the subdirectory names as a path relative
+            to dirname; when False, the subdirectory names will include dirname as a prefix
+        :type recursive: bool, optional
+        :type include_hidden: bool, optional
+        :type get_relative_path: bool, optional
+
+        :param verbose: when True, print some debugging information
+        :param ferr: the file id to print the debugging information to; default is
+            sys.stderr
+        :type verbose: bool, optional
+        :type ferr: file id, optional
+
+        :return: a list of subdirectory names
+        :rtype: list of str
+        '''
         dirname_normalized = os.path.normpath(dirname)
         if verbose:
             print(f'given directory path is "{dirname}".', file=ferr)

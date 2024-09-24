@@ -11,9 +11,9 @@ Usage
 Directory Functions
 -------------------
 
-.. autofunction:: common_util.dir_util.DirectoryUtility.copy_files
 .. autofunction:: common_util.dir_util.DirectoryUtility.list_files
 .. autofunction:: common_util.dir_util.DirectoryUtility.list_subdirectories
+.. autofunction:: common_util.dir_util.DirectoryUtility.copy_files
 
 Other Functions
 ---------------
