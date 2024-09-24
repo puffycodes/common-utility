@@ -8,6 +8,13 @@ Usage
 
     from common_util.file_util.file_index import FileIndex
 
+Functions
+---------
+
+.. autofunction:: common_util.file_util.file_index.FileIndex.add_file
+.. autofunction:: common_util.file_util.file_index.FileIndex.add_from_directory
+.. autofunction:: common_util.file_util.file_index.FileIndex.get_duplicate_file_list
+
 All Class Methods
 -----------------
 
