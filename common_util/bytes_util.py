@@ -54,7 +54,7 @@ class BytesUtility:
     @staticmethod
     def has_sufficient_bytes(data: bytes, offset: int, length: int, pos=0):
         '''
-        Check if an array of bytes has enough number of bytes in it.
+        Check if the given array of bytes has enough number of bytes in it.
 
         :param data: the array of bytes to check
         :type data: bytes
@@ -77,11 +77,10 @@ class BytesUtility:
 
     @staticmethod
     def extract_bytes(data: bytes, offset: int, length: int, pos=0):
-        # TODO: change the description 'byte stream' to 'an array of bytes'
         '''
-        Extract the required bytes from the byte stream.
+        Extract the required bytes from the given array of bytes.
 
-        :param data: the byte stream with the bytes to be extracted
+        :param data: the array of bytes containing the bytes to be extracted
         :type data: bytes
 
         :param offset: the offset of the first byte to extract, counting from pos
@@ -99,9 +98,9 @@ class BytesUtility:
     @staticmethod
     def extract_integer(data: bytes, offset: int, length: int, pos=0, endian='little'):
         '''
-        Extract the required bytes from the byte stream and convert to integer.
+        Extract the required bytes from the given array of bytes and convert to integer.
 
-        :param data: the byte stream with the bytes to be extracted
+        :param data: the array of bytes containing the bytes to be extracted
         :type data: bytes
 
         :param offset: the offset of the first byte to extract, counting from pos
@@ -125,9 +124,9 @@ class BytesUtility:
                             pos=0, max_search_length=-1,
                             include_marker=False, empty_if_not_found=False):
         '''
-        Extract the bytes from the byte stream until some specified bytes appear.
+        Extract the bytes from the given array of bytes until some specified bytes appear.
 
-        :param data: the byte stream with the bytes to be extracted
+        :param data: the array of bytes containing the bytes to be extracted
         :type data: bytes
 
         :param offset: the offset of the first byte to extract, counting from pos
