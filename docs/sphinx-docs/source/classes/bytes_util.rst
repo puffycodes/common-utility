@@ -8,14 +8,6 @@ Usage
 
     from common_util.bytes_util import BytesUtility
 
-Class Methods
--------------
-
-.. autoclass:: common_util.bytes_util.BytesUtility
-    :members:
-    :private-members:
-    :undoc-members:
-
 Byte Stream Operations
 ----------------------
 
@@ -38,3 +30,11 @@ Conversion Functions
 .. autofunction:: common_util.bytes_util.BytesUtility.bytes_to_hex_string
 .. autofunction:: common_util.bytes_util.BytesUtility.bytes_rep_to_bytes
 .. autofunction:: common_util.bytes_util.BytesUtility.bytes_to_bytes_rep
+
+All Class Methods
+-----------------
+
+.. autoclass:: common_util.bytes_util.BytesUtility
+    :members:
+    :private-members:
+    :undoc-members:

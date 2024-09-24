@@ -8,8 +8,8 @@ Usage
 
     from common_util.dir_util import DirectoryUtility
 
-Class Methods
--------------
+All Class Methods
+-----------------
 
 .. autoclass:: common_util.dir_util.DirectoryUtility
     :members:

@@ -8,8 +8,8 @@ Usage
 
     from common_util.file_util.file_index import FileIndex
 
-Class Methods
--------------
+All Class Methods
+-----------------
 
 .. autoclass:: common_util.file_util.file_index.FileIndex
     :members:

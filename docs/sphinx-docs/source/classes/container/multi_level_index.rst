@@ -8,8 +8,8 @@ Usage
 
     from common_util.container.multi_level_index import MultiLevelIndex
 
-Class Methods
--------------
+All Class Methods
+-----------------
 
 .. autoclass:: common_util.container.multi_level_index.MultiLevelIndex
     :members:
