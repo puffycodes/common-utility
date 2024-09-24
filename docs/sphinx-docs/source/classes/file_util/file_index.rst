@@ -8,6 +8,11 @@ Usage
 
     from common_util.file_util.file_index import FileIndex
 
+Classes
+-------
+
+.. autoclass:: common_util.file_util.file_index.FileIndex.SubkeyGeneratorUsingFilename
+    
 Functions
 ---------
 

@@ -85,8 +85,8 @@ class MultiLevelIndex:
         
     class SubkeyGeneratorUsingHash(SubkeyGenerator):
         '''
-        A subkey generator that returns the nth charactor of the as the subkey.
-        Suitable for key such as a hash digest.
+        A subkey generator that returns the nth charactor of the key as the subkey.
+        Suitable for keys such as a hash digest.
         '''
 
         def __init__(self, empty_subkey='none'):
@@ -115,6 +115,16 @@ class MultiLevelIndex:
     # - Multi-Level Index Class
 
     def __init__(self, max_level=2, key_generator=None):
+        '''
+        Initialize the object
+
+        :param max_level: the maximum level of subkey
+        :param key_generator: a key generator of the class SubkeyGenerator
+        :type max_level: int, optional
+        :type key_generator: sub-class of SubkeyGenerator, optional
+
+        :return: no value is returned by this function
+        '''
         if max_level <= 0:
             raise ValueError(f'max_level cannot be zero or less ({max_level})')
         self.data = {}
@@ -131,11 +141,33 @@ class MultiLevelIndex:
     # --- Subkey Function
     
     def subkey(self, key, level):
+        '''
+        Obtain the subkey from key and level
+
+        :meta private:
+        :param key: the key
+        :param level: the desired level
+        :type key: str
+        :type level: int
+
+        :return: the subkey
+        :rtype: str
+        '''
         return self.key_generator.get_subkey(key, level)
     
     # --- External Interface
     
     def add(self, key, item):
+        '''
+        Add an item to the Index with key
+
+        :param key: the key
+        :param item: the item
+        :type key: str
+        :type item: any object
+
+        :return: nothing returned
+        '''
         curr_data = self.data
         for i in range(self.max_level):
             curr_subkey = self.subkey(key, i)
@@ -144,6 +176,16 @@ class MultiLevelIndex:
         return
     
     def remove(self, key, item):
+        '''
+        Remove an item from the Index with key, if present
+
+        :param key: the key
+        :param item: the item
+        :type key: str
+        :type item: any object
+
+        :return: nothing returned
+        '''
         curr_data = self.data
         for i in range(self.max_level):
             curr_subkey = self.subkey(key, i)
@@ -163,6 +205,15 @@ class MultiLevelIndex:
         return
     
     def find_all(self, key):
+        '''
+        Find all object that has the key
+
+        :param key: the key
+        :type key: str
+
+        :return: the list of items with key
+        :rtype: list of item
+        '''
         result = []
         curr_data = self.data
         for i in range(self.max_level):
@@ -179,6 +230,13 @@ class MultiLevelIndex:
     # --- Iterate through all the data
     
     def iterate_entry(self):
+        '''
+        Iterate through all the entries in the Index
+
+        :meta privae:
+        :return: (key, value), where key is the key, and value the object
+        :rtype: tuple
+        '''
         level = 0
         for key, value in self.data.items():
             for key_n, value_n in self.iterate_entry_2(key, value, level):
@@ -199,6 +257,14 @@ class MultiLevelIndex:
     # --- Print the internal data structure
     
     def print(self, indent_char='-', fout=sys.stdout):
+        '''
+        Print the internal representation of the index
+
+        :param indent_char: the character to used for indentation
+        :param fout: file id to output the index
+        :type indent_char: str, optional
+        :type fout: file id, optional
+        '''
         level = 0
         for key, value in self.data.items():
             self.print_2(key, value, level, indent_char=indent_char, fout=fout)

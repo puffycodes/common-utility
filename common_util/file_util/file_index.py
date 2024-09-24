@@ -28,6 +28,19 @@ class FileIndex:
             return
         
         def get_subkey(self, key, level):
+            '''
+            Get the subkey from key at the desired level
+
+            :param key: the key
+            :param level: the level of the subkey
+            :type key: str
+            :type level: int
+
+            :return: subkey;
+                if use_file_extension is True, then level 0 key is the file
+                extension
+            :rtype: str
+            '''
             self.check_level(key, level)
             subkey = self.empty_subkey
             basename = os.path.basename(key)
@@ -68,7 +81,9 @@ class FileIndex:
     # - FileIndex Class
 
     INDEX_DIGEST = 0
+    '''Index using MD5 digest'''
     INDEX_FILENAME = 1
+    '''Index using filename'''
         
     def __init__(self, index_type=INDEX_DIGEST):
         self.max_level = 5
@@ -89,6 +104,19 @@ class FileIndex:
         return
     
     def add_file(self, dirname, file, verbose=False):
+        '''
+        Add one file to the index
+
+        :param dirname: directory of the file
+        :param file: name of the file
+        :type dirname: str
+        :type file: str
+
+        :param verbose: print some debugging information
+        :type verbose: bool, optional
+
+        :return: nothing is returned for this function
+        '''
         full_path = os.path.join(dirname, file)
         digest = self.get_file_md5_hash(full_path)
         file_size = self.get_file_size(full_path)
@@ -104,6 +132,22 @@ class FileIndex:
     
     def add_from_directory(self, dirname, pattern='*', include_hidden=False,
                            verbose=False):
+        '''
+        Add files from a directory to the index
+
+        :param dirname: the directory of the files
+        :param pattern: the pattern of the file names
+        :type dirname: str
+        :type pattern: str, optional
+
+        :param include_hidden: when True, include hidden files
+        :type include_hidden: bool, optional
+
+        :param verbose: print some debugging information
+        :type verbose: bool, optional
+
+        :return: nothing is returned from this function
+        '''
         file_list = DirectoryUtility.list_files(
             dirname, pattern, recursive=True, get_relative_path=True,
             include_hidden=include_hidden
@@ -115,8 +159,22 @@ class FileIndex:
         return
 
     def get_duplicate_file_list(self, verbose=False):
+        '''
+        Get a list of files with same key
+
+        :param verbose: print some debugging information
+        :type verbose: bool, optional
+
+        :return: a list of tuple (count, key, file_information),
+            where count is the number of files with same key,
+            key is the key of the files (which could be filename or MD5 digest),
+            and file_information is the information of the files
+        :rtype: tuple
+        '''
         duplicate_file_list = []
         for digest, value in self.indexes.iterate_entry():
+            # TODO: to check: digest is actually key, which could be filename or digest
+            # TODO: rename if necessary
             count = len(value)
             if count >= 2:
                 duplicate_file_list.append((count, digest, value))
