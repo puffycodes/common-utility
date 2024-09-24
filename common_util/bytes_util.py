@@ -269,10 +269,10 @@ class BytesUtility:
         :param sep: the separator to be inserted between the bytes in the
             hex string; for example '-' in the hex string 'BEEF-0012'
         :param bytes_per_sep: the number of bytes between each separator;
-            for example, bytes_per_sep means output will be 'BEEF00-12'
+            for example, bytes_per_sep=3 means output will be 'BEEF00-12'
         :type bytes: bytes
         :type sep: str, optional
-        :type bytes_per_step: int, optional
+        :type bytes_per_sep: int, optional
 
         :return: the hex string representation of the given bytes
         :rtype: str
