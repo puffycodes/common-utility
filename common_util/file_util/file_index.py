@@ -81,6 +81,7 @@ class FileIndex:
             :param filename: the name of the file
             :type filename: str
 
+            :meta private:
             :return: (name, extension), where name is the part of the file name
                 from the start up to the first period ('.');
                 and extension is the extension of the file, from the last period ('.')
@@ -107,6 +108,13 @@ class FileIndex:
     '''Index using filename'''
         
     def __init__(self, index_type=INDEX_DIGEST):
+        '''
+        Initialize a FileIndex
+
+        :param index_type: the type of index to use as index for file,
+            Valid values are FileIndex.INDEX_DIGEST or FileIndex.INDEX_FILENAME.
+        :type index_type: int
+        '''
         self.max_level = 5
         self.index_type = index_type
         if self.index_type == FileIndex.INDEX_FILENAME:
@@ -206,6 +214,9 @@ class FileIndex:
     # --- Internal Functions
 
     def get_file_md5_hash(self, file_name):
+        '''
+        (Internal)
+        '''
         with open(file_name, 'rb') as fd:
             data = fd.read()
             data_hash = hashlib.md5(data)
@@ -213,10 +224,16 @@ class FileIndex:
         return digest
 
     def get_file_size(self, file_name):
+        '''
+        (Internal)
+        '''
         file_size = os.path.getsize(file_name)
         return file_size
     
     def create_data_item(self, dirname, file, file_size, digest):
+        '''
+        (Internal)
+        '''
         return (dirname, file, file_size, digest)
 
 # --- end of file --- #
