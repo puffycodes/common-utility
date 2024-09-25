@@ -215,7 +215,14 @@ class FileIndex:
 
     def get_file_md5_hash(self, file_name):
         '''
-        (Internal)
+        (Internal) Compute the MD5 digest of a file
+
+        :meta private:
+        :param file_name: the name of the file
+        :type file_name: str
+
+        :return: the MD5 digest of the file
+        :rtype: str
         '''
         with open(file_name, 'rb') as fd:
             data = fd.read()
@@ -225,14 +232,34 @@ class FileIndex:
 
     def get_file_size(self, file_name):
         '''
-        (Internal)
+        (Internal) Return the file size of a file
+
+        :meta private:
+        :param file_name: the name of the file
+        :type file_name: str
+
+        :return: the size of the file
+        :rtype: int
         '''
         file_size = os.path.getsize(file_name)
         return file_size
     
     def create_data_item(self, dirname, file, file_size, digest):
         '''
-        (Internal)
+        (Internal) Create a data item for inserting into the index
+
+        :meta private:
+        :param dirname: directory name of the file
+        :param file: name of the file
+        :param file_size: size of the file
+        :param digest: MD5 digest of the file
+        :type dirname: str
+        :type file: str
+        :type file_size: int
+        :type digest: str
+
+        :return: the tuple (dirname, file, file_size, digest)
+        :rtype: tuple
         '''
         return (dirname, file, file_size, digest)
 
