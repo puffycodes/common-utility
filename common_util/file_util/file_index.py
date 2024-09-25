@@ -23,6 +23,15 @@ class FileIndex:
         '''
 
         def __init__(self, empty_subkey='none', use_file_extension=True):
+            '''
+            Initialize the object
+
+            :param empty_subkey: subkey to use when an empty key is derived
+            :param use_file_extension: whether file extension should be used
+                as one of the subkey
+            :type empty_subkey: str, optional
+            :type use_file_extension: bool, optional
+            '''
             super().__init__(empty_subkey=empty_subkey)
             self.use_file_extension = use_file_extension
             return
@@ -66,6 +75,18 @@ class FileIndex:
         #     return subkey
         
         def get_name_and_extension(self, filename):
+            '''
+            (Internal) Get name and extension from a filename
+
+            :param filename: the name of the file
+            :type filename: str
+
+            :return: (name, extension), where name is the part of the file name
+                from the start up to the first period ('.');
+                and extension is the extension of the file, from the last period ('.')
+                up to the end of the file name
+            :rtype: tuple of (str, str)
+            '''
             filename_parts = filename.split('.')
             component_count = len(filename_parts)
             if component_count <= 0:
