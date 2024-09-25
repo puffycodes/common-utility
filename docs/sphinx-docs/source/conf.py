@@ -31,7 +31,12 @@ extensions = [
 templates_path = ['_templates']
 exclude_patterns = []
 
-autodoc_member_order = 'groupwise'
+# autodoc_member_order = 'groupwise'
+
+autodoc_default_options = {
+    'member-order': 'groupwise',
+    'undoc-members': True,
+}
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

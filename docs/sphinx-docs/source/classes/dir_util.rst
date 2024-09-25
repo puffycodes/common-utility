@@ -32,4 +32,4 @@ All Class Methods
 .. autoclass:: common_util.dir_util.DirectoryUtilityConfig
     :members:
     :private-members:
-    :undoc-members:
+    :special-members: __init__

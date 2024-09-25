@@ -26,4 +26,4 @@ All Class Methods
 .. autoclass:: common_util.file_util.file_index.FileIndex
     :members:
     :private-members:
-    :undoc-members:
+    :special-members: __init__

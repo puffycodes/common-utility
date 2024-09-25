@@ -37,4 +37,4 @@ All Class Methods
 .. autoclass:: common_util.hexdump.HexDump
     :members:
     :private-members:
-    :undoc-members:
+    :special-members: __init__
