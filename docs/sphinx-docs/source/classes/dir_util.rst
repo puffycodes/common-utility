@@ -20,14 +20,13 @@ Other Functions
 
 .. autofunction:: common_util.dir_util.DirectoryUtility.pretty_print_copy_files_result
 
-
 All Class Methods
 -----------------
 
 .. autoclass:: common_util.dir_util.DirectoryUtility
     :members:
     :private-members:
-    :undoc-members:
+    :special-members: __init__
 
 .. autoclass:: common_util.dir_util.DirectoryUtilityConfig
     :members:
