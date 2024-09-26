@@ -30,3 +30,5 @@ All Class Methods
     :members:
     :private-members:
     :special-members: __init__
+    :member-order: groupwise
+    :undoc-members:

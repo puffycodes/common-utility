@@ -27,8 +27,12 @@ All Class Methods
     :members:
     :private-members:
     :special-members: __init__
+    :member-order: groupwise
+    :undoc-members:
 
 .. autoclass:: common_util.dir_util.DirectoryUtilityConfig
     :members:
     :private-members:
     :special-members: __init__
+    :member-order: groupwise
+    :undoc-members:

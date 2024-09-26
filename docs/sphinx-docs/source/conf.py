@@ -34,8 +34,8 @@ exclude_patterns = []
 # autodoc_member_order = 'groupwise'
 
 autodoc_default_options = {
-    'member-order': 'groupwise',
-    'undoc-members': True,
+#    'member-order': 'groupwise',
+#    'undoc-members': True,
 }
 
 # -- Options for HTML output -------------------------------------------------
