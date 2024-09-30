@@ -27,7 +27,7 @@ class MultiLevelIndex:
                 this value is returned when the generator cannot get a subkey
                 value for the subkey from the key provided, e.g. when the key
                 provided is too short.
-            :type empty_subkey: str
+            :type empty_subkey: str, optional
             '''
             self.empty_subkey = empty_subkey
             return
@@ -105,7 +105,7 @@ class MultiLevelIndex:
 
             :param empty_subkey: the value to use for empty subkey;
                 the value is passed to the base class for initialization
-            :type empty_subkey: str
+            :type empty_subkey: str, optional
             '''
             super().__init__(empty_subkey=empty_subkey)
             return
