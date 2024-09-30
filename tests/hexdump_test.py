@@ -76,6 +76,7 @@ class HexDumpTest(unittest.TestCase):
             [ HexDump.hex_array_to_string(data), '63 65 FF' ],
             [ HexDump.hex_array_to_string(data_2), '      63 65 FF   ' ],
             [ HexDump.hex_array_to_string(data_empty), '' ],
+            [ HexDump.hex_array_to_string(data[0:1]), '63' ],
             [ HexDump.hex_array_to_string(data, sep=''), '6365FF' ],
             [ HexDump.hex_array_to_string(data_2, sep=''), '    6365FF  ' ],
             [ HexDump.hex_array_to_string(data_empty, sep=''), '' ],
