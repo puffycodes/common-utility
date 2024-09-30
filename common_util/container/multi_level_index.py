@@ -16,10 +16,19 @@ class MultiLevelIndex:
 
     class SubkeyGenerator:
         '''
-        An abstract class for subkey generation.
+        An abstract class for subkey generator.
         '''
 
         def __init__(self, empty_subkey='none'):
+            '''
+            Initialize the object.
+
+            :param empty_subkey: the value to use for empty subkey;
+                this value is returned when the generator cannot get a subkey
+                value for the subkey from the key provided, e.g. when the key
+                provided is too short.
+            :type empty_subkey: str
+            '''
             self.empty_subkey = empty_subkey
             return
         
@@ -91,6 +100,13 @@ class MultiLevelIndex:
         '''
 
         def __init__(self, empty_subkey='none'):
+            '''
+            Initialize the object.
+
+            :param empty_subkey: the value to use for empty subkey;
+                the value is passed to the base class for initialization
+            :type empty_subkey: str
+            '''
             super().__init__(empty_subkey=empty_subkey)
             return
         
@@ -203,6 +219,9 @@ class MultiLevelIndex:
     
     # TODO: Do not need this as we can use find_all()?
     def find_one(self, key):
+        '''
+        Use find_all(). Do not use this.
+        '''
         print(f'please use find_all({key})')
         return
     
