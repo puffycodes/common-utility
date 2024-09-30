@@ -309,19 +309,16 @@ class HexDump:
     @staticmethod
     def to_hex(data, offset=0, length=-1, pos=0, sep=' '):
         '''
-        Convert a byte stream to a sting of hexadecimal representation.
+        Convert an array of bytes to a sting of hexadecimal representation.
 
-        :param data: the byte stream
+        :param data: the array of bytes
         :type data: bytes
 
-        :param offset: the range of bytes to output
-            - see hexdump() function
+        :param offset: the range of bytes to output; see hexdump() function
         :type offset: int, optional
-        :param length: the range of bytes to output
-            - see hexdump() function
+        :param length: the range of bytes to output; see hexdump() function
         :type length: int, optional
-        :param pos: the range of bytes to output
-            - see hexdump() function
+        :param pos: the range of bytes to output; see hexdump() function
         :type pos: int, optional
 
         :param sep: separator to insert between each byte
@@ -336,23 +333,20 @@ class HexDump:
     @staticmethod
     def to_hex_array(data, offset=0, length=-1, pos=0):
         '''
-        Convert a byte stream to a list of hexadecimal representation for each of
+        Convert an array of bytes to a list of hexadecimal representation for each of
         the byte.
 
-        :param data: the byte stream
+        :param data: the array of bytes
         :type data: bytes
 
-        :param offset: the range of bytes to output
-            - see hexdump() function
+        :param offset: the range of bytes to output; see hexdump() function
         :type offset: int, optional
-        :param length: the range of bytes to output
-            - see hexdump() function
+        :param length: the range of bytes to output; see hexdump() function
         :type length: int, optional
-        :param pos: the range of bytes to output
-            - see hexdump() function
+        :param pos: the range of bytes to output; see hexdump() function
         :type pos: int, optional
 
-        :return: a list of the hexadecimal representation of the byte stream
+        :return: a list of the hexadecimal representation of the array of bytes
         :rtype: list of str
         '''
         start_pos, end_pos = HexDump.pos_from_offset(len(data), offset=offset, length=length, pos=pos)
@@ -360,21 +354,41 @@ class HexDump:
         return hex_array
     
     @staticmethod
-    def to_text(data, offset=0, length=-1, pos=0):
+    def to_oct_array(data, offset=0, length=-1, pos=0):
         '''
-        Convert a byte stream to a string of text.
+        Convert an array of bytes to a list of octal representation for each of
+        the byte.
 
-        :param data: the byte stream
+        :param data: the array of bytes
         :type data: bytes
 
-        :param offset: the range of bytes to output
-            - see hexdump() function
+        :param offset: the range of bytes to output; see hexdump() function
         :type offset: int, optional
-        :param length: the range of bytes to output
-            - see hexdump() function
+        :param length: the range of bytes to output; see hexdump() function
         :type length: int, optional
-        :param pos: the range of bytes to output
-            - see hexdump() function
+        :param pos: the range of bytes to output; see hexdump() function
+        :type pos: int, optional
+
+        :return: a list of the octal representation of the array of bytes
+        :rtype: list of str
+        '''
+        start_pos, end_pos = HexDump.pos_from_offset(len(data), offset=offset, length=length, pos=pos)
+        oct_array = [f'{c:03o}' for c in data[start_pos:end_pos]]
+        return oct_array
+    
+    @staticmethod
+    def to_text(data, offset=0, length=-1, pos=0):
+        '''
+        Convert ab array of bytes to a string of text.
+
+        :param data: the array of bytes
+        :type data: bytes
+
+        :param offset: the range of bytes to output; see hexdump() function
+        :type offset: int, optional
+        :param length: the range of bytes to output; see hexdump() function
+        :type length: int, optional
+        :param pos: the range of bytes to output; see hexdump() function
         :type pos: int, optional
 
         :return: the string of text representation
@@ -420,7 +434,7 @@ class HexDump:
             an equivalent number of spaces will be inserted instead
         :type sep: str, optional
 
-        :return: the list of dexadeciaml representation as a single string
+        :return: the list of hexadeciaml representation as a single string
         :rtype: str
         '''
         sep_length = len(sep)

@@ -43,6 +43,17 @@ class HexDumpTest(unittest.TestCase):
         for result, expected_result in test_cases:
             self.assertEqual(result, expected_result)
         return
+    
+    def test_to_oct_array(self):
+        data = bytes([ 0, 1 ])
+        data += b'abcdefg'
+        test_cases = [
+            [ HexDump.to_oct_array(data), [ '000', '001', '141', '142', '143', '144', '145', '146', '147' ] ],
+            [ HexDump.to_oct_array(data, offset=4), [ '143', '144', '145', '146', '147' ] ],
+        ]
+        for result, expected_result in test_cases:
+            self.assertEqual(result, expected_result)
+        return
 
     def test_01(self):
         all_bytes = bytes([v for v in range(256)])

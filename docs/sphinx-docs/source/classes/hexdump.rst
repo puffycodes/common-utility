@@ -22,6 +22,7 @@ Functions for Formatting Bytes
 
 .. autofunction:: common_util.hexdump.HexDump.to_hex
 .. autofunction:: common_util.hexdump.HexDump.to_hex_array
+.. autofunction:: common_util.hexdump.HexDump.to_oct_array
 .. autofunction:: common_util.hexdump.HexDump.to_text
 
 Internal Functions
