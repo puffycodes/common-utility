@@ -47,6 +47,7 @@ class MultiLevelIndex:
             :param level: the level of the subkey
             :type key: str
             :type level: int
+            :raise: ValueError
 
             :return: level
             :rtype: int
@@ -101,6 +102,7 @@ class MultiLevelIndex:
             :param level: the level of the subkey
             :type key: str
             :type level: int
+            :raise: ValueError
 
             :return: subkey
             :rtype: str
@@ -233,8 +235,7 @@ class MultiLevelIndex:
         '''
         Iterate through all the entries in the Index
 
-        :meta privae:
-        :return: (key, value), where key is the key, and value the object
+        :return: (key, value), where key is the key, and value is the object
         :rtype: tuple
         '''
         level = 0
@@ -244,6 +245,20 @@ class MultiLevelIndex:
         return
     
     def iterate_entry_2(self, key, value, level):
+        '''
+        (Internal) Iterate through all the entires below one node in the Index
+
+        :meta private:
+        :param key: the key for the node
+        :param value: the content of the node
+        :param level: the current level
+        :type key: str
+        :type value: dict
+        :type level: int
+
+        :return: (key, value), where key is the key, and value is the object
+        :rtype: tuple
+        '''
         if level >= self.max_level:
             if key == self.data_container_tag:
                 for key_n, value_n in value.items():
@@ -264,6 +279,8 @@ class MultiLevelIndex:
         :param fout: file id to output the index
         :type indent_char: str, optional
         :type fout: file id, optional
+
+        :return: nothing is returned by this function
         '''
         level = 0
         for key, value in self.data.items():
@@ -271,6 +288,24 @@ class MultiLevelIndex:
         return
     
     def print_2(self, key, value, level, indent_char='-', fout=sys.stdout):
+        '''
+        (Internal) Print the internal representation of one node in the Index, recursively
+
+        :meta private:
+        :param key: the key for the node
+        :param value: the content of the node
+        :param level: the current level
+        :type key: str
+        :type value: dict
+        :type level: int
+
+        :param indent_char: the character to used for indentation
+        :param fout: file id to output the index
+        :type indent_char: str, optional
+        :type fout: file id, optional
+
+        :return: nothing is returned by this function
+        '''
         if level > self.max_level:
             print(f'{indent_char*level}{key}: {value}', file=fout)
         else:
@@ -282,17 +317,55 @@ class MultiLevelIndex:
     # --- Internal Functions
     
     def check_container(self, data, subkey):
+        '''
+        (Internal) Check if a sub-container with the subkey exists in the current container
+
+        :meta private:
+        :param data: the container to check
+        :param subkey: the subkey of the sub-container
+        :type data: dict
+        :type subkey: str
+
+        :return: the sub-container, if exists; otherwise, return None
+        :rtype: dict or None
+        '''
         result = None
         if subkey in data:
             result = data[subkey]
         return result
         
     def get_container(self, data, subkey):
+        '''
+        (Internal) Get a sub-container with the subkey from the current container;
+        Create the sub-container if it does not exist
+
+        :meta private:
+        :param data: the container to check
+        :param subkey: the subkey of the sub-container
+        :type data: dict
+        :type subkey: str
+
+        :return: the sub-container
+        :rtype: dict
+        '''
         if subkey not in data:
             data[subkey] = {}
         return data[subkey]
     
     def add_item(self, data, key, item):
+        '''
+        (Internal) Add the key, item pair to the data container
+
+        :meta private:
+        :param data: the contain to add the pair to
+        :param key: the key of the item
+        :param item: the information associate with key
+        :type data: dict
+        :type subkey: str
+        :type item: Any
+
+        :return: nothing is returned by this function
+        '''
         if self.data_container_tag not in data:
             data[self.data_container_tag] = {}
         if key not in data[self.data_container_tag]:
