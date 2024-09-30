@@ -71,13 +71,20 @@ class HexDumpTest(unittest.TestCase):
         data_2 = [ '  ', '  ' ]
         data_2.extend(data)
         data_2.extend([ '  ' ])
+        data_empty = []
         test_cases = [
             [ HexDump.hex_array_to_string(data), '63 65 FF' ],
             [ HexDump.hex_array_to_string(data_2), '      63 65 FF   ' ],
+            [ HexDump.hex_array_to_string(data_empty), '' ],
+            [ HexDump.hex_array_to_string(data, sep=''), '6365FF' ],
+            [ HexDump.hex_array_to_string(data_2, sep=''), '    6365FF  ' ],
+            [ HexDump.hex_array_to_string(data_empty, sep=''), '' ],
             [ HexDump.hex_array_to_string(data, sep='='), '63=65=FF' ],
             [ HexDump.hex_array_to_string(data_2, sep='='), '      63=65=FF   ' ],
+            [ HexDump.hex_array_to_string(data_empty, sep='='), '' ],
             [ HexDump.hex_array_to_string(data, sep='=='), '63==65==FF' ],
             [ HexDump.hex_array_to_string(data_2, sep='=='), '        63==65==FF    ' ],
+            [ HexDump.hex_array_to_string(data_empty, sep='=='), '' ],
         ]
         for result, expected_result in test_cases:
             self.assertEqual(result, expected_result)

@@ -442,6 +442,8 @@ class HexDump:
             # - special cases when separator is a space (' ') or empty ('')
             return sep.join(hex_array)
         result = ''
+        if len(hex_array) <= 0:
+            return result
         for i in range(len(hex_array) - 1):
             result += hex_array[i]
             # - insert separator only between two hex strings that are
