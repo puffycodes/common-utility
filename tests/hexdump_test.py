@@ -44,12 +44,40 @@ class HexDumpTest(unittest.TestCase):
             self.assertEqual(result, expected_result)
         return
     
+    def test_to_hex_array(self):
+        data = bytes([ 0, 1 ])
+        data += b'abcdefg'
+        test_cases = [
+            [ HexDump.to_hex_array(data), [ '00', '01', '61', '62', '63', '64', '65', '66', '67' ] ],
+            [ HexDump.to_hex_array(data, offset=4), [ '63', '64', '65', '66', '67' ] ],
+        ]
+        for result, expected_result in test_cases:
+            self.assertEqual(result, expected_result)
+        return
+
     def test_to_oct_array(self):
         data = bytes([ 0, 1 ])
         data += b'abcdefg'
         test_cases = [
             [ HexDump.to_oct_array(data), [ '000', '001', '141', '142', '143', '144', '145', '146', '147' ] ],
             [ HexDump.to_oct_array(data, offset=4), [ '143', '144', '145', '146', '147' ] ],
+        ]
+        for result, expected_result in test_cases:
+            self.assertEqual(result, expected_result)
+        return
+    
+    def test_hex_array_to_string(self):
+        data = [ '63', '65', 'FF' ]
+        data_2 = [ '  ', '  ' ]
+        data_2.extend(data)
+        data_2.extend([ '  ' ])
+        test_cases = [
+            [ HexDump.hex_array_to_string(data), '63 65 FF' ],
+            [ HexDump.hex_array_to_string(data_2), '      63 65 FF   ' ],
+            [ HexDump.hex_array_to_string(data, sep='='), '63=65=FF' ],
+            [ HexDump.hex_array_to_string(data_2, sep='='), '      63=65=FF   ' ],
+            [ HexDump.hex_array_to_string(data, sep='=='), '63==65==FF' ],
+            [ HexDump.hex_array_to_string(data_2, sep='=='), '        63==65==FF    ' ],
         ]
         for result, expected_result in test_cases:
             self.assertEqual(result, expected_result)
