@@ -449,11 +449,31 @@ class HexDump:
             # - insert separator only between two hex strings that are
             #   not empty (i.e. space)
             # - otherwise insert the equivalent amount of space instead
-            if hex_array[i] != '  ' and hex_array[i+1] != '  ':
-                result += sep
-            else:
+            if HexDump.is_spaces(hex_array[i]) or HexDump.is_spaces(hex_array[i+1]):
                 result += ' ' * sep_length
+            else:
+                result += sep
         result += hex_array[-1]
+        return result
+
+    @staticmethod
+    def is_spaces(string):
+        '''
+        (Internal) Check that a string contains only spaces (0x20)
+
+        Not using str.isspace() because this function allow other whitespaces
+
+        :param string: the string to check
+        :type string: str
+
+        :return: True if the string contains only spaces; False otherwise
+        :rtype: bool
+        '''
+        result = True
+        for c in string:
+            if c != ' ':
+                result = False
+                break
         return result
     
     @staticmethod
