@@ -34,18 +34,19 @@ class HexDumpTest(unittest.TestCase):
     def test_to_text(self):
         data = bytes([ 0, 1 ])
         data += b'abcdefg'
+        # [ <array>, <kwargs>, <to_text_result> ]
         test_cases = [
-            [ HexDump.to_text(data), '..abcdefg' ],
-            [ HexDump.to_text(data, offset=4), 'cdefg' ],
-            [ HexDump.to_text(data, length=3), '..a' ],
-            [ HexDump.to_text(data, pos=5), 'defg' ],
-            [ HexDump.to_text(data, offset=4, length=3, pos=2), 'efg' ],
-            [ HexDump.to_text(data, offset=4, length=3, pos=3), 'fg' ],
-            [ HexDump.to_text(data, offset=4, length=3, pos=4), 'g' ],
-            [ HexDump.to_text(data, offset=4, length=3, pos=5), '' ],
+            [ data, {}, '..abcdefg' ],
+            [ data, { 'offset': 4 }, 'cdefg' ],
+            [ data, { 'length': 3 }, '..a' ],
+            [ data, { 'pos': 5 }, 'defg' ],
+            [ data, { 'offset': 4, 'length': 3, 'pos': 2 }, 'efg' ],
+            [ data, { 'offset': 4, 'length': 3, 'pos': 3 }, 'fg' ],
+            [ data, { 'offset': 4, 'length': 3, 'pos': 4 }, 'g' ],
+            [ data, { 'offset': 4, 'length': 3, 'pos': 5 }, '' ],
         ]
-        for result, expected_result in test_cases:
-            self.assertEqual(result, expected_result)
+        for array, kwargs, to_text_result in test_cases:
+            self.assertEqual(HexDump.to_text(array, **kwargs), to_text_result)
         return
     
     def test_to_hex_array(self):
