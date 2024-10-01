@@ -23,13 +23,23 @@ class HexDumpTest(unittest.TestCase):
             [ data, { 'length': 5, 'sep': '/' }, '00/01/02/03/04', '000/001/002/003/004' ],
             [ data, { 'length': 5, 'sep': '..'}, '00..01..02..03..04', '000..001..002..003..004' ],
             [ data, { 'length': 5, 'sep': ''}, '0001020304', '000001002003004' ],
+
+            # TODO: Check these cases
+            [ data, { 'offset': -5 }, '04 05 20 21 22', '004 005 040 041 042' ],
+            [ data, { 'pos': -5 }, '04 05 20 21 22', '004 005 040 041 042' ],
+            [ data, { 'offset': -5, 'pos': -5 }, '00 01 02 03 04 05 20 21 22', '000 001 002 003 004 005 040 041 042' ],
+            [ data, { 'offset': -5, 'length': 5, 'pos': -5 }, '00 01 02 03', '000 001 002 003' ],
+            [ data, { 'offset': -5, 'length': -5, 'pos': -5 }, '00 01 02 03 04 05 20 21 22', '000 001 002 003 004 005 040 041 042' ],
+
             [ data[2:5], {}, '02 03 04', '002 003 004' ],
             [ data[2:5], { 'pos': 1 }, '03 04', '003 004' ],
             [ data[2:5], { 'pos': 5 }, '', '' ],
-            [ data[2:5], { 'pos': -5 }, '02 03 04', '002 003 004' ], # TODO: Check this case
-            [ data[2:5], { 'offset': 2, 'pos': -5 }, '02 03 04', '002 003 004' ], # TODO: Check this case
-            [ data[2:5], { 'offset': 5, 'pos': -5 }, '02 03 04', '002 003 004' ], # TODO: Check this case
-            [ data[2:5], { 'offset': 6, 'pos': -5 }, '03 04', '003 004' ], # TODO: Check this case
+
+            # TODO: Check these cases
+            [ data[2:5], { 'pos': -5 }, '02 03 04', '002 003 004' ],
+            [ data[2:5], { 'offset': 2, 'pos': -5 }, '02 03 04', '002 003 004' ],
+            [ data[2:5], { 'offset': 5, 'pos': -5 }, '02 03 04', '002 003 004' ],
+            [ data[2:5], { 'offset': 6, 'pos': -5 }, '03 04', '003 004' ],
         ]
         for array, kwargs, to_hex_result, to_oct_result in test_cases:
             self.assertEqual(HexDump.to_hex(array, **kwargs), to_hex_result)
