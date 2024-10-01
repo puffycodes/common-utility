@@ -125,7 +125,8 @@ class HexDump:
     @staticmethod
     def hexdump_start_and_end(data, byte_count_start=48, byte_count_end=48,
                               sep=' ', bytes_per_line=16, pos_label=-1,
-                              align_front=True, filler_line=''):
+                              align_front=True, filler_line='',
+                              dump_type=DUMPTYPE_HEX):
         '''
         Output the start and end bytes of a byte stream in pretty format, formatting
         as hexadecimal and text with position as tag.
@@ -155,6 +156,10 @@ class HexDump:
             bytes and end bytes, if any
         :type filler_line: str, optional
 
+        :param dump_type: choices to display bytes in hexadecimal (DUMPTYPE_HEX) or
+            octal (DUMPTYPE_OCT)
+        :type dump_type: int, optional
+
         :return: An array contains the indicated portion of the byte stream in pretty
             format
         :rtype: list of str
@@ -174,7 +179,7 @@ class HexDump:
                     HexDump.hexdump(
                         data, offset=0, length=byte_count_start,
                         sep=sep, bytes_per_line=bytes_per_line, pos_label=pos_label,
-                        align_front=align_front
+                        align_front=align_front, dump_type=dump_type
                     )
                 )
             # add in the filler line
@@ -193,14 +198,15 @@ class HexDump:
                     HexDump.hexdump(
                         data, offset=end_offset, length=byte_count_end,
                         sep=sep, bytes_per_line=bytes_per_line, pos_label=end_pos_label,
-                        align_front=align_front
+                        align_front=align_front, dump_type=dump_type
                     )
                 )
         else:
             # hexdump the whole data if it is too short
             hexdump_array = HexDump.hexdump(
                 data, sep=sep, bytes_per_line=bytes_per_line,
-                pos_label=pos_label, align_front=align_front
+                pos_label=pos_label, align_front=align_front,
+                dump_type=dump_type
             )
 
         return hexdump_array
@@ -268,7 +274,8 @@ class HexDump:
     @staticmethod
     def hexdump_and_print(data_list, label_list=[], pos_label_list=[],
                           sep=' ', bytes_per_line=16, max_bytes_show=-1, filler_line='',
-                          prefix='', sep_line='', fout=sys.stdout):
+                          dump_type=DUMPTYPE_HEX, prefix='', sep_line='',
+                          fout=sys.stdout):
         '''
         Print the hexdump of a list of byte stream.
 
@@ -293,6 +300,10 @@ class HexDump:
         :param filler_line: the filler_line for calling hexdump_start_and_end()
         :type filler_line: str, optional
 
+        :param dump_type: choices to display bytes in hexadecimal (DUMPTYPE_HEX) or
+            octal (DUMPTYPE_OCT)
+        :type dump_type: int, optional
+
         :param prefix: the prefix for calling print_hexdump()
         :type prefix: str, optional
         :param sep_line: the line to print between each hexdump
@@ -311,7 +322,7 @@ class HexDump:
             if max_bytes_show <= 0 or len(curr_data) < max_bytes_show:
                 hexdump_array = HexDump.hexdump(
                     curr_data, sep=sep, bytes_per_line=bytes_per_line,
-                    pos_label=curr_pos_label
+                    pos_label=curr_pos_label, dump_type=dump_type
                 )
             else:
                 bytes_count_start = max_bytes_show // 2
@@ -319,7 +330,7 @@ class HexDump:
                 hexdump_array = HexDump.hexdump_start_and_end(
                     curr_data, byte_count_start=bytes_count_start, byte_count_end=bytes_count_end,
                     sep=sep, bytes_per_line=bytes_per_line, pos_label=curr_pos_label,
-                    filler_line=filler_line
+                    filler_line=filler_line, dump_type=dump_type
                 )
             if curr_label != '':
                 print(f'{curr_label}', file=fout)

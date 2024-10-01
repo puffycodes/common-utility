@@ -395,13 +395,17 @@ class HexDumpTest(unittest.TestCase):
         pos_label_list = [ 0, 33, 679, 500, 9998 ]
         data_list = [ data[pos:pos+random.randint(31,68)] for pos in pos_label_list ]
         label_list = [ f'data at position {pos} (0x{pos:x}):' for pos in pos_label_list ]
-        print()
-        print(f'=== test hexdump_and_print() ===')
-        HexDump.hexdump_and_print(
-            data_list, label_list=label_list, pos_label_list=pos_label_list,
-            max_bytes_show=48
-        )
-        print(f'=== test end hexdump_and_print() ===')
+        kwargs_list = [
+            { }, { 'dump_type': HexDump.DUMPTYPE_OCT },
+        ]
+        for kwargs in kwargs_list:
+            print()
+            print(f'=== test hexdump_and_print() ===')
+            HexDump.hexdump_and_print(
+                data_list, label_list=label_list, pos_label_list=pos_label_list,
+                max_bytes_show=48, **kwargs
+            )
+            print(f'=== test end hexdump_and_print() ===')
         return
     
 if __name__ == '__main__':
