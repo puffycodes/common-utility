@@ -27,9 +27,13 @@ class HexDump:
     brief_hexdump().
     '''
 
+    DUMPTYPE_HEX = 0
+    DUMPTYPE_OCT = 1
+
     @staticmethod
     def hexdump(data, offset=0, length=-1, pos=0,
-                sep=' ', bytes_per_line=16, pos_label=-1, align_front=True):
+                sep=' ', bytes_per_line=16, pos_label=-1, align_front=True,
+                dump_type=DUMPTYPE_HEX):
         '''
         Output byte stream in pretty format, formatting as hexadecimal and text with
         position as tag.
@@ -56,11 +60,31 @@ class HexDump:
             boundary indicated by bytes_per_line
         :type align_front: bool, optional
 
+        :param dump_type: choices to display bytes in hexadecimal (DUMPTYPE_HEX) or
+            octal (DUMPTYPE_OCT)
+        :type dump_type: int, optional
+
         :return: An array contains the byte stream in pretty format
         :rtype: list of str
         '''
         if pos_label < 0:
             pos_label = pos + offset
+
+        if dump_type == HexDump.DUMPTYPE_OCT:
+            # Octal
+            blank_hex_str = '   '
+            data_dump_hex_array = HexDump.to_oct_array(
+                data, offset=offset, length=length, pos=pos
+            )
+        else:
+            # default is hexadecimal
+            blank_hex_str = '  '
+            data_dump_hex_array = HexDump.to_hex_array(
+                data, offset=offset, length=length, pos=pos
+            )
+
+        blank_text_str = ' '
+        data_dump_text = HexDump.to_text(data, offset=offset, length=length, pos=pos)
 
         hex_array = []
         text_str = ''
@@ -69,23 +93,21 @@ class HexDump:
         if align_front:
             front_padding_count = pos_label % bytes_per_line
             if front_padding_count != 0:
-                hex_array = ['  '] * front_padding_count
-                text_str = ' ' * front_padding_count
+                hex_array = [blank_hex_str] * front_padding_count
+                text_str = blank_text_str * front_padding_count
                 pos_label = pos_label - (pos_label % bytes_per_line)
         
         # Add the hexdump and text representation
-        hex_array.extend(
-            HexDump.to_hex_array(data, offset=offset, length=length, pos=pos)
-        )
-        text_str += HexDump.to_text(data, offset=offset, length=length, pos=pos)
+        hex_array.extend(data_dump_hex_array)
+        text_str += data_dump_text
 
         # Pad at the back to align to bytes_per_line boundary
         byte_count = len(hex_array)
         last_line_byte_count = byte_count % bytes_per_line
         if last_line_byte_count != 0:
             back_padding_count = bytes_per_line - last_line_byte_count
-            hex_array.extend(['  '] * back_padding_count)
-            text_str += ' ' * back_padding_count
+            hex_array.extend([blank_hex_str] * back_padding_count)
+            text_str += blank_text_str * back_padding_count
             byte_count += back_padding_count
 
         # Output the hexdump as array of text
