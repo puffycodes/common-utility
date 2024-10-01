@@ -190,31 +190,46 @@ class HexDumpTest(unittest.TestCase):
         return
     
     def test_hexdump(self):
-        print()
+        verbose = True
+        kwargs = { 'dump_type': HexDump.DUMPTYPE_OCT }
 
         all_bytes = bytes([v for v in range(256)])
+
+        print()
         
         hexdump_array = HexDump.hexdump(all_bytes)
-        HexDump.print_hexdump(hexdump_array)
-        print()
-        self.assertEqual(
-            hexdump_array[0],
-            '00000000: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F  |................|'
-        )
-        hexdump_array_oct = HexDump.hexdump(all_bytes, dump_type=HexDump.DUMPTYPE_OCT)
-        HexDump.print_hexdump(hexdump_array_oct)
-        print()
-        self.assertEqual(
-            hexdump_array_oct[0],
-            '00000000: 000 001 002 003 004 005 006 007 010 011 012 013 014 015 016 017  |................|'
+        # HexDump.print_hexdump(hexdump_array)
+        # print()
+        # self.assertEqual(
+        #     hexdump_array[0],
+        #     '00000000: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F  |................|'
+        # )
+        hexdump_array_oct = HexDump.hexdump(all_bytes, **kwargs)
+        # HexDump.print_hexdump(hexdump_array_oct)
+        # print()
+        # self.assertEqual(
+        #     hexdump_array_oct[0],
+        #     '00000000: 000 001 002 003 004 005 006 007 010 011 012 013 014 015 016 017  |................|'
+        # )
+        self.do_check_hexdump(
+            hexdump_array, hexdump_array_oct,
+            '00000000: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F  |................|',
+            '00000000: 000 001 002 003 004 005 006 007 010 011 012 013 014 015 016 017  |................|',
+            verbose=verbose
         )
 
         hexdump_array = HexDump.hexdump(all_bytes, bytes_per_line=32)
-        HexDump.print_hexdump(hexdump_array)
-        print()
-        self.assertEqual(
-            hexdump_array[0],
-            '00000000: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F  |................................|'
+        hexdump_array_oct = HexDump.hexdump(all_bytes, bytes_per_line=32, **kwargs)
+        # HexDump.print_hexdump(hexdump_array)
+        # print()
+        # self.assertEqual(
+        #     hexdump_array[0],
+        # )
+        self.do_check_hexdump(
+            hexdump_array, hexdump_array_oct,
+            '00000000: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F  |................................|',
+            '00000000: 000 001 002 003 004 005 006 007 010 011 012 013 014 015 016 017 020 021 022 023 024 025 026 027 030 031 032 033 034 035 036 037  |................................|',
+            verbose=verbose
         )
 
         hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, sep='-')
@@ -282,6 +297,20 @@ class HexDumpTest(unittest.TestCase):
 
         return
     
+    def do_check_hexdump(self, hexdump_array, hexdump_array_oct,
+                         expected_result_01, expected_result_02,
+                         verbose=False):
+        if verbose:
+            print(f'Hexadecimal:')
+            HexDump.print_hexdump(hexdump_array)
+            print()
+            print(f'Octal:')
+            HexDump.print_hexdump(hexdump_array_oct)
+            print()
+        self.assertEqual(hexdump_array[0], expected_result_01)
+        self.assertEqual(hexdump_array_oct[0], expected_result_02)
+        return
+    
     def test_hexdump_start_and_end(self):
         verbose = True
         if verbose:
@@ -307,6 +336,7 @@ class HexDumpTest(unittest.TestCase):
                 print(f'data length: {data_length} = 0x{data_length:x}')
                 print(f'start: {start}; end: {end}; expected line: {expected_count_1}')
                 HexDump.print_hexdump(hexdump_array)
+                print()
             self.assertEqual(len(hexdump_array), expected_count_1)
 
         for start, end, _, expected_count_2 in test_cases:
@@ -319,6 +349,7 @@ class HexDumpTest(unittest.TestCase):
                 print(f'data length: {data_length} = 0x{data_length:x}')
                 print(f'start: {start}; end: {end}; expected line: {expected_count_2}')
                 HexDump.print_hexdump(hexdump_array)
+                print()
             self.assertEqual(len(hexdump_array), expected_count_2)
 
         return
@@ -353,6 +384,7 @@ class HexDumpTest(unittest.TestCase):
             if verbose:
                 print(f'start_line: {start_line}; end_line: {end_line}; expected_count: {expected_count}')
                 HexDump.print_hexdump(brief_hexdump_array, prefix='  ')
+                print()
             self.assertEqual(len(brief_hexdump_array), expected_count)
 
         return
