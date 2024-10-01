@@ -22,6 +22,7 @@ Functions for Formatting Bytes
 
 .. autofunction:: common_util.hexdump.HexDump.to_hex
 .. autofunction:: common_util.hexdump.HexDump.to_hex_array
+.. autofunction:: common_util.hexdump.HexDump.to_oct
 .. autofunction:: common_util.hexdump.HexDump.to_oct_array
 .. autofunction:: common_util.hexdump.HexDump.to_text
 
@@ -30,6 +31,7 @@ Internal Functions
 
 .. autofunction:: common_util.hexdump.HexDump.char_to_text
 .. autofunction:: common_util.hexdump.HexDump.hex_array_to_string
+.. autofunction:: common_util.hexdump.HexDump.is_spaces
 .. autofunction:: common_util.hexdump.HexDump.pos_from_offset
 
 All Class Methods
