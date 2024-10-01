@@ -25,6 +25,11 @@ class HexDumpTest(unittest.TestCase):
             [ data, { 'length': 5, 'sep': ''}, '0001020304', '000001002003004' ],
             [ data[2:5], {}, '02 03 04', '002 003 004' ],
             [ data[2:5], { 'pos': 1 }, '03 04', '003 004' ],
+            [ data[2:5], { 'pos': 5 }, '', '' ],
+            [ data[2:5], { 'pos': -5 }, '02 03 04', '002 003 004' ], # TODO: Check this case
+            [ data[2:5], { 'offset': 2, 'pos': -5 }, '02 03 04', '002 003 004' ], # TODO: Check this case
+            [ data[2:5], { 'offset': 5, 'pos': -5 }, '02 03 04', '002 003 004' ], # TODO: Check this case
+            [ data[2:5], { 'offset': 6, 'pos': -5 }, '03 04', '003 004' ], # TODO: Check this case
         ]
         for array, kwargs, to_hex_result, to_oct_result in test_cases:
             self.assertEqual(HexDump.to_hex(array, **kwargs), to_hex_result)
