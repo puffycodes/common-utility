@@ -305,6 +305,8 @@ class HexDump:
             print(f'{sep_line}', file=fout)
             count += 1
         return
+    
+    # --- Conversions to Hexadecimal
 
     @staticmethod
     def to_hex(data, offset=0, length=-1, pos=0, sep=' '):
@@ -353,6 +355,32 @@ class HexDump:
         hex_array = [f'{c:02X}' for c in data[start_pos:end_pos]]
         return hex_array
     
+    # --- Conversions to Octal
+
+    @staticmethod
+    def to_oct(data, offset=0, length=-1, pos=0, sep=' '):
+        '''
+        Convert an array of bytes to a sting of octal representation.
+
+        :param data: the array of bytes
+        :type data: bytes
+
+        :param offset: the range of bytes to output; see hexdump() function
+        :type offset: int, optional
+        :param length: the range of bytes to output; see hexdump() function
+        :type length: int, optional
+        :param pos: the range of bytes to output; see hexdump() function
+        :type pos: int, optional
+
+        :param sep: separator to insert between each byte
+        :type sep: str, optional
+
+        :return: the string of octal representation
+        :rtype: str
+        '''
+        oct_array = HexDump.to_oct_array(data, offset=offset, length=length, pos=pos)
+        return HexDump.hex_array_to_string(oct_array, sep=sep)
+
     @staticmethod
     def to_oct_array(data, offset=0, length=-1, pos=0):
         '''
@@ -376,6 +404,8 @@ class HexDump:
         oct_array = [f'{c:03o}' for c in data[start_pos:end_pos]]
         return oct_array
     
+    # --- Conversions to Text
+
     @staticmethod
     def to_text(data, offset=0, length=-1, pos=0):
         '''
