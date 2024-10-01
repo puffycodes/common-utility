@@ -31,48 +31,6 @@ class HexDumpTest(unittest.TestCase):
             self.assertEqual(HexDump.to_oct(array, **kwargs), to_oct_result)
         return
 
-    def test_to_hex(self):
-        data = bytes([ 0, 1, 2, 3, 4, 5, 32, 33, 34 ])
-        test_cases = [
-            # [ HexDump.to_hex(data), '00 01 02 03 04 05 20 21 22' ],
-            # [ HexDump.to_hex(data, offset=4), '04 05 20 21 22'],
-            # [ HexDump.to_hex(data, length=5), '00 01 02 03 04' ],
-            # [ HexDump.to_hex(data, pos=2), '02 03 04 05 20 21 22' ],
-            # [ HexDump.to_hex(data, offset=4, length=3), '04 05 20'],
-            # [ HexDump.to_hex(data, offset=4, pos=2), '20 21 22' ],
-            # [ HexDump.to_hex(data, offset=4, length=2, pos=2), '20 21'],
-            # [ HexDump.to_hex(data, offset=4, length=2, pos=3), '21 22'],
-            # [ HexDump.to_hex(data, offset=4, length=2, pos=4), '22'],
-            # [ HexDump.to_hex(data, length=5, sep='/'), '00/01/02/03/04' ],
-            # [ HexDump.to_hex(data, length=5, sep='..'), '00..01..02..03..04' ],
-            # [ HexDump.to_hex(data, length=5, sep=''), '0001020304' ],
-            # [ HexDump.to_hex(data[2:5]), '02 03 04' ],
-        ]
-        for result, expected_result in test_cases:
-            self.assertEqual(result, expected_result)
-        return
-    
-    def test_to_oct(self):
-        data = bytes([ 0, 1, 2, 3, 4, 5, 32, 33, 34 ])
-        test_cases = [
-            # [ HexDump.to_oct(data), '000 001 002 003 004 005 040 041 042' ],
-            # [ HexDump.to_oct(data, offset=4), '004 005 040 041 042'],
-            # [ HexDump.to_oct(data, length=5), '000 001 002 003 004' ],
-            # [ HexDump.to_oct(data, pos=2), '002 003 004 005 040 041 042' ],
-            # [ HexDump.to_oct(data, offset=4, length=3), '004 005 040'],
-            # [ HexDump.to_oct(data, offset=4, pos=2), '040 041 042' ],
-            # [ HexDump.to_oct(data, offset=4, length=2, pos=2), '040 041'],
-            # [ HexDump.to_oct(data, offset=4, length=2, pos=3), '041 042'],
-            # [ HexDump.to_oct(data, offset=4, length=2, pos=4), '042'],
-            # [ HexDump.to_oct(data, length=5, sep='/'), '000/001/002/003/004' ],
-            # [ HexDump.to_oct(data, length=5, sep='..'), '000..001..002..003..004' ],
-            # [ HexDump.to_oct(data, length=5, sep=''), '000001002003004' ],
-            # [ HexDump.to_oct(data[2:5]), '002 003 004' ],
-        ]
-        for result, expected_result in test_cases:
-            self.assertEqual(result, expected_result)
-        return
-    
     def test_to_text(self):
         data = bytes([ 0, 1 ])
         data += b'abcdefg'
