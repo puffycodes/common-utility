@@ -468,8 +468,8 @@ class HexDump:
         :rtype: str
         '''
         sep_length = len(sep)
-        if sep == ' ' or sep_length <= 0:
-            # - special cases when separator is a space (' ') or empty ('')
+        if sep_length <= 0 or HexDump.is_spaces(sep):
+            # - special cases when separator is empty ('') or all spaces (' ')
             return sep.join(hex_array)
         result = ''
         if len(hex_array) <= 0:

@@ -118,6 +118,18 @@ class HexDumpTest(unittest.TestCase):
             [ HexDump.hex_array_to_string(data_empty, sep='=='), '' ],
             [ HexDump.hex_array_to_string(data[0:1], sep='=='), '63' ],
             [ HexDump.hex_array_to_string(data_2[0:1], sep='=='), '  ' ],
+
+            [ HexDump.hex_array_to_string(data, sep='  '), '63  65  FF' ],
+            [ HexDump.hex_array_to_string(data_2, sep='  '), '        63  65  FF    ' ],
+            [ HexDump.hex_array_to_string(data_empty, sep='  '), '' ],
+            [ HexDump.hex_array_to_string(data[0:1], sep='  '), '63' ],
+            [ HexDump.hex_array_to_string(data_2[0:1], sep='  '), '  ' ],
+
+            [ HexDump.hex_array_to_string(data, sep=' .'), '63 .65 .FF' ],
+            [ HexDump.hex_array_to_string(data_2, sep=' .'), '        63 .65 .FF    ' ],
+            [ HexDump.hex_array_to_string(data_empty, sep=' .'), '' ],
+            [ HexDump.hex_array_to_string(data[0:1], sep=' .'), '63' ],
+            [ HexDump.hex_array_to_string(data_2[0:1], sep=' .'), '  ' ],
         ]
 
         for result, expected_result in test_cases:
@@ -142,6 +154,14 @@ class HexDumpTest(unittest.TestCase):
             [
                 HexDump.hex_array_to_string(data, sep='=='),
                 '000       001==002==003       004               '
+            ],
+            [
+                HexDump.hex_array_to_string(data, sep='  '),
+                '000       001  002  003       004               '
+            ],
+            [
+                HexDump.hex_array_to_string(data, sep=' .'),
+                '000       001 .002 .003       004               '
             ],
         ]
         for result, expected_result in test_cases:
