@@ -6,11 +6,23 @@ from common_util.hexdump import HexDump
 
 class HexDumpTest(unittest.TestCase):
 
+    def test_to_conversions(self):
+        data = bytes([ 0, 1, 2, 3, 4, 5, 32, 33, 34 ])
+        # [ <array>, <kwargs>, <to_hex_result>, <to_oct_result> ]
+        test_cases = [
+            [ data, {}, '00 01 02 03 04 05 20 21 22', '000 001 002 003 004 005 040 041 042' ],
+            [ data, { 'offset': 4 }, '04 05 20 21 22', '004 005 040 041 042' ],
+        ]
+        for array, kwargs, to_hex_result, to_oct_result in test_cases:
+            self.assertEqual(HexDump.to_hex(array, **kwargs), to_hex_result)
+            self.assertEqual(HexDump.to_oct(array, **kwargs), to_oct_result)
+        return
+
     def test_to_hex(self):
         data = bytes([ 0, 1, 2, 3, 4, 5, 32, 33, 34 ])
         test_cases = [
-            [ HexDump.to_hex(data), '00 01 02 03 04 05 20 21 22' ],
-            [ HexDump.to_hex(data, offset=4), '04 05 20 21 22'],
+            # [ HexDump.to_hex(data), '00 01 02 03 04 05 20 21 22' ],
+            # [ HexDump.to_hex(data, offset=4), '04 05 20 21 22'],
             [ HexDump.to_hex(data, length=5), '00 01 02 03 04' ],
             [ HexDump.to_hex(data, pos=2), '02 03 04 05 20 21 22' ],
             [ HexDump.to_hex(data, offset=4, length=3), '04 05 20'],
@@ -30,8 +42,8 @@ class HexDumpTest(unittest.TestCase):
     def test_to_oct(self):
         data = bytes([ 0, 1, 2, 3, 4, 5, 32, 33, 34 ])
         test_cases = [
-            [ HexDump.to_oct(data), '000 001 002 003 004 005 040 041 042' ],
-            [ HexDump.to_oct(data, offset=4), '004 005 040 041 042'],
+            # [ HexDump.to_oct(data), '000 001 002 003 004 005 040 041 042' ],
+            # [ HexDump.to_oct(data, offset=4), '004 005 040 041 042'],
             [ HexDump.to_oct(data, length=5), '000 001 002 003 004' ],
             [ HexDump.to_oct(data, pos=2), '002 003 004 005 040 041 042' ],
             [ HexDump.to_oct(data, offset=4, length=3), '004 005 040'],
