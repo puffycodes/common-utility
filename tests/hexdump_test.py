@@ -191,14 +191,14 @@ class HexDumpTest(unittest.TestCase):
     
     def test_hexdump(self):
         verbose = True
-        kwargs = { 'dump_type': HexDump.DUMPTYPE_OCT }
+        kwargs_oct = { 'dump_type': HexDump.DUMPTYPE_OCT }
 
         all_bytes = bytes([v for v in range(256)])
 
         print()
         
         hexdump_array = HexDump.hexdump(all_bytes)
-        hexdump_array_oct = HexDump.hexdump(all_bytes, **kwargs)
+        hexdump_array_oct = HexDump.hexdump(all_bytes, **kwargs_oct)
         self.do_check_hexdump(
             hexdump_array, hexdump_array_oct,
             '00000000: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F  |................|',
@@ -207,7 +207,7 @@ class HexDumpTest(unittest.TestCase):
         )
 
         hexdump_array = HexDump.hexdump(all_bytes, bytes_per_line=32)
-        hexdump_array_oct = HexDump.hexdump(all_bytes, bytes_per_line=32, **kwargs)
+        hexdump_array_oct = HexDump.hexdump(all_bytes, bytes_per_line=32, **kwargs_oct)
         self.do_check_hexdump(
             hexdump_array, hexdump_array_oct,
             '00000000: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F  |................................|',
@@ -217,7 +217,7 @@ class HexDumpTest(unittest.TestCase):
 
         hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, sep='-')
         hexdump_array_oct = HexDump.hexdump(all_bytes, offset=50, length=50, sep='-',
-                                            **kwargs)
+                                            **kwargs_oct)
         self.do_check_hexdump(
             hexdump_array, hexdump_array_oct,
             '00000030:       32-33-34-35-36-37-38-39-3A-3B-3C-3D-3E-3F  |  23456789:;<=>?|',
@@ -228,7 +228,7 @@ class HexDumpTest(unittest.TestCase):
         hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, pos=40,
                                         sep='..')
         hexdump_array_oct = HexDump.hexdump(all_bytes, offset=50, length=50, pos=40,
-                                            sep='..', **kwargs)
+                                            sep='..', **kwargs_oct)
         self.do_check_hexdump(
             hexdump_array, hexdump_array_oct,
             '00000050:                                         5A..5B..5C..5D..5E..5F  |          Z[\\]^_|',
@@ -239,13 +239,7 @@ class HexDumpTest(unittest.TestCase):
         hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, pos=40,
                                         sep='')
         hexdump_array_oct = HexDump.hexdump(all_bytes, offset=50, length=50, pos=40,
-                                            sep='', **kwargs)
-        # HexDump.print_hexdump(hexdump_array)
-        # print()
-        # self.assertEqual(
-        #     hexdump_array[0],
-        #     '00000050:                     5A5B5C5D5E5F  |          Z[\\]^_|'
-        # )
+                                            sep='', **kwargs_oct)
         self.do_check_hexdump(
             hexdump_array, hexdump_array_oct,
             '00000050:                     5A5B5C5D5E5F  |          Z[\\]^_|',
@@ -256,13 +250,7 @@ class HexDumpTest(unittest.TestCase):
         hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50,
                                         pos_label=0xff55)
         hexdump_array_oct = HexDump.hexdump(all_bytes, offset=50, length=50,
-                                            pos_label=0xff55, **kwargs)
-        # HexDump.print_hexdump(hexdump_array)
-        # print()
-        # self.assertEqual(
-        #     hexdump_array[0],
-        #     '0000ff50:                32 33 34 35 36 37 38 39 3A 3B 3C  |     23456789:;<|'
-        # )
+                                            pos_label=0xff55, **kwargs_oct)
         self.do_check_hexdump(
             hexdump_array, hexdump_array_oct,
             '0000ff50:                32 33 34 35 36 37 38 39 3A 3B 3C  |     23456789:;<|',
@@ -275,14 +263,8 @@ class HexDumpTest(unittest.TestCase):
         )
         hexdump_array_oct = HexDump.hexdump(
             all_bytes, offset=50, length=50, pos_label=0xbeef, bytes_per_line=11,
-            **kwargs
+            **kwargs_oct
         )
-        # HexDump.print_hexdump(hexdump_array)
-        # print()
-        # self.assertEqual(
-        #     hexdump_array[0],
-        #     '0000bee9:                   32 33 34 35 36  |      23456|'
-        # )
         self.do_check_hexdump(
             hexdump_array, hexdump_array_oct,
             '0000bee9:                   32 33 34 35 36  |      23456|',
@@ -295,14 +277,8 @@ class HexDumpTest(unittest.TestCase):
         )
         hexdump_array_oct = HexDump.hexdump(
             all_bytes, offset=50, length=50, pos_label=0xbeef, bytes_per_line=11, align_front=False,
-            **kwargs
+            **kwargs_oct
         )
-        # HexDump.print_hexdump(hexdump_array)
-        # print()
-        # self.assertEqual(
-        #     hexdump_array[0],
-        #     '0000beef: 32 33 34 35 36 37 38 39 3A 3B 3C  |23456789:;<|'
-        # )
         self.do_check_hexdump(
             hexdump_array, hexdump_array_oct,
             '0000beef: 32 33 34 35 36 37 38 39 3A 3B 3C  |23456789:;<|',
@@ -311,13 +287,7 @@ class HexDumpTest(unittest.TestCase):
         )
 
         hexdump_array = HexDump.hexdump(all_bytes[10:-10])
-        hexdump_array_oct = HexDump.hexdump(all_bytes[10:-10], **kwargs)
-        # HexDump.print_hexdump(hexdump_array)
-        # print()
-        # self.assertEqual(
-        #     hexdump_array[0],
-        #     '00000000: 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19  |................|'
-        # )
+        hexdump_array_oct = HexDump.hexdump(all_bytes[10:-10], **kwargs_oct)
         self.do_check_hexdump(
             hexdump_array, hexdump_array_oct,
             '00000000: 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19  |................|',
