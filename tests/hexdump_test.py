@@ -233,15 +233,14 @@ class HexDumpTest(unittest.TestCase):
         ]
 
         for array, kwargs, expected_result_01, expected_result_02 in test_cases:
-            self.do_check_hexdump_pre(
+            self.do_check_hexdump(
                 array, kwargs, expected_result_01, expected_result_02, verbose=verbose
             )
 
         return
     
-    def do_check_hexdump_pre(self, array, kwargs,
-                             expected_result_01, expected_result_02,
-                             verbose=False):
+    def do_check_hexdump(self, array, kwargs, expected_result_01, expected_result_02,
+                         verbose=False):
         kwargs_octal = { 'dump_type': HexDump.DUMPTYPE_OCT }
         hexdump_array_hex = HexDump.hexdump(array, **kwargs)
         hexdump_array_oct = HexDump.hexdump(array, **kwargs, **kwargs_octal)
