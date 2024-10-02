@@ -157,33 +157,17 @@ class HexDumpTest(unittest.TestCase):
     
     def test_oct_array_to_string(self):
         data = [ '000', '   ', '001', '002', '003', '   ', '004', '   ', '   ', '   ' ]
+        # [ <array>, <kwargs>, <expected_result> ]
         test_cases = [
-            [
-                HexDump.hex_array_to_string(data),
-                '000     001 002 003     004            '
-            ],
-            [
-                HexDump.hex_array_to_string(data, sep=''),
-                '000   001002003   004         '
-            ],
-            [
-                HexDump.hex_array_to_string(data, sep='-'),
-                '000     001-002-003     004            '
-            ],
-            [
-                HexDump.hex_array_to_string(data, sep='=='),
-                '000       001==002==003       004               '
-            ],
-            [
-                HexDump.hex_array_to_string(data, sep='  '),
-                '000       001  002  003       004               '
-            ],
-            [
-                HexDump.hex_array_to_string(data, sep=' .'),
-                '000       001 .002 .003       004               '
-            ],
+            [ data, {}, '000     001 002 003     004            ' ],
+            [ data, { 'sep': '' }, '000   001002003   004         ' ],
+            [ data, { 'sep': '-' }, '000     001-002-003     004            ' ],
+            [ data, { 'sep': '==' }, '000       001==002==003       004               ' ],
+            [ data, { 'sep': '  ' }, '000       001  002  003       004               ' ],
+            [ data, { 'sep': ' .' }, '000       001 .002 .003       004               ' ],
         ]
-        for result, expected_result in test_cases:
+        for array, kwargs, expected_result in test_cases:
+            result = HexDump.hex_array_to_string(array, **kwargs)
             self.assertEqual(result, expected_result)
         return
 
