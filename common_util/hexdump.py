@@ -569,6 +569,11 @@ class HexDump:
             and end_pos is the position of the ending bytes plus 1
         :rtype: tuple
         '''
+        # Note: The positive start position could be made to wrap around too.
+        #       But a substantial amount of codes have been written that assume
+        #       that a start and end position that go beyond the data length will
+        #       return empty data (e.g. obtain using data_array[start_pos:end_pos]),
+        #       so we will not change this, for now.
         start_pos = pos + offset
         if start_pos < 0:
             # this converts the negative start_pos to a positive one, so that
