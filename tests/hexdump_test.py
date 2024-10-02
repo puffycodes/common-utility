@@ -76,6 +76,9 @@ class HexDumpTest(unittest.TestCase):
             [ data, { 'offset': 4, 'length': 3, 'pos': 3 }, 'fg' ],
             [ data, { 'offset': 4, 'length': 3, 'pos': 4 }, 'g' ],
             [ data, { 'offset': 4, 'length': 3, 'pos': 5 }, '' ],
+            [ data, { 'offset': -4, 'length': 3, 'pos': 0 }, 'def' ],
+            [ data, { 'offset': -4, 'length': 4, 'pos': 0 }, 'defg' ],
+            [ data, { 'offset': -4, 'length': 5, 'pos': 0 }, 'defg' ],
         ]
         for array, kwargs, to_text_result in test_cases:
             self.assertEqual(HexDump.to_text(array, **kwargs), to_text_result)
