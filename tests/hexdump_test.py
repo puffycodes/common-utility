@@ -84,28 +84,29 @@ class HexDumpTest(unittest.TestCase):
             self.assertEqual(HexDump.to_text(array, **kwargs), to_text_result)
         return
     
-    def test_to_hex_array(self):
+    def test_to_hex_and_oct_array(self):
         data = bytes([ 0, 1 ])
         data += b'abcdefg'
+        # [ <array>, <kwargs>, <expected_result_hex> <expected_result_oct> ]
         test_cases = [
-            [ HexDump.to_hex_array(data), [ '00', '01', '61', '62', '63', '64', '65', '66', '67' ] ],
-            [ HexDump.to_hex_array(data, offset=4), [ '63', '64', '65', '66', '67' ] ],
+            [
+                data, {}, [ '00', '01', '61', '62', '63', '64', '65', '66', '67' ],
+                [ '000', '001', '141', '142', '143', '144', '145', '146', '147' ],
+            ],
+            [
+                data, { 'offset': 4 }, [ '63', '64', '65', '66', '67' ],
+                [ '143', '144', '145', '146', '147' ]
+            ],
+            [ data, { 'offset': 15 }, [], [] ],
+            [ data, { 'length': 2 }, [ '00', '01' ], [ '000', '001' ] ],
         ]
-        for result, expected_result in test_cases:
-            self.assertEqual(result, expected_result)
+        for array, kwargs, expected_result_hex, expected_result_oct in test_cases:
+            result_hex = HexDump.to_hex_array(array, **kwargs)
+            self.assertEqual(result_hex, expected_result_hex)
+            result_oct = HexDump.to_oct_array(array, **kwargs)
+            self.assertEqual(result_oct, expected_result_oct)
         return
 
-    def test_to_oct_array(self):
-        data = bytes([ 0, 1 ])
-        data += b'abcdefg'
-        test_cases = [
-            [ HexDump.to_oct_array(data), [ '000', '001', '141', '142', '143', '144', '145', '146', '147' ] ],
-            [ HexDump.to_oct_array(data, offset=4), [ '143', '144', '145', '146', '147' ] ],
-        ]
-        for result, expected_result in test_cases:
-            self.assertEqual(result, expected_result)
-        return
-    
     def test_hex_array_to_string(self):
         data_01 = [ '63', '65', 'FF' ]
         data_02 = [ '  ', '  ' ]
