@@ -249,10 +249,10 @@ class HexDumpTest(unittest.TestCase):
         if verbose:
             print(f'--- params: {kwargs}')
             print(f'Hexadecimal:')
-            HexDump.print_hexdump(hexdump_array_hex_01)
+            HexDump.print_hexdump(hexdump_array_hex_01, prefix=' ')
             print()
             print(f'Octal:')
-            HexDump.print_hexdump(hexdump_array_oct)
+            HexDump.print_hexdump(hexdump_array_oct, prefix=' ')
             print()
         self.assertEqual(hexdump_array_hex_01[0], expected_result_01)
         self.assertEqual(hexdump_array_hex_02[0], expected_result_01)
@@ -268,7 +268,9 @@ class HexDumpTest(unittest.TestCase):
 
         hexdump_array = HexDump.hexdump_start_and_end(data)
         if verbose:
-            HexDump.print_hexdump(hexdump_array)
+            print(f'full hexdump:')
+            HexDump.print_hexdump(hexdump_array, prefix=' ')
+            print()
         self.assertEqual(len(hexdump_array), 5)
 
         # [ <byte_count_start>, <byte_count_end>, <expected_line_count_1>, <expected_line_count_2> ]
@@ -284,7 +286,7 @@ class HexDumpTest(unittest.TestCase):
                 data_length = len(data)
                 print(f'data length: {data_length} = 0x{data_length:x}')
                 print(f'start: {start}; end: {end}; expected line: {expected_count_1}')
-                HexDump.print_hexdump(hexdump_array)
+                HexDump.print_hexdump(hexdump_array, prefix=' ')
                 print()
             self.assertEqual(len(hexdump_array), expected_count_1)
 
@@ -297,7 +299,7 @@ class HexDumpTest(unittest.TestCase):
                 data_length = len(data)
                 print(f'data length: {data_length} = 0x{data_length:x}')
                 print(f'start: {start}; end: {end}; expected line: {expected_count_2}')
-                HexDump.print_hexdump(hexdump_array)
+                HexDump.print_hexdump(hexdump_array, prefix=' ')
                 print()
             self.assertEqual(len(hexdump_array), expected_count_2)
 
@@ -305,10 +307,8 @@ class HexDumpTest(unittest.TestCase):
     
     def test_brief_hexdump(self):
         verbose = False
-
         if verbose:
             print()
-
         all_bytes = bytes([v for v in range(256)])
 
         hexdump_array = HexDump.hexdump(all_bytes)
