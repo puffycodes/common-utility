@@ -173,124 +173,87 @@ class HexDumpTest(unittest.TestCase):
     
     def test_hexdump(self):
         verbose = True
-        kwargs_octal = { 'dump_type': HexDump.DUMPTYPE_OCT }
-
         all_bytes = bytes([v for v in range(256)])
 
-        print()
+        if verbose:
+            print()
         
-        hexdump_array = HexDump.hexdump(all_bytes)
-        hexdump_array_octal = HexDump.hexdump(all_bytes, **kwargs_octal)
-        self.do_check_hexdump(
-            hexdump_array, hexdump_array_octal,
-            '00000000: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F  |................|',
-            '00000000: 000 001 002 003 004 005 006 007 010 011 012 013 014 015 016 017  |................|',
-            verbose=verbose
-        )
+        # [ <array>, <kwargs>, <hexdump_hex_line_1>, <hexdump_oct_line_1> ]
+        test_cases = [
+            [
+                all_bytes, {},
+                '00000000: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F  |................|',
+                '00000000: 000 001 002 003 004 005 006 007 010 011 012 013 014 015 016 017  |................|',
+            ],
+            [
+                all_bytes, { 'bytes_per_line': 32 },
+                '00000000: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F  |................................|',
+                '00000000: 000 001 002 003 004 005 006 007 010 011 012 013 014 015 016 017 020 021 022 023 024 025 026 027 030 031 032 033 034 035 036 037  |................................|',
+            ],
+            [
+                all_bytes, { 'offset': 50, 'length': 50, 'sep': '-' },
+                '00000030:       32-33-34-35-36-37-38-39-3A-3B-3C-3D-3E-3F  |  23456789:;<=>?|',
+                '00000030:         062-063-064-065-066-067-070-071-072-073-074-075-076-077  |  23456789:;<=>?|',
+            ],
+            [
+                all_bytes, { 'offset': 50, 'length': 50, 'pos': 40, 'sep': '..' },
+                '00000050:                                         5A..5B..5C..5D..5E..5F  |          Z[\\]^_|',
+                '00000050:                                                   132..133..134..135..136..137  |          Z[\\]^_|',
+            ],
+            [
+                all_bytes, { 'offset': 50, 'length': 50, 'pos': 40, 'sep': '' },
+                '00000050:                     5A5B5C5D5E5F  |          Z[\\]^_|',
+                '00000050:                               132133134135136137  |          Z[\\]^_|',
+            ],
+            [
+                all_bytes, { 'offset': 50, 'length': 50, 'pos_label': 0xff55 },
+                '0000ff50:                32 33 34 35 36 37 38 39 3A 3B 3C  |     23456789:;<|',
+                '0000ff50:                     062 063 064 065 066 067 070 071 072 073 074  |     23456789:;<|',
+            ],
+            [
+                all_bytes,
+                { 'offset': 50, 'length': 50, 'pos_label': 0xbeef, 'bytes_per_line': 11 },
+                '0000bee9:                   32 33 34 35 36  |      23456|',
+                '0000bee9:                         062 063 064 065 066  |      23456|',
+            ],
+            [
+                all_bytes,
+                {
+                    'offset': 50, 'length': 50, 'pos_label': 0xbeef, 'bytes_per_line': 11,
+                    'align_front': False
+                },
+                '0000beef: 32 33 34 35 36 37 38 39 3A 3B 3C  |23456789:;<|',
+                '0000beef: 062 063 064 065 066 067 070 071 072 073 074  |23456789:;<|',
+            ],
+            [
+                all_bytes[10:-10], {},
+                '00000000: 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19  |................|',
+                '00000000: 012 013 014 015 016 017 020 021 022 023 024 025 026 027 030 031  |................|',
+            ],
+        ]
 
-        hexdump_array = HexDump.hexdump(all_bytes, bytes_per_line=32)
-        hexdump_array_octal = HexDump.hexdump(all_bytes, bytes_per_line=32, **kwargs_octal)
-        self.do_check_hexdump(
-            hexdump_array, hexdump_array_octal,
-            '00000000: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F  |................................|',
-            '00000000: 000 001 002 003 004 005 006 007 010 011 012 013 014 015 016 017 020 021 022 023 024 025 026 027 030 031 032 033 034 035 036 037  |................................|',
-            verbose=verbose
-        )
-
-        hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, sep='-')
-        hexdump_array_octal = HexDump.hexdump(all_bytes, offset=50, length=50, sep='-',
-                                              **kwargs_octal)
-        self.do_check_hexdump(
-            hexdump_array, hexdump_array_octal,
-            '00000030:       32-33-34-35-36-37-38-39-3A-3B-3C-3D-3E-3F  |  23456789:;<=>?|',
-            '00000030:         062-063-064-065-066-067-070-071-072-073-074-075-076-077  |  23456789:;<=>?|',
-            verbose=verbose
-        )
-
-        hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, pos=40,
-                                        sep='..')
-        hexdump_array_octal = HexDump.hexdump(all_bytes, offset=50, length=50, pos=40,
-                                              sep='..', **kwargs_octal)
-        self.do_check_hexdump(
-            hexdump_array, hexdump_array_octal,
-            '00000050:                                         5A..5B..5C..5D..5E..5F  |          Z[\\]^_|',
-            '00000050:                                                   132..133..134..135..136..137  |          Z[\\]^_|',
-            verbose=verbose
-        )
-
-        hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50, pos=40,
-                                        sep='')
-        hexdump_array_octal = HexDump.hexdump(all_bytes, offset=50, length=50, pos=40,
-                                              sep='', **kwargs_octal)
-        self.do_check_hexdump(
-            hexdump_array, hexdump_array_octal,
-            '00000050:                     5A5B5C5D5E5F  |          Z[\\]^_|',
-            '00000050:                               132133134135136137  |          Z[\\]^_|',
-            verbose=verbose
-        )
-
-        hexdump_array = HexDump.hexdump(all_bytes, offset=50, length=50,
-                                        pos_label=0xff55)
-        hexdump_array_octal = HexDump.hexdump(all_bytes, offset=50, length=50,
-                                              pos_label=0xff55, **kwargs_octal)
-        self.do_check_hexdump(
-            hexdump_array, hexdump_array_octal,
-            '0000ff50:                32 33 34 35 36 37 38 39 3A 3B 3C  |     23456789:;<|',
-            '0000ff50:                     062 063 064 065 066 067 070 071 072 073 074  |     23456789:;<|',
-            verbose=verbose
-        )
-
-        hexdump_array = HexDump.hexdump(
-            all_bytes, offset=50, length=50, pos_label=0xbeef, bytes_per_line=11
-        )
-        hexdump_array_octal = HexDump.hexdump(
-            all_bytes, offset=50, length=50, pos_label=0xbeef, bytes_per_line=11,
-            **kwargs_octal
-        )
-        self.do_check_hexdump(
-            hexdump_array, hexdump_array_octal,
-            '0000bee9:                   32 33 34 35 36  |      23456|',
-            '0000bee9:                         062 063 064 065 066  |      23456|',
-            verbose=verbose
-        )
-
-        hexdump_array = HexDump.hexdump(
-            all_bytes, offset=50, length=50, pos_label=0xbeef, bytes_per_line=11, align_front=False
-        )
-        hexdump_array_octal = HexDump.hexdump(
-            all_bytes, offset=50, length=50, pos_label=0xbeef, bytes_per_line=11, align_front=False,
-            **kwargs_octal
-        )
-        self.do_check_hexdump(
-            hexdump_array, hexdump_array_octal,
-            '0000beef: 32 33 34 35 36 37 38 39 3A 3B 3C  |23456789:;<|',
-            '0000beef: 062 063 064 065 066 067 070 071 072 073 074  |23456789:;<|',
-            verbose=verbose
-        )
-
-        hexdump_array = HexDump.hexdump(all_bytes[10:-10])
-        hexdump_array_octal = HexDump.hexdump(all_bytes[10:-10], **kwargs_octal)
-        self.do_check_hexdump(
-            hexdump_array, hexdump_array_octal,
-            '00000000: 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19  |................|',
-            '00000000: 012 013 014 015 016 017 020 021 022 023 024 025 026 027 030 031  |................|',
-            verbose=verbose
-        )
+        for array, kwargs, expected_result_01, expected_result_02 in test_cases:
+            self.do_check_hexdump_pre(
+                array, kwargs, expected_result_01, expected_result_02, verbose=verbose
+            )
 
         return
     
-    def do_check_hexdump(self, hexdump_array, hexdump_array_oct,
-                         expected_result_01, expected_result_02,
-                         verbose=False):
+    def do_check_hexdump_pre(self, array, kwargs,
+                             expected_result_01, expected_result_02,
+                             verbose=False):
+        kwargs_octal = { 'dump_type': HexDump.DUMPTYPE_OCT }
+        hexdump_array_hex = HexDump.hexdump(array, **kwargs)
+        hexdump_array_oct = HexDump.hexdump(array, **kwargs, **kwargs_octal)
         if verbose:
-            print(f'---')
+            print(f'--- params: {kwargs}')
             print(f'Hexadecimal:')
-            HexDump.print_hexdump(hexdump_array)
+            HexDump.print_hexdump(hexdump_array_hex)
             print()
             print(f'Octal:')
             HexDump.print_hexdump(hexdump_array_oct)
             print()
-        self.assertEqual(hexdump_array[0], expected_result_01)
+        self.assertEqual(hexdump_array_hex[0], expected_result_01)
         self.assertEqual(hexdump_array_oct[0], expected_result_02)
         return
     
