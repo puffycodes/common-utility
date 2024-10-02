@@ -28,7 +28,13 @@ class HexDump:
     '''
 
     DUMPTYPE_HEX = 0
+    '''
+    Format the bytes as hexadecimal.
+    '''
     DUMPTYPE_OCT = 1
+    '''
+    Format the bytes as octal.
+    '''
 
     @staticmethod
     def hexdump(data, offset=0, length=-1, pos=0,
