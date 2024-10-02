@@ -107,70 +107,47 @@ class HexDumpTest(unittest.TestCase):
         return
     
     def test_hex_array_to_string(self):
-        data = [ '63', '65', 'FF' ]
-        data_2 = [ '  ', '  ' ]
-        data_2.extend(data)
-        data_2.extend([ '  ' ])
+        data_01 = [ '63', '65', 'FF' ]
+        data_02 = [ '  ', '  ' ]
+        data_02.extend(data_01)
+        data_02.extend([ '  ' ])
         data_empty = []
+        data_11 = [ '000', '   ', '001', '002', '003', '   ', '004', '   ', '   ', '   ' ]
 
-        test_cases = [
-            [ HexDump.hex_array_to_string(data), '63 65 FF' ],
-            [ HexDump.hex_array_to_string(data_2), '      63 65 FF   ' ],
-            [ HexDump.hex_array_to_string(data_empty), '' ],
-            [ HexDump.hex_array_to_string(data[0:1]), '63' ],
-            [ HexDump.hex_array_to_string(data_2[0:1]), '  ' ],
-
-            [ HexDump.hex_array_to_string(data, sep=''), '6365FF' ],
-            [ HexDump.hex_array_to_string(data_2, sep=''), '    6365FF  ' ],
-            [ HexDump.hex_array_to_string(data_empty, sep=''), '' ],
-            [ HexDump.hex_array_to_string(data[0:1], sep=''), '63' ],
-            [ HexDump.hex_array_to_string(data_2[0:1], sep=''), '  ' ],
-
-            [ HexDump.hex_array_to_string(data, sep='='), '63=65=FF' ],
-            [ HexDump.hex_array_to_string(data_2, sep='='), '      63=65=FF   ' ],
-            [ HexDump.hex_array_to_string(data_empty, sep='='), '' ],
-            [ HexDump.hex_array_to_string(data[0:1], sep='='), '63' ],
-            [ HexDump.hex_array_to_string(data_2[0:1], sep='='), '  ' ],
-
-            [ HexDump.hex_array_to_string(data, sep='=='), '63==65==FF' ],
-            [ HexDump.hex_array_to_string(data_2, sep='=='), '        63==65==FF    ' ],
-            [ HexDump.hex_array_to_string(data_empty, sep='=='), '' ],
-            [ HexDump.hex_array_to_string(data[0:1], sep='=='), '63' ],
-            [ HexDump.hex_array_to_string(data_2[0:1], sep='=='), '  ' ],
-
-            [ HexDump.hex_array_to_string(data, sep='  '), '63  65  FF' ],
-            [ HexDump.hex_array_to_string(data_2, sep='  '), '        63  65  FF    ' ],
-            [ HexDump.hex_array_to_string(data_empty, sep='  '), '' ],
-            [ HexDump.hex_array_to_string(data[0:1], sep='  '), '63' ],
-            [ HexDump.hex_array_to_string(data_2[0:1], sep='  '), '  ' ],
-
-            [ HexDump.hex_array_to_string(data, sep=' .'), '63 .65 .FF' ],
-            [ HexDump.hex_array_to_string(data_2, sep=' .'), '        63 .65 .FF    ' ],
-            [ HexDump.hex_array_to_string(data_empty, sep=' .'), '' ],
-            [ HexDump.hex_array_to_string(data[0:1], sep=' .'), '63' ],
-            [ HexDump.hex_array_to_string(data_2[0:1], sep=' .'), '  ' ],
+        kwargs_sep_list = [
+            {}, { 'sep': '' }, { 'sep': '=' },
+            { 'sep': '==' }, { 'sep': '  ' }, { 'sep': ' .' },
         ]
 
-        for result, expected_result in test_cases:
-            self.assertEqual(result, expected_result)
+        # [ <array>, [ <result for sep #1>, <result for sep #2>, ... ] ]
+        test_cases = [
+            [ data_01, [
+                '63 65 FF', '6365FF', '63=65=FF', '63==65==FF', '63  65  FF', '63 .65 .FF',
+            ] ],
+            [ data_02, [
+                '      63 65 FF   ', '    6365FF  ', '      63=65=FF   ',
+                '        63==65==FF    ', '        63  65  FF    ', '        63 .65 .FF    ',
+            ] ],
+            [ data_empty, [ '', '', '', '', '', '', ] ],
+            [ data_01[0:1], [ '63', '63', '63', '63', '63', '63', ] ],
+            [ data_02[0:1], [ '  ', '  ', '  ', '  ', '  ', '  ', ] ],
+            [ data_11, [
+                '000     001 002 003     004            ',
+                '000   001002003   004         ',
+                '000     001=002=003     004            ',
+                '000       001==002==003       004               ',
+                '000       001  002  003       004               ',
+                '000       001 .002 .003       004               ',
+            ] ],
+        ]
+
+        for array, result_list in test_cases:
+            for kwargs, expected_result in zip(kwargs_sep_list, result_list):
+                result = HexDump.hex_array_to_string(array, **kwargs)
+                self.assertEqual(expected_result, result)
+
         return
     
-    def test_oct_array_to_string(self):
-        data = [ '000', '   ', '001', '002', '003', '   ', '004', '   ', '   ', '   ' ]
-        # [ <array>, <kwargs>, <expected_result> ]
-        test_cases = [
-            [ data, {}, '000     001 002 003     004            ' ],
-            [ data, { 'sep': '' }, '000   001002003   004         ' ],
-            [ data, { 'sep': '-' }, '000     001-002-003     004            ' ],
-            [ data, { 'sep': '==' }, '000       001==002==003       004               ' ],
-            [ data, { 'sep': '  ' }, '000       001  002  003       004               ' ],
-            [ data, { 'sep': ' .' }, '000       001 .002 .003       004               ' ],
-        ]
-        for array, kwargs, expected_result in test_cases:
-            result = HexDump.hex_array_to_string(array, **kwargs)
-            self.assertEqual(result, expected_result)
-        return
-
     def test_01(self):
         all_bytes = bytes([v for v in range(256)])
         print()
