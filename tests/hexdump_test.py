@@ -132,6 +132,7 @@ class HexDumpTest(unittest.TestCase):
             [ data_empty, [ '', '', '', '', '', '', ] ],
             [ data_01[0:1], [ '63', '63', '63', '63', '63', '63', ] ],
             [ data_02[0:1], [ '  ', '  ', '  ', '  ', '  ', '  ', ] ],
+            [ data_02[-1:], [ '  ', '  ', '  ', '  ', '  ', '  ', ] ],
             [ data_11, [
                 '000     001 002 003     004            ',
                 '000   001002003   004         ',
@@ -149,7 +150,7 @@ class HexDumpTest(unittest.TestCase):
 
         return
     
-    def test_01(self):
+    def test_to_hex_oct_text_params(self):
         all_bytes = bytes([v for v in range(256)])
         print()
         print(f'-- {HexDump.to_hex(all_bytes)}')
