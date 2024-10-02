@@ -241,18 +241,21 @@ class HexDumpTest(unittest.TestCase):
     
     def do_check_hexdump(self, array, kwargs, expected_result_01, expected_result_02,
                          verbose=False):
-        kwargs_octal = { 'dump_type': HexDump.DUMPTYPE_OCT }
-        hexdump_array_hex = HexDump.hexdump(array, **kwargs)
-        hexdump_array_oct = HexDump.hexdump(array, **kwargs, **kwargs_octal)
+        kwargs_hex = { 'dump_type': HexDump.DUMPTYPE_HEX }
+        kwargs_oct = { 'dump_type': HexDump.DUMPTYPE_OCT }
+        hexdump_array_hex_01 = HexDump.hexdump(array, **kwargs)
+        hexdump_array_hex_02 = HexDump.hexdump(array, **kwargs, **kwargs_hex)
+        hexdump_array_oct = HexDump.hexdump(array, **kwargs, **kwargs_oct)
         if verbose:
             print(f'--- params: {kwargs}')
             print(f'Hexadecimal:')
-            HexDump.print_hexdump(hexdump_array_hex)
+            HexDump.print_hexdump(hexdump_array_hex_01)
             print()
             print(f'Octal:')
             HexDump.print_hexdump(hexdump_array_oct)
             print()
-        self.assertEqual(hexdump_array_hex[0], expected_result_01)
+        self.assertEqual(hexdump_array_hex_01[0], expected_result_01)
+        self.assertEqual(hexdump_array_hex_02[0], expected_result_01)
         self.assertEqual(hexdump_array_oct[0], expected_result_02)
         return
     
