@@ -256,6 +256,7 @@ class HexDumpTest(unittest.TestCase):
             print()
         self.assertEqual(hexdump_array_hex_01[0], expected_result_01)
         self.assertEqual(hexdump_array_hex_02[0], expected_result_01)
+        self.assertEqual(hexdump_array_hex_01, hexdump_array_hex_02)
         self.assertEqual(hexdump_array_oct[0], expected_result_02)
         return
     
