@@ -6,6 +6,23 @@ from common_util.hexdump import HexDump
 
 class HexDumpTest(unittest.TestCase):
 
+    def not_test_python_index_position(self):
+        data = bytes([v for v in range(10)])
+        data_length = len(data)
+        print(f'length: {data_length}')
+        for i in range(-12, 15):
+            try:
+                value = data[i]
+                if i < 0:
+                    value_2 = data[i+data_length]
+                    equality = '==' if (value == value_2) else '!='
+                    print(f'{i}: {value} {equality} {value_2}')
+                else:
+                    print(f'{i}: {value}')
+            except Exception as e:
+                print(f'{i}: {e}')
+        return
+
     def test_to_hex_and_oct(self):
         data = bytes([ 0, 1, 2, 3, 4, 5, 32, 33, 34 ])
         # [ <array>, <kwargs>, <to_hex_result>, <to_oct_result> ]
@@ -24,19 +41,19 @@ class HexDumpTest(unittest.TestCase):
             [ data, { 'length': 5, 'sep': '..'}, '00..01..02..03..04', '000..001..002..003..004' ],
             [ data, { 'length': 5, 'sep': ''}, '0001020304', '000001002003004' ],
 
-            # TODO: Check these cases
-            [ data, { 'offset': -5 }, '04 05 20 21 22', '004 005 040 041 042' ],
-            [ data, { 'pos': -5 }, '04 05 20 21 22', '004 005 040 041 042' ],
-            [ data, { 'offset': -5, 'pos': -5 }, '00 01 02 03 04 05 20 21 22', '000 001 002 003 004 005 040 041 042' ],
-            [ data, { 'offset': -5, 'length': 5, 'pos': -5 }, '00 01 02 03', '000 001 002 003' ],
-            [ data, { 'offset': -5, 'length': -5, 'pos': -5 }, '00 01 02 03 04 05 20 21 22', '000 001 002 003 004 005 040 041 042' ],
-
             [ data[2:5], {}, '02 03 04', '002 003 004' ],
             [ data[2:5], { 'pos': 1 }, '03 04', '003 004' ],
             [ data[2:5], { 'pos': 5 }, '', '' ],
 
-            # TODO: Check these cases
-            [ data[2:5], { 'pos': -5 }, '02 03 04', '002 003 004' ],
+            # Negative start position
+            [ data, { 'offset': -5 }, '04 05 20 21 22', '004 005 040 041 042' ],
+            [ data, { 'pos': -5 }, '04 05 20 21 22', '004 005 040 041 042' ],
+            [ data, { 'offset': -5, 'pos': -5 }, '22', '042' ],
+            [ data, { 'offset': -5, 'length': 5, 'pos': -5 }, '22', '042' ],
+            [ data, { 'offset': -5, 'length': -5, 'pos': -5 }, '22', '042' ],
+            [ data, { 'offset': -5, 'length': 5, 'pos': -6 }, '21 22', '041 042' ],
+
+            [ data[2:5], { 'pos': -5 }, '03 04', '003 004' ],
             [ data[2:5], { 'offset': 2, 'pos': -5 }, '02 03 04', '002 003 004' ],
             [ data[2:5], { 'offset': 5, 'pos': -5 }, '02 03 04', '002 003 004' ],
             [ data[2:5], { 'offset': 6, 'pos': -5 }, '03 04', '003 004' ],

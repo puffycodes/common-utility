@@ -546,6 +546,11 @@ class HexDump:
 
         This function is used by hexdump() to compute the start and end positions.
 
+        The start position is determined by the parameters pos and length.
+            (a) A positive start position can go beyond the length of the data,
+            in which case usually resulted in empty data.
+            (b) A negative start position wraps around.
+
         :meta private:
         :param data_length: the length of the entire byte stream
         :type data_length: int
@@ -562,6 +567,10 @@ class HexDump:
         :rtype: tuple
         '''
         start_pos = pos + offset
+        if start_pos < 0:
+            # this converts the negative start_pos to a positive one, so that
+            # the end_pos can be correctly computed correctly
+            start_pos = start_pos % data_length
         if length <= 0:
             end_pos = data_length
         else:
