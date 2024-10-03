@@ -507,7 +507,7 @@ class HexDump:
         :rtype: str
         '''
         sep_length = len(sep)
-        if sep_length <= 0 or HexDump.is_spaces(sep):
+        if sep_length <= 0 or HexDump.is_space(sep):
             # - special cases when separator is empty ('') or all spaces (' ')
             return sep.join(hex_array)
         result = ''
@@ -518,7 +518,7 @@ class HexDump:
             # - insert separator only between two hex strings that are
             #   not empty (i.e. space)
             # - otherwise insert the equivalent amount of space instead
-            if HexDump.is_spaces(hex_array[i]) or HexDump.is_spaces(hex_array[i+1]):
+            if HexDump.is_space(hex_array[i]) or HexDump.is_space(hex_array[i+1]):
                 result += ' ' * sep_length
             else:
                 result += sep
@@ -526,7 +526,7 @@ class HexDump:
         return result
 
     @staticmethod
-    def is_spaces(string):
+    def is_space(string):
         '''
         (Internal) Check that a string contains only spaces (0x20)
 
