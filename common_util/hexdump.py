@@ -580,6 +580,7 @@ class HexDump:
         '''
         start_pos = pos + offset
         if length <= 0:
+            # length is zero or negative
             # end_pos at end of data
             end_pos = data_length
             if start_pos < - data_length:
