@@ -579,6 +579,25 @@ class HexDump:
         :rtype: tuple
         '''
         start_pos = pos + offset
+        if length <= 0:
+            # end_pos at end of data
+            end_pos = data_length
+            if start_pos < - data_length:
+                start_pos = 0
+            elif start_pos < 0:
+                start_pos = start_pos % data_length
+        else:
+            # length is positive
+            end_pos = start_pos + length
+            if start_pos < 0 and end_pos >= 0:
+                # adjust if start_pos is negative and end_pos is zero or positive
+                start_pos = start_pos % data_length
+                end_pos = start_pos + length
+        return start_pos, end_pos
+    
+    @staticmethod
+    def pos_from_offset_zzz(data_length, offset=0, length=-1, pos=0):
+        start_pos = pos + offset
         if start_pos < 0:
             # start_pos is negative
             if length <= 0:
