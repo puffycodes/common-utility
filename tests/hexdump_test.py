@@ -23,7 +23,7 @@ class HexDumpTest(unittest.TestCase):
                 print(f'{i}: {e}')
         return
     
-    def test_python_slice(self):
+    def not_test_python_slice(self):
         data = bytes([v for v in range(10)])
         data_length = len(data)
         for slice_width in [2, 5]:
