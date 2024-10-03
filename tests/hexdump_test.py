@@ -399,6 +399,7 @@ class HexDumpTest(unittest.TestCase):
         label_list = [ f'data at position {pos} (0x{pos:x}):' for pos in pos_label_list ]
         kwargs_list = [
             { }, { 'dump_type': HexDump.DUMPTYPE_OCT },
+            { 'dump_type': HexDump.DUMPTYPE_HEX, 'sep': ':' },
         ]
         for kwargs in kwargs_list:
             print()
