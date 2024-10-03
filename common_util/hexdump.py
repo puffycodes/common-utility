@@ -558,20 +558,21 @@ class HexDump:
 
         The end position will be length positions after the start position.
 
-        Both position can go beyond the range of the data, i.e. beyond the
+        Both positions can go beyond the range of the data, i.e. beyond the
         range [-data_length, data_length). Therefore, data[start_pos:end_pos]
         may be empty. In such cases, there may be error when start_pos or end_pos
-        is used as an index, such as data[start_pos] or data[end_pos].
+        is used as an index instead of as slice, such as data[start_pos] or
+        data[end_pos].
 
         :meta private:
-        :param data_length: the length of the entire byte stream
+        :param data_length: the length of the array of bytes
         :type data_length: int
         :param offset: the offset of the first byte to output, counting from pos
         :type offset: int, optional
         :param length: the number of bytes to output;
-            (a) zero or negative value means output till the end of bytes stream
+            (a) zero or negative value means output till the end of the array of bytes
         :type length: int, optional
-        :param pos: the starting position of byte stream to output
+        :param pos: the starting position of the array of bytes to output
         :type pos: int, optional
 
         :return: (start_pos, end_post), where start_pos is the position of the starting byte,
