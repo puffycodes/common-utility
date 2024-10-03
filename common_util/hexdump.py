@@ -550,15 +550,18 @@ class HexDump:
         '''
         (Internal) Calculate the start and end position.
 
-        This function is used by hexdump() to compute the start and end positions.
+        This function is used by hexdump() to compute the start and end positions,
+        which then fetches the data using data[start_pos:end_pos] where start_pos
+        and end_pos are the values returned by this functions.
 
-        The start position is determined by the parameters pos and length.
+        The start position is determined by the parameters pos and offset.
 
-            (a) A positive start position can go beyond the length of the data,
-                in which case it points to non-existing data and may raise an
-                error when used as an index.
-            (b) A negative start position wraps around, therefore will always
-                points to some data.
+        The end position will be length positions after the start position.
+
+        Both position can go beyond the range of the data, i.e. beyond the
+        range [-data_length, data_length). Therefore, data[start_pos:end_pos]
+        may be empty. In such cases, there may be error when start_pos or end_pos
+        is used as an index, such as data[start_pos] or data[end_pos].
 
         :meta private:
         :param data_length: the length of the entire byte stream
@@ -575,22 +578,37 @@ class HexDump:
             and end_pos is the position of the ending bytes plus 1
         :rtype: tuple
         '''
-        # Note: The positive start position could be made to wrap around too.
-        #       But a substantial amount of codes have been written that assume
-        #       that a start and end position that go beyond the data length will
-        #       return empty data (e.g. obtain using data_array[start_pos:end_pos]),
-        #       so we will not change this, for now.
         start_pos = pos + offset
         if start_pos < 0:
-            # this converts the negative start_pos to a positive one, so that
-            # the end_pos can be correctly computed correctly
-            start_pos = start_pos % data_length
-        if length <= 0:
-            end_pos = data_length
+            # start_pos is negative
+            if length <= 0:
+                if start_pos < - data_length:
+                    # if start_pos is negative and beyond the range of data, then
+                    # return the whole data
+                    start_pos = 0
+                    end_pos = data_length
+                else:
+                    end_pos = data_length
+            else:
+                end_pos = start_pos + length
+            if start_pos < 0 and end_pos >= 0:
+                # adjust again if start_pos is negative and end_pos is zero or positive
+                start_pos = start_pos % data_length
+                if length <= 0:
+                    end_pos = data_length
+                else:
+                    end_pos = start_pos + length
         else:
-            end_pos = start_pos + length
-        if end_pos > data_length:
-            end_pos = data_length
+            # start_pos is zero or positive
+            if length <= 0:
+                end_pos = data_length
+            else:
+                end_pos = start_pos + length
+
+            # TODO: Check if this is really needed, especially when start_pos and
+            #       end_pos are used as data[start_pos:end_pos]
+            # if end_pos > data_length:
+            #     end_pos = data_length
         return start_pos, end_pos
     
     # --- Main function
