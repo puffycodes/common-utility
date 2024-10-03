@@ -44,17 +44,36 @@ class HexDumpTest(unittest.TestCase):
         return
     
     def test_pos_to_offset(self):
+        verbose = False
         data = bytes([v for v in range(10)])
         data_length = len(data)
         for length in [2, 5, -1]:
-            print()
+            if verbose:
+                print()
             for i in range(-14, 15):
                 start_pos, end_pos = HexDump.pos_from_offset(
                     data_length, offset=i, length=length, pos=0
                 )
                 value = data[start_pos:end_pos]
-                print(f'offset={i}, length={length}, pos={0}', end='')
-                print(f', start_pos={start_pos}, end_pos={end_pos}: [{HexDump.to_hex(value)}]')
+                if verbose:
+                    print(f'offset={i}, length={length}, pos={0}', end='')
+                    print(f', start_pos={start_pos}, end_pos={end_pos}: [{HexDump.to_hex(value)}]')
+                if length > 0:
+                    self.assertLessEqual(len(value), length)
+        return
+    
+    def test_pos_to_offset_zero_and_negative(self):
+        data = bytes([v for v in range(10)])
+        data_length = len(data)
+        for i in range(-50, 50):
+            start_pos_0, end_pos_0 = HexDump.pos_from_offset(
+                data_length, offset=i, length=0, pos=0
+            )
+            start_pos_m1, end_pos_m1 = HexDump.pos_from_offset(
+                data_length, offset=i, length=-1, pos=0
+            )
+            self.assertEqual(start_pos_0, start_pos_m1)
+            self.assertEqual(end_pos_0, end_pos_m1)
         return
 
     def test_to_hex_and_oct(self):
