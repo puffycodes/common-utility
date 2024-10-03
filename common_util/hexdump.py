@@ -583,6 +583,7 @@ class HexDump:
             # length is zero or negative
             # end_pos at end of data
             end_pos = data_length
+            # adjust start_pos to a positive value
             if start_pos < - data_length:
                 start_pos = 0
             elif start_pos < 0:
@@ -591,7 +592,8 @@ class HexDump:
             # length is positive
             end_pos = start_pos + length
             if start_pos < 0 and end_pos >= 0:
-                # adjust if start_pos is negative and end_pos is zero or positive
+                # adjust start_pos to a positive value,
+                # if start_pos is negative and end_pos is zero or positive
                 start_pos = start_pos % data_length
                 end_pos = start_pos + length
         return start_pos, end_pos
