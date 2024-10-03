@@ -595,41 +595,6 @@ class HexDump:
                 end_pos = start_pos + length
         return start_pos, end_pos
     
-    @staticmethod
-    def pos_from_offset_zzz(data_length, offset=0, length=-1, pos=0):
-        start_pos = pos + offset
-        if start_pos < 0:
-            # start_pos is negative
-            if length <= 0:
-                if start_pos < - data_length:
-                    # if start_pos is negative and beyond the range of data, then
-                    # return the whole data
-                    start_pos = 0
-                    end_pos = data_length
-                else:
-                    end_pos = data_length
-            else:
-                end_pos = start_pos + length
-            if start_pos < 0 and end_pos >= 0:
-                # adjust again if start_pos is negative and end_pos is zero or positive
-                start_pos = start_pos % data_length
-                if length <= 0:
-                    end_pos = data_length
-                else:
-                    end_pos = start_pos + length
-        else:
-            # start_pos is zero or positive
-            if length <= 0:
-                end_pos = data_length
-            else:
-                end_pos = start_pos + length
-
-            # TODO: Check if this is really needed, especially when start_pos and
-            #       end_pos are used as data[start_pos:end_pos]
-            # if end_pos > data_length:
-            #     end_pos = data_length
-        return start_pos, end_pos
-    
     # --- Main function
 
     @staticmethod
