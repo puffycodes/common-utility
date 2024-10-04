@@ -1,0 +1,7 @@
+# file: requirements-build.txt
+
+# PyPI requirement for packaging
+build
+twine
+
+# --- end of file --- #

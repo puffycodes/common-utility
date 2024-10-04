@@ -10,4 +10,7 @@ __pycache__
 .DS_Store
 __MACOSX
 
+# Python Packaging
+dist
+
 # --- end of file --- #
