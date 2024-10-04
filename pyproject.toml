@@ -3,6 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
+#name = "puffy_common_util"
 name = "common_util"
 version = "0.0.1"
 authors = [
@@ -16,6 +17,16 @@ classifiers = [
     "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["common_util", "tools"]
+
+[tool.hatch.build.targets.wheel.sources]
+"tools" = "common_util/tools"
+
+[project.scripts]
+hexdump = "common_util.hexdump:HexDump.main"
+list_duplicate_files = "common_util.tools.list_duplicate_files:main"
 
 [project.urls]
 Homepage = "https://github.com/puffycodes/common-utility"
