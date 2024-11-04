@@ -27,6 +27,8 @@ packages = ["common_util", "tools"]
 [project.scripts]
 common_util_hexdump = "common_util.hexdump:HexDump.main"
 list_duplicate_files = "common_util.tools.list_duplicate_files:main"
+generate_set_pythonenv = "common_util.tools.generate_set_pythonenv:main"
+generate_data = "common_util.tools.generate_data:main"
 
 [project.urls]
 Homepage = "https://github.com/puffycodes/common-utility"
