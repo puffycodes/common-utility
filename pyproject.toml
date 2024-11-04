@@ -25,7 +25,7 @@ packages = ["common_util", "tools"]
 "tools" = "common_util/tools"
 
 [project.scripts]
-hexdump = "common_util.hexdump:HexDump.main"
+common_util_hexdump = "common_util.hexdump:HexDump.main"
 list_duplicate_files = "common_util.tools.list_duplicate_files:main"
 
 [project.urls]
