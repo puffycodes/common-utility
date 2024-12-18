@@ -148,8 +148,10 @@ class FileIndex:
         :return: nothing is returned for this function
         '''
         full_path = os.path.join(dirname, file)
-        digest = self.get_file_md5_hash(full_path)
-        file_size = self.get_file_size(full_path)
+        #digest = self.get_file_md5_hash(full_path)
+        #file_size = self.get_file_size(full_path)
+        digest = FileUtility.get_file_md5_hash(dirname, file)
+        file_size = FileUtility.get_file_size(dirname, file)
         if self.index_type == FileIndex.INDEX_FILENAME:
             data_item_key = os.path.basename(full_path)
         else:
@@ -214,7 +216,7 @@ class FileIndex:
     
     # --- Internal Functions
 
-    def get_file_md5_hash(self, file_name):
+    def zzz_get_file_md5_hash(self, file_name):
         '''
         (Internal) Compute the MD5 digest of a file
 
@@ -232,7 +234,7 @@ class FileIndex:
         digest = FileUtility.get_file_md5_hash('', file_name)
         return digest
 
-    def get_file_size(self, file_name):
+    def zzz_get_file_size(self, file_name):
         '''
         (Internal) Return the file size of a file
 
