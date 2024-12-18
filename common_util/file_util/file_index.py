@@ -5,7 +5,6 @@ Containers that stores file information
 '''
 
 import os
-import hashlib
 from common_util.dir_util import DirectoryUtility
 from common_util.file_util.file_util import FileUtility
 from common_util.container.multi_level_index import MultiLevelIndex
