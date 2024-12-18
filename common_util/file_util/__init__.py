@@ -4,7 +4,7 @@
 Utilities for File
 '''
 
-# Empty
+# Include the module from file_util.py
 
 from common_util.file_util.file_util import FileUtility
 
