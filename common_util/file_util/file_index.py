@@ -7,6 +7,7 @@ Containers that stores file information
 import os
 import hashlib
 from common_util.dir_util import DirectoryUtility
+from common_util.file_util.file_util import FileUtility
 from common_util.container.multi_level_index import MultiLevelIndex
 
 class FileIndex:
@@ -224,10 +225,11 @@ class FileIndex:
         :return: the MD5 digest of the file
         :rtype: str
         '''
-        with open(file_name, 'rb') as fd:
-            data = fd.read()
-            data_hash = hashlib.md5(data)
-            digest = data_hash.hexdigest()
+        # with open(file_name, 'rb') as fd:
+        #     data = fd.read()
+        #     data_hash = hashlib.md5(data)
+        #     digest = data_hash.hexdigest()
+        digest = FileUtility.get_file_md5_hash('', file_name)
         return digest
 
     def get_file_size(self, file_name):
@@ -241,7 +243,7 @@ class FileIndex:
         :return: the size of the file
         :rtype: int
         '''
-        file_size = os.path.getsize(file_name)
+        file_size = FileUtility.get_file_size('', file_name)
         return file_size
     
     def create_data_item(self, dirname, file, file_size, digest):
