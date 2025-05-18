@@ -17,7 +17,13 @@ class TimeitTest(unittest.TestCase):
     def test_03(self) -> None:
         asyncio.run(self.async_sleep())
         return
-
+    
+    def test_11(self) -> None:
+        with time_it():
+            for _ in range(1000000):
+                pass
+        return
+    
     @time_it()
     def for_loop_test(self) -> None:
         for _ in range(1000000):
