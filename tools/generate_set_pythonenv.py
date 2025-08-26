@@ -94,11 +94,11 @@ def main():
         prog='generate_set_pythonenv',
         description='Generate a script that will set PYTHONPATH to the given paths.'
     )
-    parser.add_argument('pathname', nargs='+',
+    parser.add_argument('--pathname', '-p', nargs='+', default=[],
                         help='path to add to the variable PYTHONPATH')
-    parser.add_argument('--include_file', nargs='+', default=[],
+    parser.add_argument('--include_file', '-i', nargs='+', default=[],
                         help='an existing script file to read paths from')
-    parser.add_argument('--script_type',
+    parser.add_argument('--script_type', '-s',
                         choices=[ 'posix', 'windows', 'auto' ], default='auto',
                         help='the os for which the script is used for')
     args = parser.parse_args()
