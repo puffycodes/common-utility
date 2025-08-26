@@ -55,6 +55,7 @@ def generate_script(path_list, script_type, filenames=[],
                     fout=sys.stdout, ferr=sys.stderr):
     abs_path_list = []
 
+    # Collect the paths from the script files (filenames)
     for filename in filenames:
         with open(filename, 'r') as fd:
             curr_paths = read_paths_from_script(fin=fd)
@@ -63,11 +64,13 @@ def generate_script(path_list, script_type, filenames=[],
             if abs_path not in abs_path_list:
                 abs_path_list.append(abs_path)
 
+    # Add the paths specified in path_list
     for path in path_list:
         abs_path = os.path.abspath(os.path.join(path))
         if abs_path not in abs_path_list:
             abs_path_list.append(abs_path)
 
+    # Generate the script file
     os_name = os.name
     if script_type == 'windows':
         if os_name != 'nt':
